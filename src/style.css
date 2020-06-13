@@ -1,0 +1,24 @@
+.container {
+  margin: 30px auto 0;
+  width: 320px;
+}
+
+.msg {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 7px;
+  padding: 7px 10px;
+  font-size: 14px;
+  border: 1px solid #e4e4e4;
+  border-radius: 3px;
+}
+
+.msg-input-wrap {
+  display: flex;
+}
+
+.msg-input {
+  width: 100%;
+  margin-right: 5px;
+  padding: 4px 7px;
+}
