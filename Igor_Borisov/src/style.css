@@ -1,0 +1,12 @@
+body {
+    color: darkslategray;
+}
+
+button {
+    display: block;
+}
+
+.chat__name, .chat__text {
+    display: block;
+    margin-bottom: 20px;
+}
