@@ -1,0 +1,32 @@
+body {
+    background-color: aqua;
+}
+
+.message-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.massage-input {
+    flex-grow: 1;
+    border: 1px solid #333;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.massage-submit {
+    margin-left: 10px;
+    padding: 3px 5px;
+    background-color: green;
+    color: #ffffff;
+    border: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.error {
+    border-color: red;
+}
