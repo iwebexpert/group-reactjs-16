@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 export class MessageForm extends Component {
@@ -32,7 +32,7 @@ export class MessageForm extends Component {
     const { text, author } = this.state;
 
     return (
-      <Fragment>
+      <div className="message-form__wrapper">
         <input
           name="author"
           type="text"
@@ -43,11 +43,11 @@ export class MessageForm extends Component {
         <textarea
           name="text"
           value={text}
-          placeholder="Text"
+          placeholder="Remember, be nice!"
           onChange={this.handleInputChange}
         />
         <button onClick={this.handleMessageSend}>Send message</button>
-      </Fragment>
+      </div>
     );
   }
 }

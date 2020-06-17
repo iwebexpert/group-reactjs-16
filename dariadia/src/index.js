@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import { Messenger } from "./messenger/Messenger";
+import { Messenger } from "./components/messenger/Messenger";
 import "./main.scss";
 
 ReactDom.render(
