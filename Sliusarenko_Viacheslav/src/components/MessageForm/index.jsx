@@ -10,6 +10,10 @@ export function MessageForm( props ) {
   const [ author, setAuthor ] = useState('');
 
   function handleAddNewMessage() {
+    if ( typeof addMessage !== "function" ) {
+        console.warn("cant set message, callback is invalid");
+        return;
+    }
     addMessage({ author, message });
     setMessage( '');
   }
