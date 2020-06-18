@@ -4,9 +4,8 @@ import { Message } from '../Message';
 
 export function MessagesList( props ) {
   const { messages } = props;
-  
-  return messages.map( ({ id, message }) => (
-    <Message text={ message } key={ id } />
+  return messages.map( ({ id, message, author }) => (
+      <Message key={ id } author={ author } text={ message }/>
   ));
 }
 
