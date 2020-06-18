@@ -1,0 +1,30 @@
+body {
+  background: #98ff9b;
+}
+
+.words {
+  display: flex;
+}
+
+.word {
+  padding: 10px 20px;
+  border: 1px solid forestgreen;
+  border-radius: 20px;
+}
+
+.yellow {
+  background: lightyellow;
+}
+
+.aqua {
+  background: aquamarine;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  background: coral;
+  display: inline-block;
+  cursor: pointer;
+  margin: 10px 0;
+  border-radius: 10px;
+}
