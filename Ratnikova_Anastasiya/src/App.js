@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {App2} from "./App2";
+
 export class App extends Component {
     state = {
         counter: 10
