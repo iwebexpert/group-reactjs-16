@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import './style.css';
+import {App} from './App';
+import './main.scss';
 
 //JSX - webpack не понимает, нужен babel и плагин
 
@@ -24,13 +25,14 @@ const SayWords = ({data}) => {
 ReactDom.render(
 	<div>
 		<Button placeholder="Добавить слово" word="WoRd" />
-		<div className="words">
+		{/*<div className="words">
 			<div className="old-words">
 				<SayWords data={wordData} />
 			</div>
 			<div className="new-words" id="new-words"></div>
 		</div>
-		<div id="array-words"></div>
+		<div id="array-words"></div>*/}
+		<App />
 	</div>,
 	document.getElementById('root'),
 );
