@@ -8,15 +8,20 @@ body {
     align-items: center;
 }
 
-.massage-input {
+.message-form {
     flex-grow: 1;
+}
+
+.message-input,
+.message-textarea {
+    width: 100%;
     border: 1px solid #333;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
 
-.massage-submit {
+.message-submit {
     margin-left: 10px;
     padding: 3px 5px;
     background-color: green;
