@@ -21,12 +21,12 @@ export class Messager extends Component {
 
   componentDidUpdate() {
     const { messages, bot: { name : botNameAlias, messages: botMessages } } = this.state;
-    const lastMessageAuthor = messages[ messages.length - 1 ]?.author;
+    const { author } = messages[ messages.length - 1 ] || {};
 
-    if ( lastMessageAuthor !== botNameAlias ) {
+    if ( author !== botNameAlias ) {
       const randIndex = Math.floor(Math.random() * botMessages.length );
 
-      this.writeBotMessage( `${ botMessages[ randIndex ] } ${ lastMessageAuthor }!` );
+      this.writeBotMessage( `${ botMessages[ randIndex ] } ${ author }!` );
     }
   }
 
