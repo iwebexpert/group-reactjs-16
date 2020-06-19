@@ -1,28 +1,36 @@
 body {
-  background: deepskyblue; }
+  background: deepskyblue;
+}
 
 .main-wrapper {
   min-width: 90vw;
   min-height: 90vh;
   display: flex;
   justify-content: center;
-  position: relative; }
+  position: relative;
+}
 
 .messenger {
   font-size: 1.6em;
   width: 20em;
   text-align: center;
-  opacity: 0; }
-  .messenger h2 {
-    color: white; }
+  opacity: 0;
+
+  & h2 {
+    color: white;
+  }
+}
 
 .oneMessage {
   background: rgba(30, 79, 255, 0.25);
   color: white;
   padding: 0.3em 0.7em;
-  border-radius: 2em; }
-  .oneMessage__fromAuthor {
-    background: rgba(30, 79, 150, 0.7); }
+  border-radius: 2em;
+
+  &__fromAuthor {
+    background: rgba(30, 79, 150, 0.7);
+  }
+}
 
 .allMessages {
   display: flex;
@@ -31,24 +39,29 @@ body {
   align-items: flex-start;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 70vh; }
+  height: 70vh;
+}
 
 ::-webkit-scrollbar {
-  width: 12px; }
+  width: 12px;
+}
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px; }
+  border-radius: 10px;
+}
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5); }
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
 
 .messageForm {
   margin: 1em 0.5em;
   display: flex;
-  justify-content: space-between; }
-  .messageForm input {
+  justify-content: space-between;
+
+  & input {
     background: #ccc;
     border: 0.1rem solid rgba(0, 128, 255, 0.7);
     border-right: none;
@@ -57,82 +70,121 @@ body {
     border-radius: 2em 0 0 2em;
     font-size: 1.5rem;
     z-index: 2;
-    transition: background 0.2s; }
-    .messageForm input:hover {
+    transition: background 0.2s;
+
+    &:hover {
       outline: none;
-      background: #eaeaea; }
-    .messageForm input:focus {
+      background: #ccc + 30;
+    }
+
+    &:focus {
       outline: none;
-      background: #eaeaea; }
-  .messageForm button {
+      background: #ccc + 30;
+    }
+  }
+
+  & button {
     font-size: 2rem;
     width: 4rem;
     background: rgba(30, 79, 255, 0.4);
     border-radius: 0 2em 2em 0;
     border: none;
     opacity: 0.7;
-    transition: opacity 0.2s, background-color 0.2s; }
-    .messageForm button:hover {
+    transition: opacity 0.2s, background-color 0.2s;
+
+    &:hover {
       outline: none;
-      opacity: 1; }
-    .messageForm button:focus {
-      outline: none; }
-    .messageForm button:active {
-      background: #006d93; }
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: #006d93;
+    }
+  }
+}
 
 .identification {
+  $indent: calc((100vw - 400px) / 2);
+
   position: absolute;
   display: flex;
   flex-direction: column;
   top: 40%;
-  right: calc((100vw - 400px) / 2);
+  right: $indent;
   z-index: 100;
   background: #14c5ff;
   padding: 1em;
   border-radius: 2em;
-  box-shadow: 0 0 0.5em 0.1em #888; }
-  .identification_input {
+  box-shadow: 0 0 0.5em 0.1em #888;
+
+  &_input {
     font-size: 1.5em;
     padding: 0.5em 0.8em;
     border-radius: 1em 1em 0 0;
     border: none;
     background: #ccc;
     border-bottom: 0.1em solid #999;
-    transition: background-color 0.2s; }
-    .identification_input:hover {
+    transition: background-color 0.2s;
+
+    &:hover {
       outline: none;
-      background: #eaeaea; }
-    .identification_input:focus {
+      background: #ccc + 30;
+    }
+
+    &:focus {
       outline: none;
-      background: #eaeaea; }
-  .identification_button-login {
+      background: #ccc + 30;
+    }
+  }
+
+  &_button-login {
     border: none;
     font-size: 1.5em;
     padding: 0.5em 0.8em;
     border-radius: 0 0 1em 1em;
     background: #fff;
     opacity: 0.8;
-    transition: opacity 0.2s, background-color 0.2s; }
-    .identification_button-login:hover {
+    transition: opacity 0.2s, background-color 0.2s;
+
+    &:hover {
       outline: none;
       background: #fff;
-      opacity: 1; }
-    .identification_button-login:focus {
-      outline: none; }
-    .identification_button-login:active {
-      background: #ccc; }
-  .identification_button-logout {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: #ccc;
+    }
+  }
+
+  &_button-logout {
     padding: 0.5em;
     border: none;
     border-radius: 1em;
     background: #eaeaea;
-    transition: background 0.2s, box-shadow 0.2s; }
-    .identification_button-logout:hover {
-      outline: none;
-      box-shadow: 0 0 0.8em 0.5em #eaeaea; }
-    .identification_button-logout:focus {
-      outline: none; }
-    .identification_button-logout:active {
-      background: #fff;
-      box-shadow: 0 0 0.8em 0.5em #fff; }
+    transition: background 0.2s, box-shadow 0.2s;
 
+    &:hover {
+      outline: none;
+      box-shadow: 0 0 0.8em 0.5em #eaeaea;
+
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: #fff;
+      box-shadow: 0 0 0.8em 0.5em #fff;
+    }
+  }
+}
