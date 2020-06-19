@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import {MessageList} from './MessageList'
+import {MessageForm} from './MessageForm'
+
 export class Messenger extends Component {
     state = {
         messages: [
@@ -22,14 +25,29 @@ export class Messenger extends Component {
         }, 5000);
     }
 
-    render() {
-        const {messages} = this.state;
+    componentDidUpdate() {
+        const author = this.state.messages[this.state.messages.length - 1].author;
 
+        if (this.state.messages[this.state.messages.length - 1].author !== 'Bot') {
+            setTimeout(() => {
+                this.setState({
+                    messages: this.state.messages.concat([{text: `${author}, Это автоответ бота!`, author: 'Bot'}])
+                })
+            }, 2000);
+        }
+    }
+
+    handleMessageSend = (message) => {
+        this.setState({
+            messages: this.state.messages.concat(message)
+        });
+    };
+
+    render() {
         return (
             <div>
-                <ul>
-                    {messages.map((message, index) => <li key={index}><b>{message.author}: </b>{message.text}</li>)}
-                </ul>
+                <MessageList messages={this.state.messages} />
+                <MessageForm onSend={this.handleMessageSend} />
             </div>
         );
     }
