@@ -1,0 +1,22 @@
+.messages-container {
+  background-color: #ebebeb;
+  padding: 20px;
+  position: relative;
+  .messages-list {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    width: calc(100% - 40px);
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .status {
+    position: absolute;
+    bottom: 10px;
+  }
+}
+
+
