@@ -50,10 +50,11 @@ export class Messager extends Component {
   handleAddMessage = ( data ) => {
     const { messages, bot } = this.state;
     const newMessage = { id: ( messages.length + 1 ), ...data };
+    const isBotMessage = newMessage.author === bot.name;
 
     this.setState({
       messages: messages.concat( newMessage ),
-      bot: { ...bot, writing: !bot.writing }
+      bot: { ...bot, writing: isBotMessage ? !bot.writing : true }
     });
   }
 
