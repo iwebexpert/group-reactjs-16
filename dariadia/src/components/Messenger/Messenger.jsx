@@ -13,15 +13,14 @@ export class Messenger extends Component {
         author: "Bot",
       },
     ],
+    botWriting: false,
   };
 
   componentDidUpdate() {
-    const { messages } = this.state;
+    const { messages, botWriting } = this.state;
     const { author } = messages[messages.length - 1];
 
-    console.log(messages);
-
-    if (messages[messages.length - 1].author !== "Bot") {
+    if (botWriting && messages[messages.length - 1].author !== "Bot") {
       setTimeout(() => {
         this.setState({
           messages: messages.concat([
@@ -30,10 +29,15 @@ export class Messenger extends Component {
               author: "Bot",
             },
           ]),
+          botWriting: false,
         });
-      }, 2000);
+      }, 1000);
     }
   }
+
+  setBotToWriting = () => {
+    this.setState({ botWriting: true });
+  };
 
   handleMessageSend = (message) => {
     const { text, author } = message;
@@ -46,6 +50,8 @@ export class Messenger extends Component {
     this.setState({
       messages: this.state.messages.concat([message]),
     });
+
+    this.setBotToWriting();
   };
 
   render() {
