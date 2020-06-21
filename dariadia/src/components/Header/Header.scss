@@ -1,0 +1,19 @@
+@mixin person-run($time: 10s, $distance: 700px) {
+  transform: translate($distance);
+  transition: transform $time;
+}
+
+.header {
+  &:hover .accessible-forward-icon {
+    @include person-run(1s, 7000px);
+  }
+  &:hover .directions-run-icon:first-of-type {
+    @include person-run(12s, 700px);
+  }
+  &:hover .directions-run-icon:nth-of-type(2) {
+    @include person-run(11s, 800px);
+  }
+  &:hover .directions-run-icon:nth-of-type(3) {
+    @include person-run(10s, 900px);
+  }
+}
