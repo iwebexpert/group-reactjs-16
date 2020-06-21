@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 
-import {MessageField} from './MessageField';
-import {Message} from './Message';
+import {MessageList} from 'components/MessageList';
+import {MessageField} from 'components/MessageField';
+import {Message} from 'components/Message';
+
+import './Messenger.sass';
 
 export class Messenger extends Component {
     state = {
@@ -9,6 +12,7 @@ export class Messenger extends Component {
     };
 
     initMessage = 'Привет. Напиши что-нибудь в чат =)';
+    timer = null;
 
     componentDidMount() {
         this.setState({
@@ -17,11 +21,13 @@ export class Messenger extends Component {
     }
 
     componentDidUpdate() {
-        const lastMessage = this.state.messages[this.state.messages.length - 1];
-        const text = lastMessage.author !== "" ?
-            `Привет, ${lastMessage.author}` : "Привет. Как тебя зовут?";
-        if (lastMessage.author !== 'Bot') {
-            setTimeout(() => {
+        const {author} = this.state.messages[this.state.messages.length - 1];
+        const text = author !== "" ?
+            `Привет, ${author}` : "Привет. Как тебя зовут?";
+
+        if (author !== 'Bot') {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
                 this.setState({
                     messages: this.state.messages.concat(
                         {text, author: 'Bot'}
@@ -35,19 +41,15 @@ export class Messenger extends Component {
         this.setState({
             messages: this.state.messages.concat(message)
         });
-    }
+    };
 
     render() {
         const {messages} = this.state;
 
         return (
-            <div>
+            <div className="msg-wrap">
+                <MessageList messages={messages}/>
                 <MessageField onSend={this.handleMessageSend}/>
-                <div className="msg-container">
-                    {messages.map((message, index) =>
-                        <Message key={index} message={message}/>
-                    )}
-                </div>
             </div>
         );
     }
