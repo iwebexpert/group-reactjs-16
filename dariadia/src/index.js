@@ -1,6 +1,12 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import { Layout } from "./components/Layout";
+import { Messenger } from "./components/messenger/Messenger";
+import "./main.scss";
 
-ReactDom.render(<Layout />, document.getElementById("root"));
+ReactDom.render(
+  <>
+    <Messenger />
+  </>,
+  document.getElementById("root")
+);
