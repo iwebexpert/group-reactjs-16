@@ -8,10 +8,19 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',
 	},
+	resolve: {
+		extensions: [
+			'.js',
+			'.jsx'
+		],
+		alias: {
+			components: path.resolve(__dirname, 'src', 'components')
+		}
+	},
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				loader: "babel-loader"
 			},

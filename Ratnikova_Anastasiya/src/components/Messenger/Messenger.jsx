@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 
-import {MessageList} from './MessageList'
-import {MessageForm} from './MessageForm'
+import {MessageList} from 'components/MessageList';
+import {MessageForm} from 'components/MessageForm';
+
+import './Messenger.scss';
 
 export class Messenger extends Component {
     state = {
@@ -16,14 +18,14 @@ export class Messenger extends Component {
     interval = null;
     templateMessages = ['Hi!', 'Hello!', 'How are you?'];
 
-    componentDidMount() {
+    /*componentDidMount() {
         this.interval = setInterval(() => {
             const runIndex = Math.floor(Math.random() * this.templateMessages.length);
             this.setState({
                 messages: this.state.messages.concat([{text: this.templateMessages[runIndex], author: 'Nastya'}])
             })
         }, 5000);
-    }
+    }*/
 
     componentDidUpdate() {
         const author = this.state.messages[this.state.messages.length - 1].author;
@@ -45,7 +47,7 @@ export class Messenger extends Component {
 
     render() {
         return (
-            <div>
+            <div className="messenger">
                 <MessageList messages={this.state.messages} />
                 <MessageForm onSend={this.handleMessageSend} />
             </div>
