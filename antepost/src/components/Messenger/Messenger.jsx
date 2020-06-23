@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
 
-import {MessageForm} from './MessageForm';
-import {Message} from './Message';
+import {MessageForm} from 'components/MessageForm';
+import {MessageList} from 'components/MessageList';
 
+import './Messenger.css';
 export class Messenger extends Component {
     state = {
         messages: [],
+        isBotReplyInProgress: false,
     };
 
     componentDidUpdate()
     {
+        if(this.state.isBotReplyInProgress) {
+            return;
+        }
         const lastAuthor = this.state.messages[this.state.messages.length - 1].author;
-        if(lastAuthor !== 'Bot'){
+        if(lastAuthor !== 'Bot') {
+            this.state.isBotReplyInProgress = true;
             setTimeout(() => {
                 this.setState({
-                    messages: this.state.messages.concat([{text: `Это автоответ бота! Здравстуйте, ${lastAuthor}.`, author: 'Bot'}])
+                    messages: this.state.messages.concat([{text: `Это автоответ бота! Здравстуйте, ${lastAuthor}.`, author: 'Bot'}]),
+                    isBotReplyInProgress: false,
                 });
             }, 2000);
         }
@@ -30,10 +37,8 @@ export class Messenger extends Component {
     {
         const {messages} = this.state;
         return (
-            <div>
-                <ul>
-                    {messages.map((message, index) => <Message message={message} key={index} />)}
-                </ul>
+            <div className="messenger">
+                <MessageList items={messages} />
                 <MessageForm onSend={this.handleMessageSend} />
             </div>
         );

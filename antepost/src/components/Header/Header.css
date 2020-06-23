@@ -1,0 +1,9 @@
+header {
+    background-color: thistle;
+}
+
+header h1 {
+    font-size: 28px;
+    color: tomato;
+    text-align: center;
+}
