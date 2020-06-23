@@ -10,6 +10,8 @@ const styles = {
     root: {
         color: 'orange',
         background: 'white',
+        textAlign: 'end',
+        margin: '15px',
     },
 
 };

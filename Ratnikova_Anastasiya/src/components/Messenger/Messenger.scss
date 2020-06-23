@@ -1,9 +1,8 @@
 .messenger {
-    width: 50%;
-    height: 100%;
-    margin: auto;
     display: flex;
     align-self: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    height: 440px;
+    border: 1px solid #4cc19a;
 }

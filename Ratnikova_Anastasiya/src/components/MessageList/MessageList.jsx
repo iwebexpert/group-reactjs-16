@@ -17,7 +17,7 @@ export class MessageList extends Component {
         const {messages} = this.props;
 
         return (
-            <ul className="messages-list">
+            <ul className="messages-list" id="message_list">
                 {messages.map((message, index) => <Message {...message} key={index} />)}
             </ul>
         );

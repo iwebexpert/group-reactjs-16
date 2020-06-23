@@ -15,28 +15,14 @@ export class Messenger extends Component {
         ]
     };
 
-    interval = null;
-    templateMessages = ['Hi!', 'Hello!', 'How are you?'];
-
-    /*componentDidMount() {
-        this.interval = setInterval(() => {
-            const runIndex = Math.floor(Math.random() * this.templateMessages.length);
-            this.setState({
-                messages: this.state.messages.concat([{text: this.templateMessages[runIndex], author: 'Nastya'}])
-            })
-        }, 5000);
-    }*/
-
     componentDidUpdate() {
-        const author = this.state.messages[this.state.messages.length - 1].author;
+        const messagesList = document.getElementById('message_list');
 
         if (this.state.messages[this.state.messages.length - 1].author !== 'Bot') {
-            setTimeout(() => {
-                this.setState({
-                    messages: this.state.messages.concat([{text: `${author}, Это автоответ бота!`, author: 'Bot'}])
-                })
-            }, 2000);
+            setTimeout(this.validateMessageAuthor, 2000);
         }
+
+        messagesList.scrollTop = messagesList.scrollHeight;
     }
 
     handleMessageSend = (message) => {
@@ -44,6 +30,16 @@ export class Messenger extends Component {
             messages: this.state.messages.concat(message)
         });
     };
+
+    validateMessageAuthor = () => {
+        const author = this.state.messages[this.state.messages.length - 1].author;
+
+        if (this.state.messages[this.state.messages.length - 1].author !== 'Bot') {
+            this.setState({
+                messages: this.state.messages.concat([{text: `${author}, Это автоответ бота!`, author: 'Bot'}])
+            })
+        }
+    }
 
     render() {
         return (
