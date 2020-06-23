@@ -5,12 +5,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import {Messenger} from './components/Messenger';
-import './style.css';
+import {Layout} from 'components/Layout';
 
 ReactDom.render(
-    <div>
-        <Messenger />
-    </div>,
+    <Layout />,
     document.getElementById('root'),
 );

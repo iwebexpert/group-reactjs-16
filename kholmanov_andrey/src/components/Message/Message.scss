@@ -1,0 +1,25 @@
+.message {
+  margin: .5rem;
+  padding: .5rem;
+  max-width: 70%;
+  font-size: 1rem;
+  -webkit-border-radius: .2rem;
+  -moz-border-radius: .2rem;
+  border-radius: .2rem;
+
+  &-sender {
+    font-size: .8rem;
+  }
+
+  &-bot {
+    align-self: flex-end;
+    background-color: green;
+    color: #ffffff;
+  }
+
+  &-owner {
+    align-self: flex-start;
+    background-color: darkslategrey;
+    color: #ffffff;
+  }
+}
