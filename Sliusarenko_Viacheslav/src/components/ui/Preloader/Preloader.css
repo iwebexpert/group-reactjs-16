@@ -1,11 +1,13 @@
 .preloader {
   display: flex;
   align-items: center;
+  text-align: center;
+  color: gray;
 }
 .lds-spinner {
   display: inline-block;
   position: relative;
-  margin: 20px;
+  margin: 0 15px;
 }
 .lds-spinner div {
   animation: lds-spinner 1.2s linear infinite;
@@ -17,7 +19,7 @@
   top: 5px;
   width: 2px;
   height: 4px;
-  background: #000;
+  background: gray;
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);

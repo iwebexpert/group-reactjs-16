@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { TextField, Fab } from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
 
 import './MessageForm.scss';
 
 export function MessageForm( props ) {
-  const { addMessage, buttonText } = props;
+  const { addMessage } = props;
 
   const [ message, setMessage ] = useState('');
   const [ author, setAuthor ] = useState('');
 
   function handleAddNewMessage() {
     if ( typeof addMessage !== "function" ) {
-        console.warn("cant set message, callback is invalid");
-        return;
+      console.warn("cant set message, callback is invalid");
+      return;
     }
     addMessage({ author, message });
-    setMessage( '');
+    setMessage( '' );
   }
 
   function handleChangeValue( setState ) {
@@ -33,22 +35,34 @@ export function MessageForm( props ) {
     return field && field.trim();
   }
 
+  function handleKeyUp( event ) {
+    const { keyCode, shiftKey } = event;
+    if ( !canAddNewMessage() ) {
+      return;
+    }
+    if ( keyCode === 13 && !shiftKey ) {
+      handleAddNewMessage();
+    }
+  }
+
   return (
     <div className="form">
-      <label htmlFor="authorInput">Имя</label>
-      <input id="authorInput" type="text" value={ author } onChange={ handleChangeValue( setAuthor ) } />
-      <label htmlFor="messageInput">Сообщение</label>
-      <textarea id="messageInput" value={ message } onChange={ handleChangeValue( setMessage ) } />
-      <button onClick={ handleAddNewMessage } disabled={ !canAddNewMessage() }>{ buttonText }</button>
+      <TextField label="Автор" name="author" value={ author } onChange={ handleChangeValue( setAuthor ) } />
+      <TextField
+        label="Сообщение"
+        name="message"
+        value={ message }
+        onKeyDown={ handleKeyUp }
+        onChange={ handleChangeValue( setMessage ) }
+        multiline
+      />
+      <Fab variant="round" color="primary" size="small" onClick={ handleAddNewMessage } disabled={ !canAddNewMessage() }>
+        <SendIcon fontSize={ "small" } />
+      </Fab>
     </div>
   );
 }
 
-MessageForm.defaultProps = {
-  buttonText: 'Отправить'
-}
-
 MessageForm.propTypes = {
   addMessage: PropTypes.func.isRequired,
-  buttonText: PropTypes.string
 }
