@@ -1,5 +1,10 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import SendIcon from '@material-ui/icons/Send';
+import './MessageForm.scss'
 
 export class MessageForm extends Component {
     state = {
@@ -28,6 +33,13 @@ export class MessageForm extends Component {
         }
     };
 
+    handleEnterCtrlDown = (event) => {
+        if(event.ctrlKey && event.keyCode === 13){
+            console.log(event);
+            this.handleMessageSend();
+        }
+    };
+
     validate = () => {
         const messageInput = document.querySelector('.massage-input');
         const messageTextarea = document.querySelector('.massage-textarea');
@@ -51,12 +63,31 @@ export class MessageForm extends Component {
         const {text, author} = this.state;
 
         return (
-            <div className="message-new">
-                <div className="message-form">
-                    <input className="massage-input" name="author" type="text" value={author} placeholder="Author" onChange={this.handleInputChange} />
-                    <textarea className="massage-textarea" name="text" value={text} placeholder="Text" onChange={this.handleInputChange} />
-                </div>
-                <button className="massage-submit" onClick={this.handleMessageSend}>Отправить</button>
+            <div className="message-form">
+                <TextField
+                    className="massage-input"
+                    name="author" type="text"
+                    value={author}
+                    label="Author"
+                    onChange={this.handleInputChange}
+                />
+                <TextField
+                    className="massage-textarea"
+                    name="text"
+                    value={text}
+                    label="Text"
+                    onKeyDown={this.handleEnterCtrlDown}
+                    onChange={this.handleInputChange}
+                    multiline
+                    autoFocus
+                />
+                <Fab
+                    className="massage-submit"
+                    variant="round"
+                    color="primary"
+                    onClick={this.handleMessageSend}>
+                    <SendIcon />
+                </Fab>
             </div>
         );
     }

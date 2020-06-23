@@ -1,0 +1,12 @@
+.error {
+  border-color: red; }
+
+.message-form {
+  display: flex;
+  padding: 1rem;
+  background-color: lightgray; }
+
+.massage-textarea {
+  flex-grow: 1; }
+
+/*# sourceMappingURL=MessageForm.css.map */
