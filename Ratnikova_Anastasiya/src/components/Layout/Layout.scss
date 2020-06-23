@@ -1,0 +1,16 @@
+.layout {
+    width: 50%;
+    margin: auto;
+}
+
+.content {
+    display: flex;
+
+    .chat-list {
+        width: 30%;
+    }
+
+    .messenger {
+        width: 70%;
+    }
+}

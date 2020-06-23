@@ -1,14 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import {App} from './App';
-import {App2} from "./App2";
-import {Messenger} from "./Messenger";
-import './main.scss';
+import {Layout} from "components/Layout";
 
 ReactDom.render(
-	<div>
-		<Messenger />
-	</div>,
+	<Layout />,
 	document.getElementById('root'),
 );
