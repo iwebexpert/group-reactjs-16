@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import {Messenger} from './Messenger';
-import './style.css';
+import {Layout} from './components/Layout';
 
 const render = () => {
     ReactDom.render(
         <div>
-            <Messenger />
+            <Layout />
         </div>,
         document.getElementById('root'),
     );
