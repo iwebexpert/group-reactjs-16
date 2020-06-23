@@ -1,14 +1,13 @@
-import {Message} from "./Message";
+import {Message} from "../Message/";
 import React from "react";
-import {SendForm} from "./SendForm";
+import {SendForm} from "../SendForm/";
+
+import './MessagesList.css'
 
 export class MessagesList extends React.Component {
     state = {
         messages: [
-            {name: "system", text: 'Строка'},
-            {name: "system", text: 'Еще одна строка'},
-            {name: "system", text: 'Снова строка'},
-            {name: "system", text: 'Последняя'},
+            {name: "system", text: 'Добро пожаловать в чат'},
         ],
         name: "",
         text: ""
@@ -35,9 +34,11 @@ export class MessagesList extends React.Component {
     }
 
     render() {
-        return <div>
-            {this.state.messages.map((item , index) =>
-                <Message text={item.text} author={item.name} key={index}/>)}
+        return <div className="back">
+            <div className="list">
+                {this.state.messages.map((item , index) =>
+                    <Message text={item.text} author={item.name} key={index}/>)}
+            </div>
             <SendForm onSend={this.handleSend}/>
         </div>
 

@@ -1,0 +1,7 @@
+.chatlist {
+    border-radius: 2px;
+    background: wheat;
+    height: auto;
+    min-height: 200px;
+    flex-grow: 1;
+}

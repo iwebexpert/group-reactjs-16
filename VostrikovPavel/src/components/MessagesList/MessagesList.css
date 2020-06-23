@@ -1,0 +1,23 @@
+.list {
+    background: antiquewhite;
+    border-radius: 2px;
+    overflow-y: auto;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.list::-webkit-scrollbar {
+    width:8px;
+    border-radius: 2px;
+    background-color: #fddb99;
+}
+.list::-webkit-scrollbar-thumb {
+    width:4px;
+    border-radius: 2px;
+    background-color: burlywood;
+}
+
+.back{
+    background: antiquewhite;
+}

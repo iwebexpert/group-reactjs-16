@@ -1,13 +1,9 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import {MessagesList} from './components/MessagesList';
-//import {SendForm} from './components/SendForm';
-
+import {Layout} from "./components/Layout";
 
 ReactDom.render(
-    <div>
-        <MessagesList />
-    </div>,
+    <Layout/>,
     document.getElementById('root')
 )
