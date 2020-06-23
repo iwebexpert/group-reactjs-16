@@ -1,4 +1,6 @@
 import React from 'react';
+import './MessageForm.scss';
+import SendIcon from '@material-ui/icons/Send';
 
 export class MessageForm extends React.Component {
     state = {
@@ -23,13 +25,22 @@ export class MessageForm extends React.Component {
         this.setState({text: ''});
     }
 
+    componentDidMount() {
+        document.querySelector('.messageForm_input').focus()
+    }
+
+    componentDidUpdate() {
+        document.querySelector('.messageForm_input').focus()
+    }
+
     render() {
         const {text} = this.state;
 
         return (
             <form className="messageForm">
-                <input type="text" name="text" value={text} onChange={this.handlerInputChange} placeholder="Message"/>
-                <button className='buttonElem' onClick={this.handlerButtonClick}>></button>
+                <input className="messageForm_input" type="text" name="text" value={text}
+                       onChange={this.handlerInputChange} placeholder="Message"/>
+                <button className='buttonElem' onClick={this.handlerButtonClick}><SendIcon /></button>
             </form>
         )
     }

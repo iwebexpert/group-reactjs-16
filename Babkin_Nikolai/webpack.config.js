@@ -2,18 +2,22 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-
 module.exports = {
     entry: path.resolve(__dirname, "src", 'index.js'),
     output: {
-        path: path.resolve(__dirname, "build"),
+        path: path.resolve(__dirname, "dist"),
         filename: 'app.js',
     },
-
+    resolve: {
+        extensions: ['.js', '.jsx'],
+        alias: {
+            components: path.resolve(__dirname, 'src', 'components')
+        }
+    },
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
             },
@@ -28,15 +32,10 @@ module.exports = {
             },
         ],
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html'),
-            // У вас на уроке файл index.html сохранялся в ту же папку, что и app.js. Но когда вы запускали dev-server
-            // в корне (localhost:port) у вас сразу все завелось. Откуда сервер узнал, что index.html лежит в той папке?
-            // У меня пришлось прописывать localhost:port/build. Но что бы каждый раз при развертке сервера
-            // не дописывать "/build" переписал filename, что бы index.html сохранялся в корень.
-            filename: path.resolve(__dirname, 'index.html'),
+            filename: 'index.html',
         }),
         new MiniCssExtractPlugin({
             filename: 'main.css',

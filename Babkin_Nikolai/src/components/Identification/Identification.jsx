@@ -1,4 +1,6 @@
 import React, {Fragment} from 'react';
+import './Identification.scss'
+import Avatar from "@material-ui/core/Avatar";
 
 export class Identification extends React.Component {
     state = {
@@ -89,7 +91,8 @@ export class Identification extends React.Component {
             formLogin = (
                 <Fragment>
                     <button className="identification_button-logout" onClick={this.logOut}>
-                        Log Out <br/> <b>{sessionStorage.getItem('name')}</b>
+                        <span>LogOut</span>
+                        <Avatar>{sessionStorage.getItem('name').substr(0, 2).toUpperCase()}</Avatar>
                     </button>
                 </Fragment>
             )

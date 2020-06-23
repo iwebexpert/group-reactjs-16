@@ -1,0 +1,11 @@
+.messenger {
+  display: flex;
+  opacity: 0;
+
+  &_chat {
+    font-size: 1.6em;
+    min-width: 40vw;
+    max-width: 70vw;
+    text-align: center;
+  }
+}
