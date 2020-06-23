@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react';
+import React from 'react';
+import './ListMessages.scss';
 
 export class ListMessages extends React.Component {
     componentDidUpdate() {
@@ -6,7 +7,8 @@ export class ListMessages extends React.Component {
         elem.scrollBy(0, elem.scrollHeight);
 
         const lastMessage = document.querySelector('.allMessages').lastChild;
-        if (sessionStorage.getItem('name') && lastMessage.dataset.author.toLowerCase() === sessionStorage.getItem('name').toLowerCase()) {
+        if (sessionStorage.getItem('name')
+            && lastMessage.dataset.author.toLowerCase() === sessionStorage.getItem('name').toLowerCase()) {
             lastMessage.classList.add('oneMessage__fromAuthor')
         }
     }
@@ -14,9 +16,11 @@ export class ListMessages extends React.Component {
     render() {
         const {messages} = this.props;
         return (
-            <div className="allMessages" id="123">
+            <div className="allMessages">
                 {messages.map((message, index) =>
-                    <p data-author={message.author} className="oneMessage" key={index}><sup>{message.author}:</sup> {message.text}</p>
+                    <p data-author={message.author} className="oneMessage" key={index}>
+                        <sup>{message.author}:</sup> {message.text}
+                    </p>
                 )}
             </div>
         )

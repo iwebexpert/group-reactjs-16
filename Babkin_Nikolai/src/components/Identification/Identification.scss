@@ -1,0 +1,86 @@
+.identification {
+  $indent: calc((100vw - 400px) / 2);
+
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 40%;
+  right: $indent;
+  z-index: 100;
+  background: #14c5ff;
+  padding: 1em;
+  border-radius: 2em;
+  box-shadow: 0 0 0.5em 0.1em #888;
+
+  &_input {
+    font-size: 1.5em;
+    padding: 0.5em 0.8em;
+    border-radius: 1em 1em 0 0;
+    border: none;
+    background: #ccc;
+    border-bottom: 0.1em solid #999;
+    transition: background-color 0.2s;
+
+    &:hover {
+      outline: none;
+      background: #ccc + 30;
+    }
+
+    &:focus {
+      outline: none;
+      background: #ccc + 30;
+    }
+  }
+
+  &_button-login {
+    border: none;
+    font-size: 1.5em;
+    padding: 0.5em 0.8em;
+    border-radius: 0 0 1em 1em;
+    background: #fff;
+    opacity: 0.8;
+    transition: opacity 0.2s, background-color 0.2s;
+
+    &:hover {
+      outline: none;
+      background: #fff;
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: #ccc;
+    }
+  }
+
+  &_button-logout {
+    border: none;
+    border-radius: 2em;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      outline: none;
+      box-shadow: 0 0 0.8em 0.5em #eaeaea;
+
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: #fff;
+      box-shadow: 0 0 0.8em 0.5em #fff;
+    }
+
+    & span {
+      padding: 0 0.5em;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.allMessages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70vh;
+}
+
+.oneMessage {
+  background: rgba(30, 79, 255, 0.25);
+  color: white;
+  padding: 0.3em 0.7em;
+  margin: 0.3em 0.7em;
+  border-radius: 2em;
+
+  &__fromAuthor {
+    background: rgba(30, 79, 150, 0.7);
+    align-self: flex-start;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
