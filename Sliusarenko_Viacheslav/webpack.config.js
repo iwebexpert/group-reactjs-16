@@ -8,9 +8,12 @@ module.exports = {
     path: path.resolve( __dirname, 'dist'),
     filename: 'bundle.js',
   },
+  devtool: 'eval-source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
+      hoc: path.resolve(__dirname, 'src', 'hoc'),
+      pages: path.resolve(__dirname, 'src', 'pages'),
       components: path.resolve(__dirname, 'src', 'components'),
     }
   },
@@ -18,9 +21,9 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node-modules/,
+        exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
         }
       },
       {
@@ -42,5 +45,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'bandle.css'
     })
-  ]
+  ],
+  devServer: {
+    historyApiFallback: true,
+  },
 };

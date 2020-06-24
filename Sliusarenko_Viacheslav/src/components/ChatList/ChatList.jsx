@@ -1,30 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { Link } from 'react-router-dom';
+import { List, ListItem, ListItemText, TextField, Fab } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 
 import './ChatList.scss';
 
+
 export function ChatList( props ) {
-  const { list } = props;
+  const { chats, activeChat, onAdd } = props;
+  const [ chatName, setChatName ] = useState('');
+
+  function handleSetChatName( event ) {
+    const { target: { value }} = event;
+    setChatName( value );
+  }
+  function handleAddNewChat() {
+    if ( typeof onAdd !== 'function' ) {
+      return;
+    }
+    onAdd( chatName );
+    setChatName( '' );
+  }
+
   return (
-    <List className="chat-list" component="nav" aria-label="secondary mailbox folder">
-      { list.map( ({ id, name, active }) => (
-        <ListItem button key={ id } selected={ active }>
-          <ListItemText primary={ name } />
-        </ListItem>
-      ))}
-    </List>
-  )
+    <div className="chat-list">
+      <List component="nav" aria-label="secondary mailbox folder">
+        { Object.entries( chats ).map(( [ key, chat ] ) => (
+          <Link key={ key } to={ `/chats/${ key }` }>
+            <ListItem button selected={ Number( activeChat ) === Number( key ) }>
+              <ListItemText primary={ chat.name } />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+      <div className="new-chat">
+        <TextField value={ chatName } onChange={ handleSetChatName } />
+        <Fab variant="round" color="primary" size="small" onClick={ handleAddNewChat } disabled={ !chatName.trim() }>
+          <Add fontSize={ "small" }/>
+        </Fab>
+      </div>
+
+    </div>
+  );
 }
 
 export const chatsType = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  active: PropTypes.bool
+  messages: PropTypes.array
 }
 
 ChatList.propTypes = {
-  list: PropTypes.arrayOf(
+  chats: PropTypes.objectOf(
     PropTypes.shape( chatsType )
-  )
+  ),
+  activeChat: PropTypes.number.isRequired,
+  onAdd: PropTypes.func.isRequired
 }

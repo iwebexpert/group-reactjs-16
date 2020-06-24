@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { MessageForm } from 'components/MessageForm';
 import { MessagesList } from 'components/MessagesList';
 
 import './Messager.scss';
-import { Preloader } from 'components/ui/Preloader';
 
 export class Messager extends Component {
+  static propTypes = {
+    messages: PropTypes.array.isRequired
+  }
+
   state = {
-    messages: [],
-    bot: {
-      name: 'justBot',
-      timeout: 2000,
-      messages: [ 'Hello', 'Hello Again', 'Write something' ],
-      writing: true
-    }
+    botName: 'ChatBot',
+    botMessages: [ 'Hello', 'Hello Again', 'Write something' ],
+    timeout: 2000,
   }
 
   botInit() {
-    const { bot: { timeout } } = this.state;
+    const { timeout } = this.state;
     setTimeout( this.writeBotMessage, timeout )
   }
 
   componentDidMount() {
-    this.botInit()
+    this.botInit();
   }
 
   componentDidUpdate() {
@@ -30,38 +30,40 @@ export class Messager extends Component {
   }
 
   writeBotMessage = () => {
-    const { bot: { name: botNameAlias, messages: botMessages }, messages } = this.state;
+    const { messages } = this.props;
+    const { botName, botMessages } = this.state;
+
     const { author } = messages[ messages.length - 1 ] || {};
 
-    function getNewMessage() {
-      const randIndex = Math.floor(Math.random() * botMessages.length );
-      return `${ botMessages[ randIndex ] } ${ author }!`;
+    if ( author !== botName ) {
+      const message = !author ? botMessages[ 0 ] : ( this.getNewBotMessage( author ) );
+      this.handleAddMessage({ author: botName, message });
     }
+  }
 
-    if ( author !== botNameAlias ) {
-       const message = !author ? botMessages[ 0 ] : ( getNewMessage( author ) );
-       this.handleAddMessage({ author: botNameAlias, message });
-    }
+  getNewBotMessage( author ) {
+    const { botMessages } = this.state;
+    const randIndex = Math.floor(Math.random() * botMessages.length );
+
+    return `${ botMessages[ randIndex ] } ${ author }!`;
   }
 
   handleAddMessage = ( data ) => {
-    const { messages, bot } = this.state;
+    const { messages, chatId, addMessage } = this.props;
     const newMessage = { id: ( messages.length + 1 ), ...data };
-    const isBotMessage = newMessage.author === bot.name;
 
-    this.setState({
-      messages: messages.concat( newMessage ),
-      bot: { ...bot, writing: isBotMessage ? !bot.writing : true }
-    });
+    if ( typeof addMessage === "function" ) {
+      addMessage( chatId, newMessage );
+    }
   }
 
   render() {
-    const { messages, bot: { name, writing } } =  this.state;
+    const { messages } = this.props;
+    const { botName } = this.state;
+
     return (
       <div className="messenger">
-        <MessagesList messages={ messages } botName={ name }>
-          <Preloader show={ writing }>{ name } is writing</Preloader>
-        </MessagesList>
+        <MessagesList messages={ messages } botName={ botName }/>
         <MessageForm addMessage={ this.handleAddMessage }/>
       </div>
     );
