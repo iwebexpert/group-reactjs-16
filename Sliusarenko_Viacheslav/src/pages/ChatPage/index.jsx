@@ -1,5 +1,5 @@
 import React, { Component, Fragment }  from 'react';
-import { Messager } from 'components/Messager';
+import { Messenger } from 'components/Messenger';
 import { ChatList } from 'components/ChatList';
 
 import './ChatPage.scss';
@@ -43,7 +43,7 @@ export class ChatPage extends Component {
     if ( !activeChatId || !selectedChat ) {
       return <div className="no-chat-selected">Chat is not selected</div>;
     }
-    return <Messager
+    return <Messenger
       { ...selectedChat }
       chatId={ activeChatId }
       addMessage={ this.handleAddMessage }

@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import { MessageForm } from 'components/MessageForm';
 import { MessagesList } from 'components/MessagesList';
 
-import './Messager.scss';
+import './Messenger.scss';
 
-export class Messager extends Component {
+const messengerInitialState = {
+  botName: 'ChatBot',
+  botMessages: [ 'Hello', 'Hello Again', 'Write something' ],
+  timeout: 2000,
+  author: ''
+}
+
+export class Messenger extends Component {
   static propTypes = {
     messages: PropTypes.array.isRequired
   }
 
-  state = {
-    botName: 'ChatBot',
-    botMessages: [ 'Hello', 'Hello Again', 'Write something' ],
-    timeout: 2000,
-  }
+  state = messengerInitialState;
 
   botInit() {
     const { timeout } = this.state;
@@ -57,14 +60,19 @@ export class Messager extends Component {
     }
   }
 
+  handleSetAuthor = ( author ) => {
+    this.setState({ author });
+    localStorage.setItem('author', author );
+  }
+
   render() {
     const { messages } = this.props;
-    const { botName } = this.state;
+    const { botName, author } = this.state;
 
     return (
       <div className="messenger">
         <MessagesList messages={ messages } botName={ botName }/>
-        <MessageForm addMessage={ this.handleAddMessage }/>
+        <MessageForm addMessage={ this.handleAddMessage } author={ author } setAuthor={ this.handleSetAuthor }/>
       </div>
     );
   }

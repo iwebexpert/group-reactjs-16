@@ -6,10 +6,8 @@ import SendIcon from '@material-ui/icons/Send';
 import './MessageForm.scss';
 
 export function MessageForm( props ) {
-  const { addMessage } = props;
-
+  const { addMessage, author, setAuthor } = props;
   const [ message, setMessage ] = useState('');
-  const [ author, setAuthor ] = useState('');
 
   function handleAddNewMessage() {
     if ( typeof addMessage !== "function" ) {
@@ -28,7 +26,7 @@ export function MessageForm( props ) {
   }
 
   function canAddNewMessage() {
-    return isFieldNotEmpty( author ) && isFieldNotEmpty( message );
+    return isFieldNotEmpty( message );
   }
 
   function isFieldNotEmpty( field ) {
