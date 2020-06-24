@@ -39,11 +39,8 @@ export class Messager extends Component {
     }
 
     if ( author !== botNameAlias ) {
-      const message = !author ? botMessages[ 0 ] : ( getNewMessage( author ) );
-
-      if ( author !== botNameAlias ) {
-        this.handleAddMessage({ author: botNameAlias, message });
-      }
+       const message = !author ? botMessages[ 0 ] : ( getNewMessage( author ) );
+       this.handleAddMessage({ author: botNameAlias, message });
     }
   }
 
