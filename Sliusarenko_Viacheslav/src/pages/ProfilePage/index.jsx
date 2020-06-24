@@ -1,15 +1,17 @@
-import React  from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from "../../context/UserContext";
 
 export function ProfilePage( props ) {
-  const userName = localStorage.getItem('author');
+  const { author } = useContext( UserContext );
 
-  if ( !userName ) {
+  if ( !author ) {
     return <h1>Hello GUEST!</h1>
   }
 
   return (
     <div className="profile">
-       <b>Chat userName:&nbsp;</b>{ userName }
+       <b>Chat userName:&nbsp;</b>{ author }
+       <br/>
        <b>Total chats:</b>
     </div>
   );

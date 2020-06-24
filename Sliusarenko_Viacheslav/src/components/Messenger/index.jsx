@@ -60,10 +60,6 @@ export class Messenger extends Component {
     }
   }
 
-  handleSetAuthor = ( author ) => {
-    this.setState({ author });
-    localStorage.setItem('author', author );
-  }
 
   render() {
     const { messages } = this.props;
@@ -72,7 +68,7 @@ export class Messenger extends Component {
     return (
       <div className="messenger">
         <MessagesList messages={ messages } botName={ botName }/>
-        <MessageForm addMessage={ this.handleAddMessage } author={ author } setAuthor={ this.handleSetAuthor }/>
+        <MessageForm addMessage={ this.handleAddMessage } author={ author }/>
       </div>
     );
   }
