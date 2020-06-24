@@ -1,5 +1,6 @@
 import { AboutPage } from "pages/AboutPage";
 import { PageNotFound } from "pages/PageNotFound";
+import { ProfilePage } from "pages/ProfilePage";
 import { Messenger } from "components/Messenger";
 
 export const routes = [
@@ -12,6 +13,11 @@ export const routes = [
     path: "/about",
     exact: true,
     component: AboutPage,
+  },
+  {
+    path: "/profile",
+    exact: true,
+    component: ProfilePage,
   },
   {
     path: "/chats/:id([0-9]+)",
