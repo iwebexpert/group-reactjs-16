@@ -4,6 +4,9 @@
 }
 
 .header {
+  padding: {
+    bottom: 10px;
+  }
   &:hover .accessible-forward-icon {
     @include person-run(1s, 7000px);
   }
