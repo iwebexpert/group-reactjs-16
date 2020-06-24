@@ -11,9 +11,21 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js|jsx$/,
                 exclude: /node_modules/,
-                loader: "babel-loader"
+                loader: "babel-loader",
+                query: {
+                    presets: ['@babel/env', '@babel/react'],
+                    plugins: [
+                        [
+                            "@babel/plugin-proposal-class-properties",
+                            {
+                                "loose": true
+                            }
+                        ]
+                    ]
+                }
+
             },
             {
                 test: /\.css$/i,
@@ -28,8 +40,13 @@ module.exports = {
             filename: 'index.html',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
+            filename: 'css/[name].css',
+            publicPath: '../css',
         }),
     ],
+    resolve: {
+        modules: [`${__dirname}/src`, 'node_modules'],
+        extensions: ['.js', '.jsx'],
+    },
 
 };
