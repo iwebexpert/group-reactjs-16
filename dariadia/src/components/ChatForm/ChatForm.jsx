@@ -32,7 +32,6 @@ export class ChatForm extends Component {
       onSend(this.state);
 
       this.setState({ chatname: "" });
-      //console.log(this.state.chatname);
     }
   };
 
@@ -43,12 +42,15 @@ export class ChatForm extends Component {
   };
 
   render() {
+    const { chatname } = this.state;
+
     return (
       <>
         <FormControl>
           <InputLabel htmlFor="my-input">chat name</InputLabel>
           <Input
             id="my-input"
+            value={chatname}
             aria-describedby="my-helper-text"
             onChange={this.handleInputChange}
             onKeyDown={this.handleEnterCtrlDown}

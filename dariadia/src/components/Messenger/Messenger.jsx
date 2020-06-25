@@ -47,16 +47,16 @@ export class Messenger extends Component {
   };
 
   componentDidUpdate() {
-    if (!this.messages) return null;
-
-    const { author } = this.messages[this.messages.length - 1];
-    if (this.messages[this.messages.length - 1].author !== "Bot") {
-      setTimeout(() => {
-        this.handleMessageSend({
-          text: `Hey ${author}! We've received your message.`,
-          author: "Bot",
-        });
-      }, 1000);
+    if (this.messages) {
+      const { author } = this.messages[this.messages.length - 1];
+      if (this.messages[this.messages.length - 1].author !== "Bot") {
+        setTimeout(() => {
+          this.handleMessageSend({
+            text: `Hey ${author}! We've received your message.`,
+            author: "Bot",
+          });
+        }, 1000);
+      }
     }
   }
 
