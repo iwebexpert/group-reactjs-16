@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { MessageForm } from "components/MessageForm";
+import { ChatForm } from "components/ChatForm";
 import { MessageList } from "components/MessageList";
 import { Header } from "components/Header";
 
@@ -13,7 +16,7 @@ import "./Messenger.scss";
 export class Messenger extends Component {
   state = {
     chats: {
-      "1": {
+      [uuidv4()]: {
         name: "😸 Chat",
         messages: [
           {
@@ -22,7 +25,7 @@ export class Messenger extends Component {
           },
         ],
       },
-      "2": {
+      [uuidv4()]: {
         name: "🙀 Chat",
         messages: [
           {
@@ -31,7 +34,7 @@ export class Messenger extends Component {
           },
         ],
       },
-      "3": {
+      [uuidv4()]: {
         name: "😽 Chat",
         messages: [
           {
@@ -44,6 +47,8 @@ export class Messenger extends Component {
   };
 
   componentDidUpdate() {
+    if (!this.messages) return null;
+
     const { author } = this.messages[this.messages.length - 1];
     if (this.messages[this.messages.length - 1].author !== "Bot") {
       setTimeout(() => {
@@ -79,6 +84,31 @@ export class Messenger extends Component {
       chats: {
         ...chats,
         [match.params.id]: chat,
+      },
+    });
+  };
+
+  handleAddChat = (newChat) => {
+    const { chats } = this.state;
+    const { chatname } = newChat;
+
+    if (!chatname || !/\S/.test(chatname)) {
+      alert("Please, enter a proper name!");
+      return null;
+    }
+
+    this.setState({
+      chats: {
+        ...chats,
+        [uuidv4()]: {
+          name: chatname,
+          messages: [
+            {
+              text: "Hi!",
+              author: "Bot",
+            },
+          ],
+        },
       },
     });
   };
@@ -136,6 +166,7 @@ export class Messenger extends Component {
           ) : (
             "Please, choose a chatroom."
           )}
+          <ChatForm onSend={this.handleAddChat} />
         </div>
       </>
     );
