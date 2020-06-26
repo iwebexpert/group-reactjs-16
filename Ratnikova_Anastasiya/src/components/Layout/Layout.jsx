@@ -4,7 +4,6 @@ import './Layout.scss';
 import {Messenger} from "components/Messenger";
 import {Header} from "components/Header";
 import {Footer} from "components/Footer";
-import {ChatList} from "components/ChatList";
 
 export class Layout extends Component {
     render() {
@@ -12,8 +11,7 @@ export class Layout extends Component {
             <div className="layout">
                 <Header />
                 <div className="content">
-                    <ChatList />
-                    <Messenger />
+                    <Messenger match={this.props.match}/>
                 </div>
                 <Footer />
             </div>

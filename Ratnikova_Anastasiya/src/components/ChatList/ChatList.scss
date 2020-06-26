@@ -1,7 +1,20 @@
 .chat-list {
-    border: 1px solid #4cc19a;
+    padding: 0 !important;
 
-  .chat-item {
-    border-bottom: 1px solid #4cc19a;
-  }
+    &__item {
+        border-bottom: 1px solid #4cc19a;
+        padding: 0 !important;
+
+        &:hover {
+            background: #cfffef;
+            cursor: pointer;
+        }
+    }
+
+    &__link {
+        text-decoration: none;
+        color: #757575;
+        width: 100%;
+        padding: 16px;
+    }
 }
