@@ -17,7 +17,7 @@ export class MessageList extends Component {
 
     return (
       <div className="msg-container">
-        {messages.map((message, index) =>
+        {messages && messages.map((message, index) =>
           <Message key={index} {...message}/>
         )}
       </div>
