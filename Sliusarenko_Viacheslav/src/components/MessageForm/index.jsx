@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, Fab } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
 import './MessageForm.scss';
+import {UserContext} from "../../context/UserContext";
 
 export function MessageForm( props ) {
   const { addMessage } = props;
-
   const [ message, setMessage ] = useState('');
-  const [ author, setAuthor ] = useState('');
+  const { author, setAuthor } = useContext( UserContext );
 
   function handleAddNewMessage() {
     if ( typeof addMessage !== "function" ) {
@@ -28,7 +28,7 @@ export function MessageForm( props ) {
   }
 
   function canAddNewMessage() {
-    return isFieldNotEmpty( author ) && isFieldNotEmpty( message );
+    return isFieldNotEmpty( message );
   }
 
   function isFieldNotEmpty( field ) {

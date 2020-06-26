@@ -1,4 +1,10 @@
 .chat-list {
-  width: 30%;
+  width: 300px;
   padding: 0 !important;
+}
+
+.new-chat {
+  padding: 20px;
+  display: flex;
+  align-items: center;
 }
