@@ -14,11 +14,11 @@ export class MessageList extends Component {
     };
 
     render() {
-        const {messages} = this.props;
+        const {items} = this.props;
 
         return (
             <ul className="messages-list" id="message_list">
-                {messages.map((message, index) => <Message {...message} key={index} />)}
+                {items.map((message, index) => <Message {...message} key={index} />)}
             </ul>
         );
     }

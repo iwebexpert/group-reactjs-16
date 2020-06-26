@@ -8,13 +8,15 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',
 	},
+	devtool: 'eval-source-map',
 	resolve: {
 		extensions: [
 			'.js',
 			'.jsx'
 		],
 		alias: {
-			components: path.resolve(__dirname, 'src', 'components')
+			components: path.resolve(__dirname, 'src', 'components'),
+			pages: path.resolve(__dirname, 'src', 'pages')
 		}
 	},
 	module: {
@@ -43,5 +45,8 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css',
 		}),
-	]
+	],
+	devServer: {
+		historyApiFallback: true
+	}
 };

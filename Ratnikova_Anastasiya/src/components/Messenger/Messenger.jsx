@@ -4,21 +4,45 @@ import {MessageList} from 'components/MessageList';
 import {MessageForm} from 'components/MessageForm';
 
 import './Messenger.scss';
+import {ChatList} from "components/ChatList";
 
 export class Messenger extends Component {
     state = {
-        messages: [
-            {
-                text: 'Message 1',
-                author: 'Nastya'
-            }
-        ]
+        chats: {
+            '1': {
+                name: 'Chat 1',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 1',
+                        author: 'User'
+                    },
+                ],
+            },
+            '2': {
+                name: 'Chat 2',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 2',
+                        author: 'User'
+                    },
+                ],
+            },
+            '3': {
+                name: 'Chat 3',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 3',
+                        author: 'User'
+                    },
+                ],
+            },
+        },
     };
 
     componentDidUpdate() {
         const messagesList = document.getElementById('message_list');
 
-        if (this.state.messages[this.state.messages.length - 1].author !== 'Bot') {
+        if (this.messages[this.messages.length - 1].author !== 'Bot') {
             setTimeout(this.validateMessageAuthor, 2000);
         }
 
@@ -26,27 +50,60 @@ export class Messenger extends Component {
     }
 
     handleMessageSend = (message) => {
+        const {chats} = this.state;
+        const {match} = this.props;
+
+        const chat = chats[match.params.id];
+        chat.messages = this.messages.concat([message]);
+
         this.setState({
-            messages: this.state.messages.concat(message)
+            chats: {
+                ...chats,
+                [match.params.id]: chat
+            }
         });
-    };
+    }
 
     validateMessageAuthor = () => {
-        const author = this.state.messages[this.state.messages.length - 1].author;
+        const author = this.messages[this.messages.length - 1].author;
 
-        if (this.state.messages[this.state.messages.length - 1].author !== 'Bot') {
-            this.setState({
-                messages: this.state.messages.concat([{text: `${author}, Это автоответ бота!`, author: 'Bot'}])
-            })
+        if (this.messages[this.messages.length - 1].author !== 'Bot') {
+            this.handleMessageSend({text: `${author}, Это автоответ бота!`, author: 'Bot'});
         }
+    }
+
+    get messages(){
+        const {chats} = this.state;
+        const {match} = this.props;
+
+        let messages = null;
+
+        if (match && chats[match.params.id]){
+            messages = chats[match.params.id].messages;
+        }
+
+        return messages;
     }
 
     render() {
         return (
             <div className="messenger">
-                <MessageList messages={this.state.messages} />
-                <MessageForm onSend={this.handleMessageSend} />
+                <div className="messenger__chats-wrap">
+                    <ChatList chats={this.state.chats} />
+                </div>
+                <div className="messenger__messages-wrap">
+                    {this.messages ? <MessageList items={this.messages} /> : <SelectChat />}
+                    {this.messages && <MessageForm onSend={this.handleMessageSend} />}
+                </div>
             </div>
         );
     }
+}
+
+function SelectChat() {
+    return (
+        <div className="select-chat">
+            <h1>Пожалуйста, выберите чат</h1>
+        </div>
+    );
 }
