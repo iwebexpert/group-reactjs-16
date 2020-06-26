@@ -18,7 +18,7 @@ export class MessageForm extends Component {
     handleInputChange = (event) => {
         const fieldName = event.target.name;
         this.setState({
-            [fieldName]: event.target.value
+            [fieldName]: event.target.value,
         });
     };
 
