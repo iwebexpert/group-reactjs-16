@@ -8,10 +8,12 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
+  devtool: "eval-source-map",
   resolve: {
     extensions: [".js", ".jsx"],
     alias: {
       components: path.resolve(__dirname, "src", "components"),
+      pages: path.resolve(__dirname, "src", "pages"),
     },
   },
 
@@ -43,4 +45,8 @@ module.exports = {
       filename: "main.css",
     }),
   ],
+
+  devServer: {
+    historyApiFallback: true,
+  },
 };

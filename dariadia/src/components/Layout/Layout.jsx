@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { ChatList } from "components/ChatList";
 import { Header } from "components/Header";
 import { Messenger } from "components/Messenger";
 
@@ -11,10 +10,7 @@ export class Layout extends Component {
     return (
       <>
         <Header />
-        <div className="chats__wrapper">
-          <ChatList />
-          <Messenger />
-        </div>
+        <Messenger />
       </>
     );
   }

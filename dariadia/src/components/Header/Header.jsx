@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -52,6 +53,9 @@ export class Header extends Component {
                 <DirectionsRunIcon className="directions-run-icon" />
                 <AccessibleForwardIcon className="accessible-forward-icon" />
               </Typography>
+              <Link className="profile__link" to={`/profile`}>
+                Profile
+              </Link>
             </Toolbar>
           </AppBar>
         </ElevationScroll>
