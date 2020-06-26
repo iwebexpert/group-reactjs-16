@@ -5,16 +5,25 @@ export class ListMessages extends React.Component {
     componentDidUpdate() {
         let elem = document.querySelector('.allMessages');
         elem.scrollBy(0, elem.scrollHeight);
+        this.markAuthorMessage();
+    }
 
-        const lastMessage = document.querySelector('.allMessages').lastChild;
-        if (sessionStorage.getItem('name')
-            && lastMessage.dataset.author.toLowerCase() === sessionStorage.getItem('name').toLowerCase()) {
-            lastMessage.classList.add('oneMessage__fromAuthor')
+    markAuthorMessage() {
+        if (sessionStorage.getItem('name')) {
+            const allMessages = document.getElementsByClassName('allMessages')[0].childNodes
+            for (let message of allMessages) {
+                if (message.dataset.author.toLowerCase() === sessionStorage.getItem('name').toLowerCase()) {
+                    message.classList.add('oneMessage__fromAuthor');
+                } else {
+                    message.classList.remove('oneMessage__fromAuthor');
+                }
+            }
         }
     }
 
     render() {
         const {messages} = this.props;
+
         return (
             <div className="allMessages">
                 {messages.map((message, index) =>

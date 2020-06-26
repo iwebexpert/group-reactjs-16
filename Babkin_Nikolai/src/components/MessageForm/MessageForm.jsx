@@ -26,11 +26,11 @@ export class MessageForm extends React.Component {
     }
 
     componentDidMount() {
-        document.querySelector('.messageForm_input').focus()
+        document.querySelector('.messageForm_input').focus();
     }
 
     componentDidUpdate() {
-        document.querySelector('.messageForm_input').focus()
+        document.querySelector('.messageForm_input').focus();
     }
 
     render() {

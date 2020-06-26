@@ -7,6 +7,14 @@ export class Identification extends React.Component {
         authorName: ''
     }
 
+    componentDidMount() {
+        if (sessionStorage.getItem('name')) {
+            const identifier = document.querySelector('.identification');
+            identifier.style.top = '2%'
+            identifier.style.right = '2%'
+        }
+    }
+
     logIn = (event) => {
         event.preventDefault()
         if (this.state.authorName) {
@@ -24,14 +32,7 @@ export class Identification extends React.Component {
     }
 
     animationLogIn() {
-        const messenger = document.querySelector('.messenger');
-        messenger.animate([
-            {opacity: 0},
-            {opacity: 1},
-        ], {
-            duration: 1000,
-            fill: "forwards",
-        })
+        this.props.handlerLogin(true)
 
         const identifier = document.querySelector('.identification');
         identifier.animate([
@@ -50,17 +51,9 @@ export class Identification extends React.Component {
     }
 
     animationLogOut() {
-        const messenger = document.querySelector('.messenger');
-        messenger.animate([
-            {opacity: 1},
-            {opacity: 0},
-        ], {
-            duration: 200,
-            fill: "forwards",
-        })
+        this.props.handlerLogin(false)
 
         const identifier = document.querySelector('.identification');
-
         identifier.animate([
             {
                 top: '2%',

@@ -1,9 +1,22 @@
-.chat-header {
+.header {
   align-self: stretch;
   padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &_h2 {
     text-align: center;
     color: white;
+  }
+
+  &_nav {
+    display: flex;
+    margin: 0 0.5em;
+
+    & a {
+      text-decoration: none;
+      color: #ffffff;
+    }
   }
 }

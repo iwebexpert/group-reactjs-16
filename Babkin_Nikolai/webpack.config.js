@@ -14,6 +14,7 @@ module.exports = {
             components: path.resolve(__dirname, 'src', 'components')
         }
     },
+
     module: {
         rules: [
             {
@@ -41,4 +42,8 @@ module.exports = {
             filename: 'main.css',
         }),
     ],
+
+    devServer: {
+        historyApiFallback: true,
+    },
 };
