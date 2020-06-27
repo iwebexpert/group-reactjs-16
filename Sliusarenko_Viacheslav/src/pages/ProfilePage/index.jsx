@@ -1,18 +1,21 @@
-import React, { useContext } from 'react';
-import { UserContext } from "../../context/UserContext";
+import React from 'react';
 
 export function ProfilePage( props ) {
-  const { author } = useContext( UserContext );
+  const { username, age, bio, loaded } = props;
 
-  if ( !author ) {
+  if ( !loaded ) {
+    return <h2>Loading...</h2>;
+  }
+  if ( !username ) {
     return <h1>Hello GUEST!</h1>
   }
 
   return (
     <div className="profile">
-       <b>Chat userName:&nbsp;</b>{ author }
-       <br/>
-       <b>Total chats:</b>
+      <b>Chat username:&nbsp;</b>{ username }
+      <br/>
+      <b>Age: { age } </b>
+      <p>{ bio }</p>
     </div>
   );
 }

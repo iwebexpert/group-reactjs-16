@@ -4,19 +4,17 @@ import { TextField, Fab } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
 import './MessageForm.scss';
-import {UserContext} from "../../context/UserContext";
 
 export function MessageForm( props ) {
-  const { addMessage } = props;
   const [ message, setMessage ] = useState('');
-  const { author, setAuthor } = useContext( UserContext );
+  const { username, addMessage, onChangeUsername } = props;
 
   function handleAddNewMessage() {
     if ( typeof addMessage !== "function" ) {
       console.warn("cant set message, callback is invalid");
       return;
     }
-    addMessage({ author, message });
+    addMessage({ author: username, message });
     setMessage( '' );
   }
 
@@ -47,7 +45,7 @@ export function MessageForm( props ) {
 
   return (
     <div className="form">
-      <TextField label="Автор" name="author" value={ author } onChange={ handleChangeValue( setAuthor ) } />
+      <TextField label="Автор" name="author" value={ username } onChange={ onChangeUsername } />
       <TextField
         label="Сообщение"
         name="message"
@@ -65,4 +63,5 @@ export function MessageForm( props ) {
 
 MessageForm.propTypes = {
   addMessage: PropTypes.func.isRequired,
+  onChangeUsername: PropTypes.func.isRequired
 }

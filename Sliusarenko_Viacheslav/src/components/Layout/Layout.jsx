@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from 'components/Header';
+import HeaderContainer from 'containers/HeaderContainer';
 import { Footer } from 'components/Footer';
 
 import './Layout.scss';
@@ -8,7 +8,7 @@ export function Layout( props ) {
   const { children } = props;
   return (
     <div className="layout">
-      <Header/>
+      <HeaderContainer/>
       <div className="page-content">
         { children }
       </div>
