@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { MessageForm } from "components/MessageForm";
 import { ChatForm } from "components/ChatForm";
+import { RegisterForm } from "components/RegisterForm";
+
 import { MessageList } from "components/MessageList";
 import { Header } from "components/Header";
 
@@ -13,11 +15,20 @@ import "./Messenger.scss";
 
 export class Messenger extends Component {
   render() {
-    const { chats, messages, sendMessage, handleAddChat } = this.props;
+    const {
+      chats,
+      messages,
+      sendMessage,
+      handleAddChat,
+      handleAddUser,
+      currentUser,
+    } = this.props;
+
+    const userIsAuth = currentUser.username !== "GUEST";
 
     return (
       <>
-        <Header />
+        <Header currentUser={currentUser} />
         <div className="chats__wrapper">
           <List
             className="chats__list"
@@ -38,13 +49,14 @@ export class Messenger extends Component {
           {messages ? (
             <div className="messenger">
               <MessageList items={messages} />
-              <MessageForm onSend={sendMessage} />
+              <MessageForm currentUser={currentUser} onSend={sendMessage} />
             </div>
           ) : (
             "Please, choose a chatroom."
           )}
           <ChatForm onSend={handleAddChat} />
         </div>
+        {!userIsAuth && <RegisterForm onSend={handleAddUser} />}
       </>
     );
   }

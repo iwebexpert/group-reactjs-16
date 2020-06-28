@@ -40,6 +40,10 @@ ElevationScroll.propTypes = {
 
 export class Header extends Component {
   render() {
+    const {
+      currentUser: { username },
+    } = this.props;
+
     return (
       <div className="header">
         <CssBaseline />
@@ -47,7 +51,7 @@ export class Header extends Component {
           <AppBar>
             <Toolbar>
               <Typography variant="h6">
-                This is Sparta
+                {username}, this is Sparta
                 <DirectionsRunIcon className="directions-run-icon" />
                 <DirectionsRunIcon className="directions-run-icon" />
                 <DirectionsRunIcon className="directions-run-icon" />

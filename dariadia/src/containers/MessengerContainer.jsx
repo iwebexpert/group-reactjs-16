@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 
 import { Messenger } from "components/Messenger";
 import { chatsLoad, chatsSend, chatAdd } from "actions/chats";
+import { userLoad, userAdd } from "actions/user";
 
 class MessengerContainer extends Component {
   componentDidMount() {
-    const { chatsLoadAction } = this.props;
-    chatsLoadAction(); //Получение чатов
+    const { chatsLoadAction, userLoadAction } = this.props;
+    chatsLoadAction();
+    userLoadAction();
   }
 
   componentDidUpdate() {
@@ -25,6 +27,20 @@ class MessengerContainer extends Component {
       }
     }
   }
+
+  handleAddUser = (newUser) => {
+    const { userAddAction } = this.props;
+    const { username } = newUser;
+
+    if (!username || !/\S/.test(username)) {
+      alert("Please, enter a proper name!");
+      return null;
+    }
+
+    userAddAction({
+      ...newUser,
+    });
+  };
 
   handleAddChat = (newChat) => {
     const { chatAddAction } = this.props;
@@ -61,14 +77,16 @@ class MessengerContainer extends Component {
   };
 
   render() {
-    const { chats, messages } = this.props;
+    const { chats, messages, currentUser } = this.props;
 
     return (
       <Messenger
         chats={chats}
         messages={messages}
+        currentUser={currentUser}
         sendMessage={this.handleMessageSend}
         handleAddChat={this.handleAddChat}
+        handleAddUser={this.handleAddUser}
       />
     );
   }
@@ -81,6 +99,7 @@ class MessengerContainer extends Component {
  */
 function mapStateToProps(state, ownProps) {
   const chats = state.chats.entries;
+  const user = state.user.currentUser;
   const { match } = ownProps;
 
   let messages = null;
@@ -100,6 +119,7 @@ function mapStateToProps(state, ownProps) {
     chats: chatsArrayForShow,
     messages,
     chatId: match ? match.params.id : null,
+    currentUser: user,
   };
 }
 
@@ -112,6 +132,8 @@ function mapDispatchToProps(dispatch) {
     chatsLoadAction: () => dispatch(chatsLoad()),
     chatsSendAction: (message) => dispatch(chatsSend(message)),
     chatAddAction: (newChat) => dispatch(chatAdd(newChat)),
+    userLoadAction: () => dispatch(userLoad()),
+    userAddAction: (newUser) => dispatch(userAdd(newUser)),
   };
 }
 
