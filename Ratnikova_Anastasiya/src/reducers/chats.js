@@ -37,6 +37,7 @@ const initialState = {
 };
 
 export const chatsReducer = (state = initialState, action) => {
+    console.log(state);
     switch(action.type)
     {
         case CHATS_LOAD:
@@ -45,33 +46,6 @@ export const chatsReducer = (state = initialState, action) => {
                 entries: dataBackend,
             };
         case CHATS_SEND:
-            //ES5
-            // return Object.assign({}, {
-            //         entries: {
-            //             [action.payload.chatId]: {
-            //                 messages: state.entries[action.payload.chatId].messages.concat([
-            //                     {text: action.payload.text, author: action.payload.author}
-            //                 ]),
-            //             }
-            //         }
-            //     });
-
-                //ES6
-                // return {
-                //     ...state,
-                //     entries: {
-                //         ...state.entries,
-                //         [action.payload.chatId]: {
-                //             ...state.entries[action.payload.chatId],
-                //             messages: [
-                //                 ...state.entries[action.payload.chatId].messages,
-                //                 {text: action.payload.text, author: action.payload.author},
-                //             ]
-                //         }
-                //     }
-                // };
-
-                //Современный вариант
                 return update(state, {
                     entries: {
                         [action.payload.chatId]: {

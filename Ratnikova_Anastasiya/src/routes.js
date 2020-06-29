@@ -1,32 +1,33 @@
+import withLayout from './templates/WithLayout';
 import {AboutPage} from 'pages/AboutPage';
 import {PageNotFound} from 'pages/PageNotFound';
-import {Layout} from 'components/Layout';
 import {Profile} from 'components/Profile';
+import {MessengerRedux} from 'containers/MessengerContainer';
 
 export const routes = [
     {
         path: '/',
         exact: true,
-        component: Layout,
+        component: withLayout(MessengerRedux),
     },
     {
         path: '/about',
         exact: true,
-        component: AboutPage,
+        component: withLayout(AboutPage),
     },
     {
         path: '/chats/:id([0-9]+)', //http://localhost:4000/chats/1
         exact: true,
-        component: Layout,
+        component: withLayout(MessengerRedux),
     },
     {
-        path: '/profile', //http://localhost:4000/chats/1
+        path: '/profile',
         exact: true,
-        component: Profile,
+        component: withLayout(Profile),
     },
     {
         path: '*',
         exact: false,
-        component: PageNotFound,
+        component: withLayout(PageNotFound),
     },
 ];
