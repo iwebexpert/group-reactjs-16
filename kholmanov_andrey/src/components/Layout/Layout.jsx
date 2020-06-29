@@ -5,7 +5,6 @@
 import React, {Component} from 'react';
 
 import {Header} from 'components/Header';
-import {ChatList} from 'components/ChatList';
 import {Messenger} from 'components/Messenger';
 
 import './Layout.scss';
@@ -17,8 +16,7 @@ export class Layout extends Component {
             <div className="layout">
                 <Header />
                 <div className="main">
-                    <ChatList />
-                    <Messenger />
+                    <Messenger data={this.props} />
                 </div>
             </div>
         );

@@ -18,7 +18,6 @@ export class MessageList extends Component {
 
     render(){
         const {items} = this.props;
-
         return (
             <div className="messages-list">
                 {items.map((message, index) => <Message key={index} {...message} />)}
