@@ -35,9 +35,13 @@ class MessageFormClass extends Component {
   };
 
   handleInputChange = (event) => {
-    const fieldName = event.target.name;
+    const {
+      currentUser: { username },
+    } = this.props;
+
     this.setState({
-      [fieldName]: event.target.value,
+      text: event.target.value,
+      author: username,
     });
   };
 
@@ -58,18 +62,16 @@ class MessageFormClass extends Component {
   };
 
   render() {
-    const { text, author } = this.state;
-    const { classes } = this.props;
+    const { text } = this.state;
+    const {
+      classes,
+      currentUser: { username },
+    } = this.props;
 
     return (
       <div className={classes.root}>
         <div className={classes.wrapper__column}>
-          <TextField
-            label="Author"
-            name="author"
-            value={author}
-            onChange={this.handleInputChange}
-          />
+          <TextField disabled label="Author" name="author" value={username} />
           <TextField
             label="Text"
             name="text"

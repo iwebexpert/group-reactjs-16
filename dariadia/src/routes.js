@@ -1,13 +1,13 @@
 import { AboutPage } from "pages/AboutPage";
 import { PageNotFound } from "pages/PageNotFound";
+import { MessengerRedux } from "containers/MessengerContainer";
 import { ProfilePage } from "pages/ProfilePage";
-import { Messenger } from "components/Messenger";
 
 export const routes = [
   {
     path: "/",
     exact: true,
-    component: Messenger,
+    component: MessengerRedux,
   },
   {
     path: "/about",
@@ -22,7 +22,7 @@ export const routes = [
   {
     path: "/chats/:id",
     exact: true,
-    component: Messenger,
+    component: MessengerRedux,
   },
   {
     path: "*",
