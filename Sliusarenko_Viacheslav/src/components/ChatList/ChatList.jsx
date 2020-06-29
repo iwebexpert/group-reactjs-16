@@ -54,6 +54,6 @@ ChatList.propTypes = {
   chats: PropTypes.objectOf(
     PropTypes.shape( chatsType )
   ),
-  activeChat: PropTypes.number.isRequired,
+  activeChat: PropTypes.number,
   onAdd: PropTypes.func.isRequired
 }

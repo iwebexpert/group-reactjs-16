@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import ReactDom from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import { store } from './store';
 import { routes } from './routes';
-import { UserContext } from './context/UserContext';
 
-function App( props ) {
-  const [author, setAuthor] = useState('');
-  const value = { author, setAuthor };
-
+function App() {
   return (
-    <UserContext.Provider value={ value }>
+    <Provider store={ store() }>
       <BrowserRouter>
         <Switch>
           { routes.map( ( route, idx ) => (
@@ -17,7 +16,7 @@ function App( props ) {
           )) }
         </Switch>
       </BrowserRouter>
-    </UserContext.Provider>
+    </Provider>
   )
 }
 

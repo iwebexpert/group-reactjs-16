@@ -1,20 +1,21 @@
 import withLayout from 'hoc/WithLayout';
-import { ChatPage, ProfilePage } from 'pages';
+import ChatsPageContainer from 'containers/ChatsPageContainer';
+import ProfilePageContainer from 'containers/ProfilePageContainer';
 
 export const routes = [
   {
     path: '/',
     exact: true,
-    component: withLayout( ChatPage ),
+    component: withLayout( ChatsPageContainer ),
   },
   {
     path: '/chats/:id([0-9]+)',
     exact: true,
-    component: withLayout( ChatPage ),
+    component: withLayout( ChatsPageContainer ),
   },
   {
     path: '/profile',
     exact: true,
-    component: withLayout( ProfilePage ),
+    component: withLayout( ProfilePageContainer ),
   }
 ]

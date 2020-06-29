@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { MessageForm } from 'components/MessageForm';
+
+import MessageFormContainer from 'containers/MessageFormContainer';
 import { MessagesList } from 'components/MessagesList';
 
 import './Messenger.scss';
@@ -52,23 +53,20 @@ export class Messenger extends Component {
   }
 
   handleAddMessage = ( data ) => {
-    const { messages, chatId, addMessage } = this.props;
-    const newMessage = { id: ( messages.length + 1 ), ...data };
-
+    const { addMessage } = this.props;
     if ( typeof addMessage === "function" ) {
-      addMessage( chatId, newMessage );
+      addMessage( data );
     }
   }
 
-
   render() {
     const { messages } = this.props;
-    const { botName, author } = this.state;
+    const { botName } = this.state;
 
     return (
       <div className="messenger">
         <MessagesList messages={ messages } botName={ botName }/>
-        <MessageForm addMessage={ this.handleAddMessage } author={ author }/>
+        <MessageFormContainer addMessage={ this.handleAddMessage } />
       </div>
     );
   }
