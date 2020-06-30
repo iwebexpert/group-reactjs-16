@@ -8,13 +8,13 @@ import './ChatList.scss';
 
 export class ChatList extends Component {
     render() {
-        const {chats} = this.props;
+        const {chats, messages} = this.props;
 
         let chatsComponents = [];
         for(let chatKey in chats){
             chatsComponents.push(
                 <ListItem key={chatKey} className="chat-list__item">
-                    <Link to={`/chats/${chatKey}`}  className="chat-list__link">
+                    <Link to={`/chats/${chatKey}`} className="chat-list__link">
                         <ListItemText primary={chats[chatKey].name} />
                     </Link>
                 </ListItem>
@@ -23,7 +23,12 @@ export class ChatList extends Component {
 
         return (
             <List className="chat-list">
-                {chatsComponents}
+                {chats.map((chat, index) =>
+                    <ListItem key={index} className="chat-list__item">
+                        <Link to={chat.link}  className="chat-list__link">
+                            <ListItemText primary={chat.name} />
+                        </Link>
+                    </ListItem>)}
             </List>
         );
     }
