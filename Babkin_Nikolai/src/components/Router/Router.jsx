@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import {Layout} from "components/Layout";
 import {PageNotFound} from "components/PageNotFound";
-import {Profile} from "components/Profile";
+import {MessengerRedux} from "containers/MessengerContainer";
 
 export class Router extends React.Component {
     routes = [
@@ -14,7 +14,7 @@ export class Router extends React.Component {
         {
             path: '/chats/:id([0-9]+)',
             exact: true,
-            component: Layout,
+            component: MessengerRedux,
         },
         {
             path: '/profile',
