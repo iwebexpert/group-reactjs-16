@@ -16,10 +16,10 @@ import './ChatList.sass';
 export class ChatList extends Component {
     state = {
         chatName: ""
-    }
+    };
 
     static propTypes = {
-        chats: PropTypes.object.isRequired,
+        chats: PropTypes.array.isRequired,
         createChat: PropTypes.func.isRequired
     };
 
@@ -42,40 +42,37 @@ export class ChatList extends Component {
     render() {
         const {chats} = this.props;
 
-        const chatList = [];
-        for (const chatID in chats) {
-            chatList.push(
-                <ListItem button key={chatID}>
-                    <ListItemIcon>
-                        <InputIcon/>
-                    </ListItemIcon>
-                    <Link to={`/chats/${chatID}`}>
-                        <ListItemText primary={chats[chatID].author}/>
-                    </Link>
-                </ListItem>
-            );
-        }
-
         return (
             <div className="msg-chat-list">
                 <List component="nav" aria-label="main mailbox folders" className="msg-chat-link">
-                    {chatList}
+                    {chats.map((chat, index) =>
+                        <ListItem button key={index}>
+                            <Link to={chat.link} className="msg-chat-item">
+                                <ListItemIcon>
+                                    <InputIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={chat.name}/>
+                            </Link>
+                        </ListItem>
+                    )}
                 </List>
                 <div className="msg-chat-add">
                     <div className="msg-chat-add-label">Добавить чат</div>
-                    <TextField
-                        name="chatName"
-                        value={this.state.chatName}
-                        onChange={this.handleInputChange}
-                    />
-                    <Fab
-                        variant="round"
-                        color="primary"
-                        size="small"
-                        onClick={this.createChat}
-                    >
-                        <AddIcon fontSize="small" />
-                    </Fab>
+                    <div className="msg-chat-add-wrap">
+                        <TextField
+                            name="chatName"
+                            value={this.state.chatName}
+                            onChange={this.handleInputChange}
+                        />
+                        <Fab
+                            variant="round"
+                            color="primary"
+                            size="small"
+                            onClick={this.createChat}
+                        >
+                            <AddIcon fontSize="small" />
+                        </Fab>
+                    </div>
                 </div>
             </div>
         );
