@@ -7,7 +7,7 @@ import {chatsLoad, chatsSend} from 'actions/chats';
 class MessengerContainer extends Component {
     componentDidMount(){
         const {chatsLoadAction} = this.props;
-        chatsLoadAction(); //Получение чатов
+        chatsLoadAction();
     };
 
     handleMessageSend = (message) => {

@@ -1,8 +1,8 @@
 import withLayout from './templates/WithLayout';
 import {AboutPage} from 'pages/AboutPage';
 import {PageNotFound} from 'pages/PageNotFound';
-import {Profile} from 'components/Profile';
 import {MessengerRedux} from 'containers/MessengerContainer';
+import {ProfileRedux} from 'containers/ProfileContainer';
 
 export const routes = [
     {
@@ -23,7 +23,7 @@ export const routes = [
     {
         path: '/profile',
         exact: true,
-        component: withLayout(Profile),
+        component: withLayout(ProfileRedux),
     },
     {
         path: '*',

@@ -7,19 +7,21 @@ import './Messenger.scss';
 import {ChatList} from "components/ChatList";
 
 export class Messenger extends Component {
-
     componentDidUpdate() {
-        const {messages, sendMessage} = this.props;
-        const messagesList = document.getElementById('message_list');
+        if (window.location.pathname !== '/') {
+            const {messages} = this.props;
+            const messagesList = document.getElementById('message_list');
 
-        if (messages[messages.length - 1].author !== 'Bot') {
-            setTimeout(this.validateMessageAuthor(messages, sendMessage), 2000);
+            if (messages[messages.length - 1].author !== 'Bot') {
+                setTimeout(this.validateMessageAuthor, 2000);
+            }
+
+            messagesList.scrollTop = messagesList.scrollHeight;
         }
-
-        messagesList.scrollTop = messagesList.scrollHeight;
     }
 
-    validateMessageAuthor = (messages, sendMessage) => {
+    validateMessageAuthor = () => {
+        const {messages, sendMessage} = this.props;
         const author = messages[messages.length - 1].author;
 
         if (messages[messages.length - 1].author !== 'Bot') {

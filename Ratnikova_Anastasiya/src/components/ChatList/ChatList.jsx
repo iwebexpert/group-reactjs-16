@@ -14,7 +14,7 @@ export class ChatList extends Component {
         for(let chatKey in chats){
             chatsComponents.push(
                 <ListItem key={chatKey} className="chat-list__item">
-                    <Link to={`/chats/${chatKey}`}  className="chat-list__link">
+                    <Link to={`/chats/${chatKey}`} className="chat-list__link">
                         <ListItemText primary={chats[chatKey].name} />
                     </Link>
                 </ListItem>
