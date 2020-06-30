@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import './Header.scss';
 
@@ -11,7 +12,10 @@ export class Header extends Component {
     {
         return (
             <div className="header">
-                MESSENGER
+                <div className="logo">MESSANGER</div>
+                <div className="user-settings">
+                    <a href="/profile" className="profile"><SettingsIcon /></a>
+                </div>
             </div>
         );
     }

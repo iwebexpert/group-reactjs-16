@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import {ChatList} from 'components/ChatList';
 import {MessageForm} from 'components/MessageForm';
 import {MessageList} from 'components/MessageList';
 
@@ -7,61 +8,106 @@ import './Messenger.scss';
 
 export class Messenger extends Component {
     state = {
-        messages: [
-            {
-                text: 'Текстовое сообщение 1',
-                author: 'Igor'
+        chats: {
+            '1': {
+                name: 'Chat 1',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 1',
+                        author: 'Igor'
+                    },
+                ],
             },
-            {
-                text: 'Текстовое сообщение 2',
-                author: 'Igor'
+            '2': {
+                name: 'Chat 2',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 2',
+                        author: 'Igor'
+                    },
+                ],
             },
-            {
-                text: 'Текстовое сообщение 3',
-                author: 'Andrey'
-            }
-        ],
+            '3': {
+                name: 'Chat 3',
+                messages: [
+                    {
+                        text: 'Текстовое сообщение 3',
+                        author: 'Igor'
+                    },
+                ],
+            },
+        },
     };
     interval = null;
-    templateMessagesBot = ['Привет!', 'Как дела?', 'Здорово!'];
 
     componentDidUpdate()
     {
         clearTimeout(this.interval);
-        const lastMassege = this.state.messages[this.state.messages.length - 1];
-        if(lastMassege.author !== 'Bot'){
+
+        const {author} = this.messages[this.messages.length - 1];
+        if(this.messages[this.messages.length - 1].author !== 'Bot'){
             this.interval = setTimeout(() => {
-                const randIndex = Math.floor(Math.random() * this.templateMessagesBot.length);
-                this.setState({
-                    messages: this.state.messages.concat(
-                        [
-                            {
-                                text: this.templateMessagesBot[randIndex] + ' ' + lastMassege.author + '!',
-                                author: 'Bot'
-                            }
-                        ]
-                    )
-                });
-            }, 1500);
+                this.handleMessageSend({text: `Привет, ${author}! Это автоответ бота!`, author: 'Bot'});
+            }, 2000);
         }
+
         const messageList = document.querySelector('.messages-list');
         messageList.scrollTop = messageList.scrollHeight;
     }
 
     handleMessageSend = (message) => {
+        const {chats} = this.state;
+        const {match} = this.props.data;
+
+        const chat = chats[match.params.id];
+        const messages = this.messages.concat([message]);
+        chat.messages = messages;
+
         this.setState({
-            messages: this.state.messages.concat([message]),
+            chats: {
+                ...chats,
+                [match.params.id]: chat
+            }
         });
     };
 
+    handleChatSend = (chat) => {
+        const {chats} = this.state;
+        const keys = Object.keys(chats);
+        const key = parseInt(keys[keys.length - 1]) + 1;
+        console.log(chat);
+        this.setState({
+            chats: {
+                ...chats,
+                [key]: chat
+            }
+        });
+    };
+
+    get messages(){
+        const {chats} = this.state;
+        const {match} = this.props.data;
+
+        let messages = null;
+
+        if(match && chats[match.params.id]){
+            messages = chats[match.params.id].messages;
+        }
+
+        return messages;
+    }
+
     render()
     {
-        const {messages} = this.state;
+        const {chats} = this.state;
         return (
-            <div className="messanger">
-                <MessageList items={messages} />
-                <MessageForm onSend={this.handleMessageSend} />
-            </div>
+            <>
+                <ChatList chats={chats} onSend={this.handleChatSend} />
+                <div className="messanger">
+                    {this.messages ? <MessageList items={this.messages} /> : 'Пожалуйста, выберите чат'}
+                    {this.messages && <MessageForm onSend={this.handleMessageSend} />}
+                </div>
+            </>
         );
     }
 }

@@ -4,10 +4,15 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import {Layout} from 'components/Layout';
+import {routes} from './routes';
 
 ReactDom.render(
-    <Layout />,
+    <BrowserRouter>
+        <Switch>
+            {routes.map((route, index) => <Route key={index} {...route} />)}
+        </Switch>
+    </BrowserRouter>,
     document.getElementById('root'),
 );
