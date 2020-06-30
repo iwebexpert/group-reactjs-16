@@ -13,12 +13,6 @@ import './ChatList.scss';
 export class ChatList extends Component {
     state = {
         name: '',
-        messages: [
-            {
-                text: '',
-                author: ''
-            },
-        ],
     };
 
     static propTypes = {
@@ -29,11 +23,6 @@ export class ChatList extends Component {
         const fieldName = event.target.name;
         this.setState({
             [fieldName]: event.target.value,
-            messages: [
-                {
-                    text: 'Чат ' + event.target.value,
-                },
-            ],
         });
     };
 
@@ -65,7 +54,7 @@ export class ChatList extends Component {
         for(let chatKey in chats){
             chatList.push(
                 <ListItem key={chatKey}>
-                    <Link to={`/chat/${chatKey}`}>
+                    <Link to={`${chats[chatKey].link}`}>
                         <ListItemText primary={chats[chatKey].name} />
                     </Link>
                 </ListItem>

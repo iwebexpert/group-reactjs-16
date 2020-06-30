@@ -1,7 +1,6 @@
 * {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 
 .layout {
   width: 100%;
@@ -9,19 +8,12 @@
   margin: auto;
   background-color: cadetblue;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column; }
 
 .main {
   display: flex;
   justify-content: space-between;
   height: calc(100% - 80px);
-  background-color: gray;
-}
+  background-color: gray; }
 
-.messenger {
-  width: 75%;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-}
+/*# sourceMappingURL=UsersList.css.mapap */
