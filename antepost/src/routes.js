@@ -1,5 +1,5 @@
 import {Layout} from 'components/Layout';
-import {ProfilePage} from './pages/ProfilePage';
+import {ProfilePageRedux} from 'containers/ProfilePageContainer';
 
 export const routes = [
     {
@@ -15,6 +15,6 @@ export const routes = [
     {
         path: '/profile',
         exact: true,
-        component: ProfilePage,
-    }
+        component: ProfilePageRedux,
+    },
 ];
