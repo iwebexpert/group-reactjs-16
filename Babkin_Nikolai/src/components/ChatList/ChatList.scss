@@ -1,3 +1,12 @@
 .add-chat_input {
   width: 7rem;
+
+  & label {
+    color: #ffffff;
+  }
+}
+
+.chat-list_text-item {
+  text-decoration: none;
+  color: #ffffff;
 }

@@ -16,11 +16,12 @@ export class MessageForm extends React.Component {
 
     handlerButtonClick = (event) => {
         event.preventDefault();
-        const author = sessionStorage.getItem('name');
+        const author = this.props.userName;
         if (this.state.text === '' || !author) return;
-        this.props.handlerCallback({
-            author: author,
-            text: this.state.text
+        this.props.handerlSendMessage({
+            author,
+            text: this.state.text,
+            chatId: this.props.chatId
         })
         this.setState({text: ''});
     }

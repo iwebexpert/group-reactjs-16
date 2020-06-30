@@ -3,90 +3,25 @@ import {ListMessages} from "components/ListMessages";
 import {MessageForm} from "components/MessageForm";
 import {ChatList} from "components/ChatList";
 import './Messenger.scss';
+import {Header} from "components/Header";
 
 export class Messenger extends React.Component {
-    state = {
-        chats: {
-            1: {
-                name: 'Chat 1',
-                messages: [
-                    {
-                        author: 'Author 1',
-                        text: 'first message'
-                    },
-                    {
-                        author: 'Second Author',
-                        text: 'second message'
-                    },
-                ]
-            },
-            2: {
-                name: 'Chat 2',
-                messages: [
-                    {
-                        author: 'Second Author',
-                        text: 'second message'
-                    },
-                ]
-            },
-            3: {
-                name: 'Chat 3',
-                messages: [
-                    {
-                        author: 'Some Author',
-                        text: 'bla bla bla'
-                    },
-                    {
-                        author: 'Author',
-                        text: 'hello'
-                    },
-                ]
-            },
-        },
-    };
-
-    componentDidMount() {
-        this.props.getPageName(this.state.chats[this.getChatId()].name)
-
-        if (sessionStorage.getItem('name')) {
-            document.querySelector('.messenger').style.opacity = '1';
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (+this.props.chatId !== +prevProps.chatId) {
-            this.props.getPageName(this.state.chats[this.getChatId()].name)
-        }
-
-        this.chatBot(prevState)
-
-        if (this.props.isLogin !== prevProps.isLogin) {
-            if (this.props.isLogin) this.props.animationLogIn('.messenger')
-            else this.props.animationLogOut('.messenger')
-        }
-    }
-
     timeout;
 
-    addNewChat = (nameChat) => {
-        const {chats} = JSON.parse(JSON.stringify(this.state));
-        const keys = Object.keys(chats);
-        const newId = +keys.pop() + 1
-
-        chats[newId] = {
-            name: nameChat,
-            messages: [
-                {
-                    author: 'Bot',
-                    text: `Чат ${nameChat} создан.`
-                },
-            ]
+    componentDidMount() {
+        if (sessionStorage.getItem('name')) {
+            document.querySelector('.messenger').style.opacity = '1';
+        } else {
+            document.querySelector('.messenger').style.opacity = '0';
+            document.location.href = '/';
         }
-
-        this.setState({chats: chats})
     }
 
-    chatBot(prevState) {
+    componentDidUpdate(prevProps) {
+        this.chatBot(prevProps)
+    }
+
+    chatBot(prevProps) {
         const callbackBot = [
             'Рад видеть тебя в чате, ',
             'Ну и погодка сегодня, ',
@@ -103,45 +38,36 @@ export class Messenger extends React.Component {
 
         if (typeof this.timeout === 'number') return;
 
-        const id = this.getChatId();
-        const {chats} = this.state;
-        let chat = chats[id];
-        const lastMessage = chat.messages[chat.messages.length - 1];
-        if (lastMessage.author.toLocaleLowerCase() !== 'bot' && prevState.chats[id].messages.length !== chat.messages.length) {
+        const id = this.props.chatId;
+        const {messages} = this.props;
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage.author.toLocaleLowerCase() !== 'bot'
+            && prevProps.messages.length
+            && id === prevProps.chatId
+            && messages.length !== prevProps.messages.length) {
             const text = callbackBot[number] + lastMessage.author;
             this.timeout = setTimeout(() => {
-                this.addMessage({author: 'Bot', text: text}, id)
+                this.props.handlerSendMessage({author: 'Bot', text: text, chatId: id})
                 clearTimeout(this.timeout);
                 this.timeout = null;
             }, 2000)
         }
     }
 
-    addMessage = (message, id = this.getChatId()) => {
-        const {chats} = JSON.parse(JSON.stringify(this.state));
-        const chat = chats[id];
-        chat.messages = chat.messages.concat(message);
-        chats[id] = chat;
-        this.setState({
-            chats: chats
-        })
-    }
-
-    getChatId = () => {
-        let id = this.props.chatId;
-        if (!id) id = Object.keys(this.state.chats)[0];
-        return id;
-    }
-
     render() {
-        const chatId = this.getChatId();
+        const {chatId, pageName, handlerAddChat, messages, userName, handlerSendMessage, chats} = this.props;
 
         return (
             <div className="messenger">
-                <ChatList handlerAddChat={this.addNewChat} chatId={chatId} chats={this.state.chats}/>
-                <div className='messenger_chat'>
-                    <ListMessages messages={this.state.chats[chatId].messages}/>
-                    <MessageForm handlerCallback={this.addMessage}/>
+                <Header pageName={pageName}/>
+                <div className="messenger__main">
+                    <ChatList handlerAddChat={handlerAddChat} chatId={chatId} chats={chats}/>
+                    <div className='messenger_chat'>
+                        <ListMessages messages={messages}/>
+                        <MessageForm userName={userName}
+                                     handerlSendMessage={handlerSendMessage}
+                                     chatId={chatId}/>
+                    </div>
                 </div>
             </div>
         );

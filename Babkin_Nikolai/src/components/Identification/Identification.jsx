@@ -8,11 +8,12 @@ export class Identification extends React.Component {
     }
 
     componentDidMount() {
+        const identifier = document.querySelector('.identification');
         if (sessionStorage.getItem('name')) {
-            const identifier = document.querySelector('.identification');
-            identifier.style.top = '2%'
-            identifier.style.right = '2%'
+            identifier.style.top = '2%';
+            identifier.style.right = '2%';
         }
+        identifier.firstChild.focus();
     }
 
     logIn = (event) => {
@@ -29,6 +30,7 @@ export class Identification extends React.Component {
         sessionStorage.removeItem('name');
         this.setState({authorName: ''});
         this.animationLogOut();
+        setTimeout(() => document.querySelector('.identification').firstChild.focus(), 1000)
     }
 
     animationLogIn() {

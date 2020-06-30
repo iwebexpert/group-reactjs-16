@@ -8,16 +8,14 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {TextField} from "@material-ui/core";
-
 import {Link} from 'react-router-dom';
-
 
 export class ChatList extends React.Component {
     classChat = 'chat-list_button';
 
     state = {
         chatNumber: 1,
-        newChatName: ''
+        newChatName: '',
     }
 
     componentDidMount() {
@@ -40,26 +38,9 @@ export class ChatList extends React.Component {
         }
     };
 
-    prepareChatList = (chats) => {
-        let arrChats = [];
-        for (let chat in chats) {
-            arrChats.push(
-                <Link key={chat} to={`/chats/${chat}`}>
-                    <ListItem id={chat} button className={this.classChat} onClick={this.handlerChangeChat}>
-                        <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
-                            <RadioButtonUncheckedIcon color="disabled"/>}
-                        </ListItemIcon>
-                        <ListItemText primary={chats[chat].name}/>
-                    </ListItem>
-                </Link>
-            )
-        }
-        return arrChats;
-    }
-
     handlerClickAddChat = (event) => {
         if (!event.key || event.key.toLowerCase() === 'enter') {
-            let value = '';
+            let chatName = '';
             if (!event.key) {
                 let elem = event.target;
                 let isStop = false;
@@ -70,11 +51,14 @@ export class ChatList extends React.Component {
                         elem = elem.parentElement;
                     }
                 }
-                value = elem.nextSibling.lastChild.firstChild.value;
-            } else value = event.target.value
+                chatName = elem.nextSibling.lastChild.firstChild.value;
+            } else chatName = event.target.value
 
-            this.props.handlerAddChat(value)
-            this.setState({newChatName: ''})
+            if (chatName) {
+                const newChat = this.createNewChat(chatName);
+                this.props.handlerAddChat(newChat);
+                this.setState({newChatName: ''});
+            }
         }
     }
 
@@ -84,12 +68,46 @@ export class ChatList extends React.Component {
         })
     }
 
+    createNewChat(name) {
+        const keys = Object.keys(this.props.chats);
+        const chatId = +keys.pop() + 1
+
+        return {
+            chatId,
+            name,
+            messages: [],
+            author: 'Bot',
+            text: `Чат ${name} создан.`
+        }
+    }
+
+    prepareChatList = () => {
+        const {chats} = this.props;
+        const arr = [];
+        for (let chat in chats) {
+            if (chats.hasOwnProperty(chat)) {
+                arr.push(
+                    <Link key={chat} to={chats[chat].link} className="chat-list_text-item">
+                        <ListItem id={chat} button className={this.classChat} onClick={this.handlerChangeChat}>
+                            <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
+                                <RadioButtonUncheckedIcon color="disabled"/>}
+                            </ListItemIcon>
+                            <ListItemText primary={chats[chat].name}/>
+                        </ListItem>
+                    </Link>
+                )
+            }
+        }
+        return arr;
+    }
+
     render() {
         let {newChatName} = this.state;
 
         return (
             <List>
-                {this.prepareChatList(this.props.chats)}
+                {this.prepareChatList()}
+
                 <ListItem onKeyDown={this.handlerClickAddChat}>
                     <ListItemIcon className="add-chat_icon"><AddCircleOutlineIcon
                         onClick={this.handlerClickAddChat}/></ListItemIcon>
@@ -103,5 +121,4 @@ export class ChatList extends React.Component {
             </List>
         );
     }
-
 }
