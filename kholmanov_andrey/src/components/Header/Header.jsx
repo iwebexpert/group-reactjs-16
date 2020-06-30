@@ -14,7 +14,7 @@ export class Header extends Component {
             <div className="header">
                 <div className="logo">MESSANGER</div>
                 <div className="user-settings">
-                    <a href="/profile" className="profile"><SettingsIcon /></a>
+                    <a href="/users" className="profile"><SettingsIcon /></a>
                 </div>
             </div>
         );
