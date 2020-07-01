@@ -1,10 +1,8 @@
 import { CHATS_LOAD, CHATS_SEND, CHAT_ADD } from "actions/chats";
 import update from "react-addons-update";
 
-import { v4 as uuidv4 } from "uuid";
-
 const dataBackend = {
-  [uuidv4()]: {
+  "1": {
     name: "😸 Chat",
     messages: [
       {
@@ -13,7 +11,7 @@ const dataBackend = {
       },
     ],
   },
-  [uuidv4()]: {
+  "2": {
     name: "🙀 Chat",
     messages: [
       {
@@ -22,7 +20,7 @@ const dataBackend = {
       },
     ],
   },
-  [uuidv4()]: {
+  "3": {
     name: "😽 Chat",
     messages: [
       {
@@ -46,21 +44,17 @@ export const chatsReducer = (state = initialState, action) => {
         entries: dataBackend,
       };
     case CHAT_ADD:
-      return {
-        ...state,
+      const { name, chatId } = action.payload;
+      return update(state, {
         entries: {
-          ...state.entries,
-          [uuidv4()]: {
-            name: action.payload.chatname,
-            messages: [
-              {
-                text: "Hey there!",
-                author: "Bot",
-              },
-            ],
+          $merge: {
+            [chatId]: {
+              messages: [{ text: "Hello there", author: "Bot" }],
+              name,
+            },
           },
         },
-      };
+      });
     case CHATS_SEND:
       return update(state, {
         entries: {

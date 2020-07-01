@@ -1,31 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
 import { chatsLoad, chatsSend, chatAdd } from "actions/chats";
-import { userLoad, userAdd } from "actions/user";
+import { userLoad, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
   componentDidMount() {
     const { chatsLoadAction, userLoadAction } = this.props;
     chatsLoadAction();
     userLoadAction();
-  }
-
-  componentDidUpdate() {
-    const { messages } = this.props;
-
-    if (messages) {
-      const { author } = messages[messages.length - 1];
-      if (messages[messages.length - 1].author !== "Bot") {
-        setTimeout(() => {
-          this.handleMessageSend({
-            text: `Hey ${author}! We've received your message.`,
-            author: "Bot",
-          });
-        }, 1000);
-      }
-    }
   }
 
   handleAddUser = (newUser) => {
@@ -42,18 +27,22 @@ class MessengerContainer extends Component {
     });
   };
 
-  handleAddChat = (newChat) => {
-    const { chatAddAction } = this.props;
-    const { chatname } = newChat;
+  handleLogOutUser = () => {
+    const { userLogOutAction } = this.props;
+    userLogOutAction();
+  };
 
-    if (!chatname || !/\S/.test(chatname)) {
+  handleAddChat = (newChat) => {
+    const { chatAddAction, redirect, newChatId } = this.props;
+    const { chatName } = newChat;
+
+    if (!chatName || !/\S/.test(chatName)) {
       alert("Please, enter a proper name!");
       return null;
     }
 
-    chatAddAction({
-      ...newChat,
-    });
+    chatAddAction(newChatId, chatName);
+    redirect(newChatId);
   };
 
   handleMessageSend = (message) => {
@@ -87,6 +76,7 @@ class MessengerContainer extends Component {
         sendMessage={this.handleMessageSend}
         handleAddChat={this.handleAddChat}
         handleAddUser={this.handleAddUser}
+        handleLogOutUser={this.handleLogOutUser}
       />
     );
   }
@@ -115,10 +105,13 @@ function mapStateToProps(state, ownProps) {
     }
   }
 
+  const lastId = Object.keys(chats).length ? Object.keys(chats).length : 0;
+
   return {
     chats: chatsArrayForShow,
     messages,
     chatId: match ? match.params.id : null,
+    newChatId: lastId + 1,
     currentUser: user,
   };
 }
@@ -131,9 +124,13 @@ function mapDispatchToProps(dispatch) {
   return {
     chatsLoadAction: () => dispatch(chatsLoad()),
     chatsSendAction: (message) => dispatch(chatsSend(message)),
-    chatAddAction: (newChat) => dispatch(chatAdd(newChat)),
+    chatAddAction: (newChatId, chatName) =>
+      dispatch(chatAdd(newChatId, chatName)),
+    redirect: (id) => dispatch(push(`/chats/${id}`)),
+
     userLoadAction: () => dispatch(userLoad()),
     userAddAction: (newUser) => dispatch(userAdd(newUser)),
+    userLogOutAction: () => dispatch(userLogOut()),
   };
 }
 

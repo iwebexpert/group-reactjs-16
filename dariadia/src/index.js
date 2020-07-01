@@ -1,27 +1,23 @@
 import React from "react";
 import ReactDom from "react-dom";
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  HashRouter,
-  MemoryRouter,
-  StaticRouter,
-} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
 
 import { routes } from "./routes";
-import { store } from "./store";
+import { store, history } from "./store";
 
 ReactDom.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        {routes.map((route, index) => (
-          <Route key={index} {...route} />
-        ))}
-      </Switch>
-    </BrowserRouter>
+    <ConnectedRouter history={history}>
+      <>
+        <Switch>
+          {routes.map((route, index) => (
+            <Route key={index} {...route} />
+          ))}
+        </Switch>
+      </>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
 );

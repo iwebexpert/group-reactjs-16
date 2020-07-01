@@ -12,7 +12,7 @@ import SendIcon from "@material-ui/icons/Send";
 
 export class ChatForm extends Component {
   state = {
-    chatname: "",
+    chatName: "",
   };
 
   static propTypes = {
@@ -21,7 +21,7 @@ export class ChatForm extends Component {
 
   handleInputChange = (event) => {
     this.setState({
-      chatname: event.target.value,
+      chatName: event.target.value,
     });
   };
 
@@ -31,7 +31,7 @@ export class ChatForm extends Component {
     if (typeof onSend === "function") {
       onSend(this.state);
 
-      this.setState({ chatname: "" });
+      this.setState({ chatName: "" });
     }
   };
 
@@ -42,7 +42,7 @@ export class ChatForm extends Component {
   };
 
   render() {
-    const { chatname } = this.state;
+    const { chatName } = this.state;
 
     return (
       <>
@@ -50,7 +50,7 @@ export class ChatForm extends Component {
           <InputLabel htmlFor="my-input">chat name</InputLabel>
           <Input
             id="my-input"
-            value={chatname}
+            value={chatName}
             aria-describedby="my-helper-text"
             onChange={this.handleInputChange}
             onKeyDown={this.handleEnterCtrlDown}

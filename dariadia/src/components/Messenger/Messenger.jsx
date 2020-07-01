@@ -21,6 +21,7 @@ export class Messenger extends Component {
       sendMessage,
       handleAddChat,
       handleAddUser,
+      handleLogOutUser,
       currentUser,
     } = this.props;
 
@@ -28,7 +29,7 @@ export class Messenger extends Component {
 
     return (
       <>
-        <Header currentUser={currentUser} />
+        <Header currentUser={currentUser} handleLogOutUser={handleLogOutUser} />
         <div className="chats__wrapper">
           <List
             className="chats__list"
@@ -45,6 +46,9 @@ export class Messenger extends Component {
                 </ListItem>
               </Link>
             ))}
+            <ListItem>
+              {!userIsAuth && <RegisterForm onSend={handleAddUser} />}
+            </ListItem>
           </List>
           {messages ? (
             <div className="messenger">
@@ -56,7 +60,6 @@ export class Messenger extends Component {
           )}
           <ChatForm onSend={handleAddChat} />
         </div>
-        {!userIsAuth && <RegisterForm onSend={handleAddUser} />}
       </>
     );
   }
