@@ -67,11 +67,11 @@ export const chatsReducer = (state = initialState, action) => {
         },
       });
     case CHAT_DELETE:
-      console.log(action)
-      delete state.entries.action.payload.chatId;
+      const chatToDelete = action.payload.chatId;
+      delete state.entries[chatToDelete]
       return {
         ...state,
-      }
+      };
     case CHATS_SEND:
       return update(state, {
         entries: {

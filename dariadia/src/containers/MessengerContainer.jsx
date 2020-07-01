@@ -49,7 +49,7 @@ class MessengerContainer extends Component {
     const { chatDeleteAction, redirect } = this.props;
   
     chatDeleteAction(chatId);
-    redirect("/");
+    redirect(" ");
   };
 
   handleMessageSend = (message) => {

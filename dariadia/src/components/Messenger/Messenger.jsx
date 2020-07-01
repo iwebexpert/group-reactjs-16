@@ -17,13 +17,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import "./Messenger.scss";
 
 export class Messenger extends Component {
+  handleDeleteChat(chatId) {
+    const { handleDeleteChat } = this.props;
+    return handleDeleteChat(chatId);
+  }
+
   render() {
     const {
       chats,
       messages,
       sendMessage,
       handleAddChat,
-      handleDeleteChat,
       handleAddUser,
       handleLogOutUser,
       currentUser,
@@ -55,7 +59,7 @@ export class Messenger extends Component {
                     <ListItemText primary={chat.name} />
                   </ListItem>
                 </Link>
-                <IconButton onClick={handleDeleteChat} aria-label="delete">
+                <IconButton onClick={() => this.handleDeleteChat(chat.id)} aria-label="delete">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </div>
