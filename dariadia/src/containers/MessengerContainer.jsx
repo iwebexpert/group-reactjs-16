@@ -101,7 +101,11 @@ function mapStateToProps(state, ownProps) {
   let chatsArrayForShow = [];
   for (let key in chats) {
     if (chats.hasOwnProperty(key)) {
-      chatsArrayForShow.push({ name: chats[key].name, link: `/chats/${key}` });
+      chatsArrayForShow.push({
+        name: chats[key].name,
+        link: `/chats/${key}`,
+        state: chats[key].state,
+      });
     }
   }
 

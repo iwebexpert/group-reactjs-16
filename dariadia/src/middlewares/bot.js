@@ -1,4 +1,4 @@
-import { CHATS_SEND, chatsSend } from "actions/chats";
+import { CHATS_SEND, chatsSend, chatHighlight, chatDehighlight } from "actions/chats";
 
 export function botMiddteware(store) {
   return function dispatchWrap(next) {
@@ -15,7 +15,13 @@ export function botMiddteware(store) {
                 text: `Hey ${author}! We've received your message.`,
               })
             );
+
+            store.dispatch(chatHighlight(chatId));
           }, 3000);
+
+          setTimeout(() => {
+            store.dispatch(chatDehighlight(chatId));
+          }, 6000);
         }
       }
 

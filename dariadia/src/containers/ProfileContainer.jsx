@@ -14,11 +14,7 @@ class ProfileContainer extends Component {
   render() {
     const { currentUser } = this.props;
 
-    return (
-      <ProfilePage
-        currentUser={currentUser}
-      />
-    );
+    return <ProfilePage currentUser={currentUser} />;
   }
 }
 

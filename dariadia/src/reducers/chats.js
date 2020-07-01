@@ -1,4 +1,10 @@
-import { CHATS_LOAD, CHATS_SEND, CHAT_ADD } from "actions/chats";
+import {
+  CHATS_LOAD,
+  CHATS_SEND,
+  CHAT_ADD,
+  CHAT_HIGHLIGHT,
+  CHAT_DEHIGHLIGHT,
+} from "actions/chats";
 import update from "react-addons-update";
 
 const dataBackend = {
@@ -10,6 +16,7 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
   "2": {
     name: "🙀 Chat",
@@ -19,6 +26,7 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
   "3": {
     name: "😽 Chat",
@@ -28,6 +36,7 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
 };
 
@@ -51,6 +60,7 @@ export const chatsReducer = (state = initialState, action) => {
             [chatId]: {
               messages: [{ text: "Hello there", author: "Bot" }],
               name,
+              state: { highlight: false },
             },
           },
         },
@@ -67,6 +77,27 @@ export const chatsReducer = (state = initialState, action) => {
           },
         },
       });
+    case CHAT_HIGHLIGHT:
+      return update(state, {
+        entries: {
+          [action.payload.chatId]: {
+            state: {
+              $set: { highlight: true},
+            },
+          },
+        },
+      });
+      case CHAT_DEHIGHLIGHT:
+        return update(state, {
+          entries: {
+            [action.payload.chatId]: {
+              state: {
+                $set: { highlight: false},
+              },
+            },
+          },
+        });
+    
     default:
       return state;
   }

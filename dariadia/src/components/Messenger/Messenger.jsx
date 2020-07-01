@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import cn from "classnames";
 
 import { MessageForm } from "components/MessageForm";
 import { ChatForm } from "components/ChatForm";
 import { RegisterForm } from "components/RegisterForm";
-
 import { MessageList } from "components/MessageList";
 import { Header } from "components/Header";
 
@@ -37,7 +37,14 @@ export class Messenger extends Component {
             aria-label="main mailbox folders"
           >
             {chats.map((chat, index) => (
-              <Link to={chat.link} className="chat-item__link" key={index}>
+              <Link
+                to={chat.link}
+                className={cn("chat-item__link", {
+                  "chat__highlighted": chat.state.highlight,
+                })}
+                key={index}
+              >
+                {console.log(chat.state.highlight)}
                 <ListItem button>
                   <ListItemIcon>
                     <InboxIcon />

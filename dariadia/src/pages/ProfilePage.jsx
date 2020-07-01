@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent } from "@material-ui/core";
 
 const styles = {
   root: {
     maxWidth: 275,
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   title: {
     fontSize: 14,
@@ -21,8 +21,11 @@ const styles = {
 };
 
 class Profile extends Component {
-  render(){
-    const { currentUser: { username, email }, classes } = this.props;
+  render() {
+    const {
+      currentUser: { username, email },
+      classes,
+    } = this.props;
 
     return (
       <>
@@ -31,11 +34,11 @@ class Profile extends Component {
         <br />
         <Card className={classes.root} variant="outlined">
           <CardContent>
-          <span>But we know your name</span>
-          <h2>{username}</h2>
-          <span>And email</span>
-          <h3>{email}</h3>
-          <span>And we'll find you</span>
+            <span>But we know your name</span>
+            <h2>{username}</h2>
+            <span>And email</span>
+            <h3>{email}</h3>
+            <span>And we'll find you</span>
           </CardContent>
         </Card>
       </>
