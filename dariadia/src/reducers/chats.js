@@ -4,6 +4,7 @@ import {
   CHAT_ADD,
   CHAT_HIGHLIGHT,
   CHAT_DEHIGHLIGHT,
+  CHAT_DELETE,
 } from "actions/chats";
 import update from "react-addons-update";
 
@@ -65,6 +66,12 @@ export const chatsReducer = (state = initialState, action) => {
           },
         },
       });
+    case CHAT_DELETE:
+      console.log(action)
+      delete state.entries.action.payload.chatId;
+      return {
+        ...state,
+      }
     case CHATS_SEND:
       return update(state, {
         entries: {

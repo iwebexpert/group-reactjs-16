@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
-import { chatsLoad, chatsSend, chatAdd } from "actions/chats";
+import { chatsLoad, chatsSend, chatAdd, chatDelete } from "actions/chats";
 import { userLoad, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
@@ -45,6 +45,13 @@ class MessengerContainer extends Component {
     redirect(newChatId);
   };
 
+  handleDeleteChat = (chatId) => {
+    const { chatDeleteAction, redirect } = this.props;
+  
+    chatDeleteAction(chatId);
+    redirect("/");
+  };
+
   handleMessageSend = (message) => {
     const { chatId, chatsSendAction } = this.props;
     const { author, text } = message;
@@ -75,6 +82,7 @@ class MessengerContainer extends Component {
         currentUser={currentUser}
         sendMessage={this.handleMessageSend}
         handleAddChat={this.handleAddChat}
+        handleDeleteChat={this.handleDeleteChat}
         handleAddUser={this.handleAddUser}
         handleLogOutUser={this.handleLogOutUser}
       />
@@ -102,6 +110,7 @@ function mapStateToProps(state, ownProps) {
   for (let key in chats) {
     if (chats.hasOwnProperty(key)) {
       chatsArrayForShow.push({
+        id: key,
         name: chats[key].name,
         link: `/chats/${key}`,
         state: chats[key].state,
@@ -130,6 +139,7 @@ function mapDispatchToProps(dispatch) {
     chatsSendAction: (message) => dispatch(chatsSend(message)),
     chatAddAction: (newChatId, chatName) =>
       dispatch(chatAdd(newChatId, chatName)),
+    chatDeleteAction: (chatId) => dispatch(chatDelete(chatId)),
     redirect: (id) => dispatch(push(`/chats/${id}`)),
 
     userLoadAction: () => dispatch(userLoad()),

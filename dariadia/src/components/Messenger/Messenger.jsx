@@ -9,7 +9,10 @@ import { MessageList } from "components/MessageList";
 import { Header } from "components/Header";
 
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import IconButton from '@material-ui/core/IconButton';
+
 import InboxIcon from "@material-ui/icons/Inbox";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import "./Messenger.scss";
 
@@ -20,6 +23,7 @@ export class Messenger extends Component {
       messages,
       sendMessage,
       handleAddChat,
+      handleDeleteChat,
       handleAddUser,
       handleLogOutUser,
       currentUser,
@@ -36,22 +40,25 @@ export class Messenger extends Component {
             component="nav"
             aria-label="main mailbox folders"
           >
-            {chats.map((chat, index) => (
-              <Link
-                to={chat.link}
-                className={cn("chat-item__link", {
-                  "chat__highlighted": chat.state.highlight,
-                })}
-                key={index}
-              >
-                {console.log(chat.state.highlight)}
-                <ListItem button>
-                  <ListItemIcon>
-                    <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={chat.name} />
-                </ListItem>
-              </Link>
+            {chats.map((chat) => (
+              <div className="chat-item" key={chat.id}>
+                <Link
+                  to={chat.link}
+                  className={cn("chat-item__link", {
+                    "chat__highlighted": chat.state.highlight,
+                  })}
+                >
+                  <ListItem button>
+                    <ListItemIcon>
+                      <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={chat.name} />
+                  </ListItem>
+                </Link>
+                <IconButton onClick={handleDeleteChat} aria-label="delete">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </div>
             ))}
             <ListItem>
               {!userIsAuth && <RegisterForm onSend={handleAddUser} />}
