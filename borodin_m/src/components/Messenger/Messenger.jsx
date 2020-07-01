@@ -8,14 +8,14 @@ import './Messenger.sass';
 
 export class Messenger extends Component {
     render() {
-        const {chats, messages, sendMessage, createChat} = this.props;
+        const {chats, messages, sendMessage, createChat, removeChat, messageRemove} = this.props;
 
         return (
             <>
-                <ChatList chats={chats} createChat={createChat} />
+                <ChatList chats={chats} createChat={createChat} removeChat={removeChat}/>
                 <div className="msg-wrap">
-                    <MessageList messages={messages} />
-                    <MessageField onSend={sendMessage} />
+                    {messages ? <MessageList messages={messages} messageRemove={messageRemove} /> : "Выберите чат"}
+                    {messages && <MessageField onSend={sendMessage} />}
                 </div>
             </>
         );
