@@ -20,29 +20,38 @@ export class ChatList extends Component {
         });
     };
 
-    handleNewChatNameSend = () => {
+    handleAddChat = () => {
+        const {addChat} = this.props;
+
+        if(typeof addChat === 'function'){
+            addChat(this.state.newChatName);
+            this.setState({text: ''});
+        }
+    };
+
+    /*handleNewChatNameSend = () => {
         const {parentCallback} = this.props;
 
         if(typeof parentCallback === 'function'){
             parentCallback(this.state.newChatName);
             this.setState({newChatName: ''});
         }
-    };
+    };*/
 
     render() {
+        const {chats} = this.props;
         return (
             <div className="chat-list">
                 <List>
-                    {this.props.chatListData.map((item, index) => {
-                        return (<ListItem button key={index}>
-                            <Link to={`/chats/${item.id}`}>
-                                <ListItemText primary={item.name} />
-                            </Link>
-                        </ListItem>)
-                    })}
+                    {chats.map((chat, index) => 
+                        <ListItem key={index}>
+                        <Link to={chat.link}>
+                            <ListItemText primary={chat.name} />
+                        </Link>
+                    </ListItem>)}
                 </List>
                 <TextField label="New chat" name="new-chat" value={this.state.newChatName} onChange={this.handleInputChange} />
-                <Fab variant="round" color="primary" onClick={this.handleNewChatNameSend}><SendIcon /></Fab>
+                <Fab variant="round" color="primary" onClick={this.handleAddChat}><SendIcon /></Fab>
             </div>
         );
     }

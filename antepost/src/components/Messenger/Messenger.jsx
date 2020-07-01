@@ -5,7 +5,7 @@ import {MessageList} from 'components/MessageList';
 
 import './Messenger.css';
 export class Messenger extends Component {
-    state = {
+    /* state = {
         chats: {
             '1': {
                 name: 'Chat 1',
@@ -137,14 +137,15 @@ export class Messenger extends Component {
 
             return {chats};
         }, this.sendChatListToParent());
-    }
+    } */
 
     render()
     {
+        const {messages, sendMessage} = this.props;
         return (
             <div className="messenger">
-                {this.messages ? <MessageList items={this.messages} /> : 'Пожалуйста, выберите чат'}
-                {this.messages && <MessageForm onSend={this.handleMessageSend} />}
+                {messages ? <MessageList items={messages} /> : 'Пожалуйста, выберите чат'}
+                {messages && <MessageForm onSend={sendMessage} />}
             </div>
         );
     }
