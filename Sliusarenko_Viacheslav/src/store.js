@@ -1,8 +1,15 @@
-import { createStore, compose } from 'redux';
+import { createLogger } from "redux-logger";
+import { createStore, compose, applyMiddleware } from 'redux';
+
+import { botMiddleware, notifyMiddleware } from 'middlewares';
 
 import rootReducer from 'reducers';
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middlewaresList = [ botMiddleware, notifyMiddleware, createLogger() ]
 
 export function store() {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ || compose;
-  return createStore(rootReducer, composeEnhancers() );
+  return createStore(
+    rootReducer,
+    composeEnhancers( applyMiddleware( ...middlewaresList ) )
+  );
 }

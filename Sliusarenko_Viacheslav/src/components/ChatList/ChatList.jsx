@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import classNames from "classnames";
 import { List, ListItem, ListItemText, TextField, Fab } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, Close } from '@material-ui/icons';
 
 import './ChatList.scss';
 
-
 export function ChatList( props ) {
-  const { chats, activeChat, onAdd } = props;
+  const { chats, activeChat, onAdd, onRemove } = props;
   const [ chatName, setChatName ] = useState('');
 
   function handleSetChatName( event ) {
@@ -23,15 +23,28 @@ export function ChatList( props ) {
     setChatName( '' );
   }
 
+  function setClasses( chatId, hasNewMessage ) {
+    return classNames('chat-name', {
+      'highLight': !isChatActive( chatId ) && hasNewMessage
+    });
+  }
+
+  function isChatActive( chatId ) {
+    return Number( activeChat ) === Number( chatId );
+  }
+
   return (
     <div className="chat-list">
       <List component="nav" aria-label="secondary mailbox folder">
         { Object.entries( chats ).map(( [ key, chat ] ) => (
-          <Link key={ key } to={ `/chats/${ key }` }>
-            <ListItem button selected={ Number( activeChat ) === Number( key ) }>
-              <ListItemText primary={ chat.name } />
-            </ListItem>
-          </Link>
+          <div key={ key } className={ 'chat-item' } >
+            <Link to={ `/chats/${ key }` } >
+              <ListItem button selected={ isChatActive( key ) }>
+                <ListItemText className={ setClasses( key, chat.hasNewMessage ) } primary={ chat.name } />
+              </ListItem>
+            </Link>
+            <Close className="remove-chat" onClick={ onRemove( key ) }/>
+          </div>
         ))}
       </List>
       <div className="new-chat">
@@ -55,5 +68,6 @@ ChatList.propTypes = {
     PropTypes.shape( chatsType )
   ),
   activeChat: PropTypes.number,
-  onAdd: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired
 }

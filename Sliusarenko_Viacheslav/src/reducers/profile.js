@@ -11,7 +11,7 @@ const profileInitialState = {
   isLoaded: false,
 };
 
-export function profileReducer( state = profileInitialState, { type, ...payload } ) {
+export function profileReducer( state = profileInitialState, { type, payload } ) {
   switch ( type ) {
     case LOAD_PROFILE: {
       const { isLoaded } = state;
@@ -20,8 +20,7 @@ export function profileReducer( state = profileInitialState, { type, ...payload 
       return { ...state, personalData, isLoaded: true };
     }
     case CHANGE_USER_NAME: {
-      const { username } = payload;
-      return { ...state, username };
+      return { ...state, username: payload };
     }
     default: {
       return state;

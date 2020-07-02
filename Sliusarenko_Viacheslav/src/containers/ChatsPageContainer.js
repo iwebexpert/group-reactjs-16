@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
 import { ChatPage } from 'pages/ChatPage';
-import { addNewChat, loadChats, addNewMessage } from 'actions/chat';
-
+import { botConfig } from "middlewares/botMiddleware";
+import { addNewChat, loadChats, addNewMessage, removeMessage, removeChat, toggleNotify } from 'actions/chat';
 
 class ChatsPageContainer extends Component {
   componentDidMount() {
@@ -13,11 +13,10 @@ class ChatsPageContainer extends Component {
   render() {
     const { load, isLoaded, ...rest } = this.props;
 
-    if ( isLoaded ) {
-      return <ChatPage { ...rest } />;
+    if ( !isLoaded ) {
+      return <h3>Загрузка чатов...</h3>;
     }
-
-    return <h3>Загрузка чатов...</h3>;
+    return <ChatPage { ...rest } />;
   }
 }
 
@@ -28,6 +27,7 @@ function mapStateToProps( state, ownProps ) {
     isLoaded,
     chats: entries,
     activeChatId: id ? Number( id ) : null,
+    botName: botConfig.name
   };
 }
 
@@ -43,10 +43,29 @@ function mapDispatchToProps( dispatch ) {
     };
   }
 
+  function onRemoveMessage( chatId ) {
+    return function ( messageId ) {
+      dispatch( removeMessage( chatId, messageId ) )
+    };
+  }
+
+  function onRemoveChat( chatId ) {
+    return function () {
+      dispatch( removeChat( chatId ) )
+    };
+  }
+
   function onAddChat( name ) {
       dispatch( addNewChat( name ) );
   }
-  return { onAddMessage, onAddChat, load };
+
+  function onOpenChat( chatId ) {
+    return function () {
+      dispatch( toggleNotify( chatId, false ) );
+    }
+  }
+
+  return { onAddMessage, onRemoveMessage, onAddChat, onRemoveChat, load, onOpenChat };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)( ChatsPageContainer );
