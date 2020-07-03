@@ -7,6 +7,21 @@
 
   &-owner {
     align-self: flex-end;
+    position: relative;
+  }
+
+  .icon-remove {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: small;
+    transition: color 0.5s;
+
+    &:hover {
+      color: red;
+    }
   }
 
   align-self: flex-start;

@@ -8,6 +8,6 @@ export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
 
 export function changeUsername( username ) {
   return {
-    type: CHANGE_USER_NAME, username
+    type: CHANGE_USER_NAME, payload: username
   };
 }
