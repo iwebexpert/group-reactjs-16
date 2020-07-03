@@ -1,5 +1,21 @@
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import {initReducer} from "reducers";
+import {createBrowserHistory} from "history";
 
-import {rootReducer} from "reducers";
+import {chatBot} from "middlewares/chatBot";
+import {chatBlinker} from "middlewares/chatBlinker";
+import {routerMiddleware} from "connected-react-router";
 
-export const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+export const history = createBrowserHistory();
+
+export const store = createStore(
+    initReducer(history),
+    composeWithDevTools(
+        applyMiddleware(
+            routerMiddleware(history),
+            chatBot,
+            chatBlinker,
+        )
+    ),
+)
