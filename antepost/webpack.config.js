@@ -16,6 +16,7 @@ module.exports = {
             actions: path.resolve(__dirname, 'src', 'actions'),
             containers: path.resolve(__dirname, 'src', 'containers'),
             reducers: path.resolve(__dirname, 'src', 'reducers'),
+            middlewares: path.resolve(__dirname, 'src', 'middlewares'),
         }
     },
 
