@@ -1,5 +1,5 @@
-import {Layout} from 'components/Layout';
-import {ProfilePageRedux} from 'containers/ProfilePageContainer';
+import { Layout } from 'components/Layout';
+import { ProfilePageRedux } from 'containers/ProfilePageContainer';
 
 export const routes = [
     {
