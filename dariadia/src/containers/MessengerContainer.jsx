@@ -1,31 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
-import { chatsLoad, chatsSend, chatAdd } from "actions/chats";
-import { userLoad, userAdd } from "actions/user";
+import { chatsLoad, chatsSend, chatAdd, chatDelete } from "actions/chats";
+import { userLoad, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
   componentDidMount() {
     const { chatsLoadAction, userLoadAction } = this.props;
     chatsLoadAction();
     userLoadAction();
-  }
-
-  componentDidUpdate() {
-    const { messages } = this.props;
-
-    if (messages) {
-      const { author } = messages[messages.length - 1];
-      if (messages[messages.length - 1].author !== "Bot") {
-        setTimeout(() => {
-          this.handleMessageSend({
-            text: `Hey ${author}! We've received your message.`,
-            author: "Bot",
-          });
-        }, 1000);
-      }
-    }
   }
 
   handleAddUser = (newUser) => {
@@ -42,18 +27,29 @@ class MessengerContainer extends Component {
     });
   };
 
-  handleAddChat = (newChat) => {
-    const { chatAddAction } = this.props;
-    const { chatname } = newChat;
+  handleLogOutUser = () => {
+    const { userLogOutAction } = this.props;
+    userLogOutAction();
+  };
 
-    if (!chatname || !/\S/.test(chatname)) {
+  handleAddChat = (newChat) => {
+    const { chatAddAction, redirect, newChatId } = this.props;
+    const { chatName } = newChat;
+
+    if (!chatName || !/\S/.test(chatName)) {
       alert("Please, enter a proper name!");
       return null;
     }
 
-    chatAddAction({
-      ...newChat,
-    });
+    chatAddAction(newChatId, chatName);
+    redirect(newChatId);
+  };
+
+  handleDeleteChat = (chatId) => {
+    const { chatDeleteAction, redirect } = this.props;
+  
+    chatDeleteAction(chatId);
+    redirect(" ");
   };
 
   handleMessageSend = (message) => {
@@ -86,7 +82,9 @@ class MessengerContainer extends Component {
         currentUser={currentUser}
         sendMessage={this.handleMessageSend}
         handleAddChat={this.handleAddChat}
+        handleDeleteChat={this.handleDeleteChat}
         handleAddUser={this.handleAddUser}
+        handleLogOutUser={this.handleLogOutUser}
       />
     );
   }
@@ -111,14 +109,22 @@ function mapStateToProps(state, ownProps) {
   let chatsArrayForShow = [];
   for (let key in chats) {
     if (chats.hasOwnProperty(key)) {
-      chatsArrayForShow.push({ name: chats[key].name, link: `/chats/${key}` });
+      chatsArrayForShow.push({
+        id: key,
+        name: chats[key].name,
+        link: `/chats/${key}`,
+        state: chats[key].state,
+      });
     }
   }
+
+  const lastId = Object.keys(chats).length ? Object.keys(chats).length : 0;
 
   return {
     chats: chatsArrayForShow,
     messages,
     chatId: match ? match.params.id : null,
+    newChatId: lastId + 1,
     currentUser: user,
   };
 }
@@ -131,9 +137,14 @@ function mapDispatchToProps(dispatch) {
   return {
     chatsLoadAction: () => dispatch(chatsLoad()),
     chatsSendAction: (message) => dispatch(chatsSend(message)),
-    chatAddAction: (newChat) => dispatch(chatAdd(newChat)),
+    chatAddAction: (newChatId, chatName) =>
+      dispatch(chatAdd(newChatId, chatName)),
+    chatDeleteAction: (chatId) => dispatch(chatDelete(chatId)),
+    redirect: (id) => dispatch(push(`/chats/${id}`)),
+
     userLoadAction: () => dispatch(userLoad()),
     userAddAction: (newUser) => dispatch(userAdd(newUser)),
+    userLogOutAction: () => dispatch(userLogOut()),
   };
 }
 
