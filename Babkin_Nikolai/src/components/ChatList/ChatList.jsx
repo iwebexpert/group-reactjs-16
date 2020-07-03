@@ -8,7 +8,8 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {TextField} from "@material-ui/core";
-import {Link} from 'react-router-dom';
+import {push} from 'connected-react-router';
+import {ModalWindow} from "components/ModalWindow";
 
 export class ChatList extends React.Component {
     classChat = 'chat-list_button';
@@ -70,7 +71,9 @@ export class ChatList extends React.Component {
 
     createNewChat(name) {
         const keys = Object.keys(this.props.chats);
-        const chatId = +keys.pop() + 1
+        let chatId;
+        if (keys.length) chatId = +keys.pop() + 1;
+        else chatId = 1;
 
         return {
             chatId,
@@ -81,20 +84,32 @@ export class ChatList extends React.Component {
         }
     }
 
+    handlerNavigate = (link) => {
+        console.log(link)
+        push(link)
+    }
+
     prepareChatList = () => {
-        const {chats} = this.props;
+        const {chats, handlerRemoveChat} = this.props;
         const arr = [];
         for (let chat in chats) {
             if (chats.hasOwnProperty(chat)) {
                 arr.push(
-                    <Link key={chat} to={chats[chat].link} className="chat-list_text-item">
-                        <ListItem id={chat} button className={this.classChat} onClick={this.handlerChangeChat}>
+                    <div key={chat} className="chat-list_text-item">
+                        <ModalWindow chatId={chat}
+                                     chats={chats}
+                                     handlerRemoveChat={handlerRemoveChat}
+                                     from="chat"/>
+                        <ListItem id={chat}
+                                  button
+                                  className={this.classChat}
+                                  onClick={() => this.handlerNavigate(chats[chat].link)}>
                             <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
                                 <RadioButtonUncheckedIcon color="disabled"/>}
                             </ListItemIcon>
                             <ListItemText primary={chats[chat].name}/>
                         </ListItem>
-                    </Link>
+                    </div>
                 )
             }
         }

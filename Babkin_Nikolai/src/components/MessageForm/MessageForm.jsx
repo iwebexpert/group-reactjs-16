@@ -21,7 +21,8 @@ export class MessageForm extends React.Component {
         this.props.handerlSendMessage({
             author,
             text: this.state.text,
-            chatId: this.props.chatId
+            chatId: this.props.chatId,
+            botPrinting: true,
         })
         this.setState({text: ''});
     }

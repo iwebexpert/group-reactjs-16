@@ -1,5 +1,7 @@
 import React from 'react';
 import './ListMessages.scss';
+import Skeleton from '@material-ui/lab/Skeleton';
+import {ModalWindow} from "components/ModalWindow";
 
 export class ListMessages extends React.Component {
     componentDidUpdate() {
@@ -22,15 +24,24 @@ export class ListMessages extends React.Component {
     }
 
     render() {
-        const {messages} = this.props;
+        const {messages, botPrinting, chatId, handlerRemoveMessage} = this.props;
 
         return (
             <div className="allMessages">
                 {messages.map((message, index) =>
-                    <p data-author={message.author} className="oneMessage" key={index}>
-                        <sup>{message.author}:</sup> {message.text}
-                    </p>
+                    <div data-author={message.author} className="oneMessage" key={index}>
+                        <p><sup>{message.author}:</sup> {message.text}</p>
+                        <ModalWindow messages={messages}
+                                     chatId={chatId}
+                                     messageId={index}
+                                     handlerRemoveMessage={handlerRemoveMessage}
+                                     from="message"/>
+                    </div>
                 )}
+                {botPrinting && <div data-author="Bot" className="skeleton-bot-printing">
+                    <Skeleton variant="rect"
+                              width={300}
+                              height={51}/></div>}
             </div>
         )
     }

@@ -1,8 +1,9 @@
 import React from "react";
 import {Messenger} from 'components/Messenger';
 import {connect} from 'react-redux';
-import {chatsLoad, chatsSend, chatsAdd} from 'actions/chats';
+import {chatsLoad, chatsSend, chatsAdd, chatsRemoveMessage, chatsRemove} from 'actions/chats';
 import {profileGet, profileSet} from "actions/profile";
+import {push} from 'connected-react-router';
 
 class MessengerContainer extends React.Component {
     componentDidMount() {
@@ -16,7 +17,14 @@ class MessengerContainer extends React.Component {
     }
 
     render() {
-        const {chats, messages = {}, chatId, pageName, userName} = this.props;
+        const {
+            chats,
+            messages = {},
+            chatId,
+            pageName,
+            userName,
+            botPrinting,
+        } = this.props;
 
         return (
             <Messenger
@@ -27,6 +35,9 @@ class MessengerContainer extends React.Component {
                 userName={userName}
                 handlerSendMessage={this.props.chatsSendAction}
                 handlerAddChat={this.props.chatsAddAction}
+                handlerRemoveMessage={this.props.chatsRemoveMessageAction}
+                handlerRemoveChat={this.props.chatsRemoveAction}
+                botPrinting={botPrinting}
             />
         );
     }
@@ -44,9 +55,11 @@ function mapStateToProps(state, ownProps) {
 
     let messages = [];
     let pageName = '';
+    let botPrinting = '';
     if (match && chats[match.params.id]) {
         messages = chats[match.params.id].messages;
         pageName = chats[match.params.id].name
+        botPrinting = chats[match.params.id].botPrinting
     }
 
     for (let key in chats) {
@@ -61,6 +74,7 @@ function mapStateToProps(state, ownProps) {
         chatId: match.params.id,
         pageName,
         userName,
+        botPrinting,
     }
 }
 
@@ -72,6 +86,8 @@ function mapDispatchToProps(dispatch) {
     return {
         chatsLoadAction: () => dispatch(chatsLoad()),
         chatsSendAction: (message) => dispatch(chatsSend(message)),
+        chatsRemoveMessageAction: (chatId, newMessages) => dispatch(chatsRemoveMessage(chatId, newMessages)),
+        chatsRemoveAction: (newChats) => dispatch(chatsRemove(newChats)),
         chatsAddAction: (newChat) => dispatch(chatsAdd(newChat)),
         profileGetAction: () => dispatch(profileGet()),
         profileSetAction: (name) => dispatch(profileSet(name)),
