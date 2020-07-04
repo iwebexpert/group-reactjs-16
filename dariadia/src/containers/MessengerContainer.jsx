@@ -4,7 +4,7 @@ import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
 import { chatsLoadApi, chatsSend, chatAdd, chatDelete } from "actions/chats";
-import { userLoad, userAdd, userLogOut } from "actions/user";
+import { userLoadApi, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
   componentDidMount() {
@@ -142,7 +142,7 @@ function mapDispatchToProps(dispatch) {
     chatDeleteAction: (chatId) => dispatch(chatDelete(chatId)),
     redirect: (id) => dispatch(push(`/chats/${id}`)),
 
-    userLoadAction: () => dispatch(userLoad()),
+    userLoadAction: () => dispatch(userLoadApi()),
     userAddAction: (newUser) => dispatch(userAdd(newUser)),
     userLogOutAction: () => dispatch(userLogOut()),
   };

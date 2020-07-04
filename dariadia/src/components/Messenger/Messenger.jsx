@@ -93,7 +93,7 @@ export class Messenger extends Component {
               <MessageForm currentUser={currentUser} onSend={sendMessage} />
             </div>
           ) : (
-            "Please, choose a chatroom."
+            <h2 className="messenger__prompt">Please, choose a chatroom.</h2>
           )}
           <ChatForm onSend={handleAddChat} />
         </div>
