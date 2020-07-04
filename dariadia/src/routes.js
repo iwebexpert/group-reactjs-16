@@ -1,7 +1,7 @@
 import { AboutPage } from "pages/AboutPage";
 import { PageNotFound } from "pages/PageNotFound";
 import { MessengerRedux } from "containers/MessengerContainer";
-import { ProfilePage } from "pages/ProfilePage";
+import { ProfileRedux } from "containers/ProfileContainer";
 
 export const routes = [
   {
@@ -17,7 +17,7 @@ export const routes = [
   {
     path: "/profile",
     exact: true,
-    component: ProfilePage,
+    component: ProfileRedux,
   },
   {
     path: "/chats/:id",

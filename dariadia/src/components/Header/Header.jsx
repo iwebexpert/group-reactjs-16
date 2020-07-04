@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  CssBaseline,
+  useScrollTrigger,
+  Button,
+} from "@material-ui/core";
 
 import AccessibleForwardIcon from "@material-ui/icons/AccessibleForward";
 import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
@@ -41,8 +44,11 @@ ElevationScroll.propTypes = {
 export class Header extends Component {
   render() {
     const {
+      handleLogOutUser,
       currentUser: { username },
     } = this.props;
+
+    const isAuth = username !== "GUEST";
 
     return (
       <div className="header">
@@ -60,6 +66,11 @@ export class Header extends Component {
               <Link className="profile__link" to={`/profile`}>
                 Profile
               </Link>
+              {isAuth && (
+                <Button onClick={handleLogOutUser} variant="contained">
+                  Log Out
+                </Button>
+              )}
             </Toolbar>
           </AppBar>
         </ElevationScroll>

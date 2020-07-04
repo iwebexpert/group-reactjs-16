@@ -1,10 +1,15 @@
-import { CHATS_LOAD, CHATS_SEND, CHAT_ADD } from "actions/chats";
+import {
+  CHATS_LOAD,
+  CHATS_SEND,
+  CHAT_ADD,
+  CHAT_HIGHLIGHT,
+  CHAT_DEHIGHLIGHT,
+  CHAT_DELETE,
+} from "actions/chats";
 import update from "react-addons-update";
 
-import { v4 as uuidv4 } from "uuid";
-
 const dataBackend = {
-  [uuidv4()]: {
+  "1": {
     name: "😸 Chat",
     messages: [
       {
@@ -12,8 +17,9 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
-  [uuidv4()]: {
+  "2": {
     name: "🙀 Chat",
     messages: [
       {
@@ -21,8 +27,9 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
-  [uuidv4()]: {
+  "3": {
     name: "😽 Chat",
     messages: [
       {
@@ -30,6 +37,7 @@ const dataBackend = {
         author: "Bot",
       },
     ],
+    state: { highlight: false },
   },
 };
 
@@ -46,20 +54,23 @@ export const chatsReducer = (state = initialState, action) => {
         entries: dataBackend,
       };
     case CHAT_ADD:
-      return {
-        ...state,
+      const { name, chatId } = action.payload;
+      return update(state, {
         entries: {
-          ...state.entries,
-          [uuidv4()]: {
-            name: action.payload.chatname,
-            messages: [
-              {
-                text: "Hey there!",
-                author: "Bot",
-              },
-            ],
+          $merge: {
+            [chatId]: {
+              messages: [{ text: "Hello there", author: "Bot" }],
+              name,
+              state: { highlight: false },
+            },
           },
         },
+      });
+    case CHAT_DELETE:
+      const chatToDelete = action.payload.chatId;
+      delete state.entries[chatToDelete]
+      return {
+        ...state,
       };
     case CHATS_SEND:
       return update(state, {
@@ -73,6 +84,27 @@ export const chatsReducer = (state = initialState, action) => {
           },
         },
       });
+    case CHAT_HIGHLIGHT:
+      return update(state, {
+        entries: {
+          [action.payload.chatId]: {
+            state: {
+              $set: { highlight: true},
+            },
+          },
+        },
+      });
+      case CHAT_DEHIGHLIGHT:
+        return update(state, {
+          entries: {
+            [action.payload.chatId]: {
+              state: {
+                $set: { highlight: false},
+              },
+            },
+          },
+        });
+    
     default:
       return state;
   }

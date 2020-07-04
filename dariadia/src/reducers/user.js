@@ -1,4 +1,4 @@
-import { USER_LOAD, USER_ADD } from "actions/user";
+import { USER_LOAD, USER_ADD, USER_LOG_OUT } from "actions/user";
 
 const initialState = {
   currentUser: { username: "GUEST", email: "" },
@@ -14,6 +14,11 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: { ...action.payload },
+      };
+    case USER_LOG_OUT:
+      return {
+        ...state,
+        ...initialState,
       };
     default:
       return state;

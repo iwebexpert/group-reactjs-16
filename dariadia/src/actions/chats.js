@@ -1,6 +1,10 @@
 export const CHATS_LOAD = "CHATS_LOAD";
 export const CHATS_SEND = "CHATS_SEND";
 export const CHAT_ADD = "CHAT_ADD";
+export const CHAT_DELETE = "CHAT_DELETE";
+
+export const CHAT_HIGHLIGHT = "CHAT_TOGGLE_HIGHLIGHT";
+export const CHAT_DEHIGHLIGHT = "CHAT_DEHIGHLIGHT";
 
 export const chatsLoad = () => ({
   type: CHATS_LOAD,
@@ -11,7 +15,22 @@ export const chatsSend = (message) => ({
   payload: message,
 });
 
-export const chatAdd = (chatname) => ({
+export const chatAdd = (chatId, name) => ({
   type: CHAT_ADD,
-  payload: chatname,
+  payload: { chatId, name },
+});
+
+export const chatDelete = (chatId) => ({
+  type: CHAT_DELETE,
+  payload: { chatId },
+});
+
+export const chatHighlight = (chatId) => ({
+  type: CHAT_HIGHLIGHT,
+  payload: { chatId },
+});
+
+export const chatDehighlight = (chatId) => ({
+  type: CHAT_DEHIGHLIGHT,
+  payload: { chatId },
 });
