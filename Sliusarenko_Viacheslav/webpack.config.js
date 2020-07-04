@@ -30,9 +30,6 @@ module.exports = {
   },
 
   module: {
-    noParse: [
-      new RegExp('/node_modules/'),
-    ],
     rules: [
       {
         test: /\.jsx?$/,
