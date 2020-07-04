@@ -2,3 +2,5 @@
 /package-lock.json
 /node_modules/
 /yarn.lock
+/server/node_modules/
+/server/package-lock.json

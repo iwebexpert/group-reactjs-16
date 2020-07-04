@@ -1,4 +1,4 @@
-import { ADD_NEW_MESSAGE, addNewMessage } from "actions/chat";
+import { CHATS_ADD_MESSAGE_SUCCESS, addNewMessage } from "actions/chat";
 
 export const botConfig = {
   name: 'ChatBot',
@@ -13,7 +13,7 @@ export const botConfig = {
 export const botMiddleware = ( store ) => ( next ) => ( action ) => {
   const { type, payload } = action;
   next( action );
-  if ( type === ADD_NEW_MESSAGE ) {
+  if ( type === CHATS_ADD_MESSAGE_SUCCESS ) {
     const { chatId } = payload;
     setTimeout( writeBotMessage( chatId, store ), botConfig.timeout )
   }
@@ -30,21 +30,17 @@ const writeBotMessage = ( chatId, store ) => () => {
   const { author } = currentChatMessages[ currentChatMessages.length - 1 ] || {};
 
   if ( author && author !== botConfig.name ) {
-    const message = !author ? botConfig.messages[ 0 ] : ( getNewBotMessage( author ) );
-    store.dispatch( addNewMessage( chatId, message ) );
+    store.dispatch( addNewMessage( chatId, botConfig.name, getNewBotMessage( author ) ) );
   }
 }
 
 /**
- * @param { string } author
- * @return { Object<{ author: string, message: string }> }
+ * @param { string|null } author
+ * @return { string }
  **/
-function getNewBotMessage( author ) {
+function getNewBotMessage( author= null ) {
   const { messages } = botConfig;
   const randIndex = Math.floor(Math.random() * messages.length );
 
-  return {
-    author: botConfig.name,
-    message: `${ messages[ randIndex ] } ${ author }!`,
-  }
+  return `${ messages[ randIndex ] } ${ author }!`;
 }

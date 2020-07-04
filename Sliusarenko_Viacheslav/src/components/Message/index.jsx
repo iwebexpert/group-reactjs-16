@@ -22,8 +22,8 @@ export function Message( props ) {
 }
 
 export const messageType = {
-  message: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  author: PropTypes.string,
   isBot: PropTypes.bool,
   onRemoveClick: PropTypes.func
 }

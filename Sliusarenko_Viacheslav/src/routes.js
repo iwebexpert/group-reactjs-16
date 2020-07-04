@@ -9,7 +9,7 @@ export const routes = [
     component: withLayout( ChatsPageContainer ),
   },
   {
-    path: '/chats/:id([0-9]+)',
+    path: '/chats/:id',
     exact: true,
     component: withLayout( ChatsPageContainer ),
   },

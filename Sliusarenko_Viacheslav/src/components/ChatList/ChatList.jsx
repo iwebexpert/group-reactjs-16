@@ -30,7 +30,7 @@ export function ChatList( props ) {
   }
 
   function isChatActive( chatId ) {
-    return Number( activeChat ) === Number( chatId );
+    return activeChat === chatId;
   }
 
   return (
@@ -67,7 +67,7 @@ ChatList.propTypes = {
   chats: PropTypes.objectOf(
     PropTypes.shape( chatsType )
   ),
-  activeChat: PropTypes.number,
+  activeChat: PropTypes.string,
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired
 }

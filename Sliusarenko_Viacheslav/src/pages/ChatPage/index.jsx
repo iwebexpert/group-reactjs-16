@@ -1,5 +1,5 @@
 import React, { Component, Fragment }  from 'react';
-import { PropTypes } from "prop-types";
+import PropTypes from 'prop-types';
 
 import { Messenger } from 'components/Messenger';
 import { ChatList } from 'components/ChatList';
@@ -12,7 +12,7 @@ export class ChatPage extends Component {
     chats: PropTypes.object.isRequired,
     onAddMessage: PropTypes.func.isRequired,
     onAddChat: PropTypes.func.isRequired,
-    activeChatId: PropTypes.number,
+    activeChatId: PropTypes.string,
     botName: PropTypes.string.isRequired
   }
 

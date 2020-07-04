@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --port 3000 --open",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "server-i": "cd server && npm i",
+    "server-run": "cd server && node index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,6 @@
   },
   "homepage": "https://github.com/Cheefs/group-reactjs-16#readme",
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
@@ -41,12 +42,14 @@
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "classnames": "^2.2.6",
-    "prop-types": "^15.7.2",
+    "dotenv": "^8.2.0",
+    "history": "^4.10.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "redux-api-middleware": "^3.2.1",
     "redux-logger": "^3.0.6"
   }
 }

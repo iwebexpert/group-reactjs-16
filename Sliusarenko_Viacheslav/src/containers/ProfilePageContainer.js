@@ -6,7 +6,10 @@ import { loadProfile } from 'actions/profile';
 
 class Container extends Component {
   componentDidMount() {
-    this.props.load();
+    const { isProfileLoaded, load } = this.props;
+    if ( !isProfileLoaded ) {
+      load();
+    }
   }
   render() {
     const { load, ...rest } = this.props;
@@ -15,8 +18,11 @@ class Container extends Component {
 }
 
 function mapStateToProps( state ) {
-  const { profile: { username, personalData, isLoaded } } = state;
-  return { username, ...personalData, loaded: isLoaded };
+  const { profile: { username, personalData, isFetching } } = state;
+  return {
+    isProfileLoaded: ( personalData && Object.keys( personalData ).length ),
+    username, ...personalData, isFetching
+  };
 }
 
 function mapDispatchToProps( dispatch ) {

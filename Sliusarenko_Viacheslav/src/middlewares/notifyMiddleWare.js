@@ -1,4 +1,4 @@
-import { ADD_NEW_MESSAGE, toggleNotify } from 'actions/chat';
+import { CHATS_ADD_MESSAGE_SUCCESS, toggleNotify } from 'actions/chat';
 import { botConfig } from "./botMiddleware";
 
 /**
@@ -9,7 +9,7 @@ export const notifyMiddleware = ( store ) => ( next ) => ( action ) => {
   const { type, payload } = action;
 
   next( action );
-  if ( type === ADD_NEW_MESSAGE ) {
+  if ( type === CHATS_ADD_MESSAGE_SUCCESS ) {
     const { chatId, message: { author } } = payload;
     const { chat: { entries } } = store.getState();
     const messagesChat = entries[ chatId ] || {};
