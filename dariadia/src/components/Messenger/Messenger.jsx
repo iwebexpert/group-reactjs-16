@@ -8,11 +8,17 @@ import { RegisterForm } from "components/RegisterForm";
 import { MessageList } from "components/MessageList";
 import { Header } from "components/Header";
 
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  CircularProgress,
+  IconButton,
+} from "@material-ui/core";
 
 import InboxIcon from "@material-ui/icons/Inbox";
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import "./Messenger.scss";
 
@@ -31,9 +37,19 @@ export class Messenger extends Component {
       handleAddUser,
       handleLogOutUser,
       currentUser,
+      isLoading,
+      isError,
     } = this.props;
 
     const userIsAuth = currentUser.username !== "GUEST";
+
+    if (isLoading) {
+      return <CircularProgress />;
+    }
+
+    if (isError) {
+      return <div>Error. Please reload the page...</div>;
+    }
 
     return (
       <>
@@ -49,7 +65,7 @@ export class Messenger extends Component {
                 <Link
                   to={chat.link}
                   className={cn("chat-item__link", {
-                    "chat__highlighted": chat.state.highlight,
+                    chat__highlighted: chat.state.highlight,
                   })}
                 >
                   <ListItem button>
@@ -59,7 +75,10 @@ export class Messenger extends Component {
                     <ListItemText primary={chat.name} />
                   </ListItem>
                 </Link>
-                <IconButton onClick={() => this.handleDeleteChat(chat.id)} aria-label="delete">
+                <IconButton
+                  onClick={() => this.handleDeleteChat(chat.id)}
+                  aria-label="delete"
+                >
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </div>

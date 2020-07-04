@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
-import { chatsLoad, chatsSend, chatAdd, chatDelete } from "actions/chats";
+import { chatsLoadApi, chatsSend, chatAdd, chatDelete } from "actions/chats";
 import { userLoad, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
@@ -47,7 +47,7 @@ class MessengerContainer extends Component {
 
   handleDeleteChat = (chatId) => {
     const { chatDeleteAction, redirect } = this.props;
-  
+
     chatDeleteAction(chatId);
     redirect(" ");
   };
@@ -135,7 +135,7 @@ function mapStateToProps(state, ownProps) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    chatsLoadAction: () => dispatch(chatsLoad()),
+    chatsLoadAction: () => dispatch(chatsLoadApi()),
     chatsSendAction: (message) => dispatch(chatsSend(message)),
     chatAddAction: (newChatId, chatName) =>
       dispatch(chatAdd(newChatId, chatName)),
