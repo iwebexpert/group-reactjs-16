@@ -10,6 +10,7 @@ import InputIcon from '@material-ui/icons/Input';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './ChatList.sass';
 
@@ -39,6 +40,21 @@ export class ChatList extends Component {
         });
     };
 
+    removeChat = (event) => {
+        let elem = null;
+        if (event.target.tagName === 'svg') {
+            elem = event.target;
+        } else if (event.target.tagName === 'path') {
+            elem = event.target.parentElement;
+        }
+
+        if (elem) {
+            const {removeChat} = this.props;
+            const id = elem.dataset.id;
+            removeChat(id);
+        }
+    };
+
     render() {
         const {chats} = this.props;
 
@@ -46,14 +62,17 @@ export class ChatList extends Component {
             <div className="msg-chat-list">
                 <List component="nav" aria-label="main mailbox folders" className="msg-chat-link">
                     {chats.map((chat, index) =>
-                        <ListItem button key={index}>
+                        <div className={chat.updated ? "msg-chat-item-wrap msg-chat-item-fired" : "msg-chat-item-wrap"} key={index}>
                             <Link to={chat.link} className="msg-chat-item">
-                                <ListItemIcon>
-                                    <InputIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={chat.name}/>
+                                <ListItem>
+                                    <ListItemIcon>
+                                        <InputIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary={chat.name}/>
+                                </ListItem>
                             </Link>
-                        </ListItem>
+                            <CloseIcon onClick={this.removeChat} data-id={chat.id} fontSize="small"/>
+                        </div>
                     )}
                 </List>
                 <div className="msg-chat-add">

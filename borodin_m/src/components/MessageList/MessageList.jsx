@@ -13,12 +13,12 @@ export class MessageList extends Component {
   };
 
   render() {
-    const {messages} = this.props;
+    const {messages, messageRemove} = this.props;
 
     return (
       <div className="msg-container">
         {messages && messages.map((message, index) =>
-          <Message key={index} {...message}/>
+          <Message key={index} messageID={index} messageRemove={messageRemove} {...message}/>
         )}
       </div>
     );
