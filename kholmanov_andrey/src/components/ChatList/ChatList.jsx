@@ -6,8 +6,9 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {List, ListItem, ListItemText, TextField, Fab} from '@material-ui/core';
+import {List, ListItem, ListItemText, TextField, Fab, Button} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import './ChatList.scss';
 
 export class ChatList extends Component {
@@ -31,6 +32,13 @@ export class ChatList extends Component {
         }
     };
 
+    handleChatRemove = (event) => {
+        const id = event.target.dataset.id;
+        console.log(id, this.props);
+        const {removeChat} = this.props;
+        removeChat(id);
+    };
+
     handleEnterCtrlDown = (event) => {
         if(event.ctrlKey && event.keyCode === 13){
             console.log(event);
@@ -45,15 +53,23 @@ export class ChatList extends Component {
     render()
     {
         const {chats} = this.props;
+        console.log(chats);
 
         let chatList = [];
         for(let chatKey in chats){
             chatList.push(
-                <ListItem key={chatKey}>
+                <div>
                     <Link to={`${chats[chatKey].link}`}>
-                        <ListItemText primary={chats[chatKey].name} />
+                        <ListItem key={chatKey}>
+                            <ListItemText primary={chats[chatKey].name} />
+                        </ListItem>
                     </Link>
-                </ListItem>
+                    <RemoveCircleOutlineIcon
+                        data-id={chats[chatKey].id}
+                        fontSize="small"
+                        onClick={this.handleChatRemove}
+                    />
+                </div>
             );
         }
 

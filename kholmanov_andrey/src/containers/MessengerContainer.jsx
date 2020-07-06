@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {Messenger} from 'components/Messenger';
-import {chatsLoad, chatsSend, chatsAdd} from 'actions/chats';
+import {chatsLoad, chatsSend, chatsAdd, chatsRemove} from 'actions/chats';
 import {loadProfile} from 'actions/users';
 
 class MessengerContainer extends Component {
@@ -26,9 +26,14 @@ class MessengerContainer extends Component {
         chatsAddAction(newChat.name);
     };
 
+    handleChatRemove = (id) => {
+        const {chatsRemoveAction} = this.props;
+        chatsRemoveAction(id);
+    };
+
     render(){
         return (
-            <Messenger {...this.props} sendMessage={this.handleMessageSend} sendChat={this.handleChatSend} />
+            <Messenger {...this.props} removeChat={this.handleChatRemove} sendMessage={this.handleMessageSend} sendChat={this.handleChatSend} />
         );
     }
 }
@@ -52,7 +57,7 @@ function mapStateToProps(state, ownProps){
     let chatsArrayForShow = [];
     for(let key in chats){
         if(chats.hasOwnProperty(key)){
-            chatsArrayForShow.push({name: chats[key].name, link: `/chats/${key}`});
+            chatsArrayForShow.push({id: chats[key].id,name: chats[key].name, link: `/chats/${key}`});
         }
     }
 
@@ -73,6 +78,7 @@ function mapDispatchToProps(dispatch){
         chatsLoadAction: () => dispatch(chatsLoad()),
         chatsSendAction: (message) => dispatch(chatsSend(message)),
         chatsAddAction: (name) => dispatch(chatsAdd(name)),
+        chatsRemoveAction: (id) => dispatch(chatsRemove(id)),
         loadProfileAction: () => dispatch(loadProfile()),
     };
 }
