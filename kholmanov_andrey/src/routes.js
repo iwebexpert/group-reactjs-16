@@ -15,7 +15,7 @@ export const routes = [
         component: ProfilePage,
     },
     {
-        path: '/chat/:id([0-9]+)', //http://localhost:4000/chats/1
+        path: '/chats/:id([0-9]+)', //http://localhost:4000/chats/1
         exact: true,
         component: MessengerRedux,
     },

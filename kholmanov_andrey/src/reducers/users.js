@@ -5,14 +5,8 @@
 import {LOAD_PROFILE, CHANGE_USERNAME} from 'actions/users';
 
 const dataBackend = {
-    1: {
-        id: 1,
-        username: 'andrey',
-    },
-    2: {
-        id: 2,
-        username: 'igor',
-    }
+    id: 1,
+    username: 'andrey',
 };
 
 const initialState = {
@@ -28,6 +22,10 @@ export const usersReducer = (state = initialState, action) => {
                 ...state,
                 entries: dataBackend,
             };
+        // case CHANGE_USERNAME:
+        //     return {
+        //
+        //     };
         default:
             return state;
     }

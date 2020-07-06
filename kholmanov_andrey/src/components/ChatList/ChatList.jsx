@@ -11,10 +11,6 @@ import SendIcon from '@material-ui/icons/Send';
 import './ChatList.scss';
 
 export class ChatList extends Component {
-    state = {
-        name: '',
-    };
-
     static propTypes = {
         onSend: PropTypes.func.isRequired,
     };

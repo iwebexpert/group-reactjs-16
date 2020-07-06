@@ -3,11 +3,13 @@ import {connect} from 'react-redux';
 
 import {Messenger} from 'components/Messenger';
 import {chatsLoad, chatsSend, chatsAdd} from 'actions/chats';
+import {loadProfile} from 'actions/users';
 
 class MessengerContainer extends Component {
     componentDidMount(){
-        const {chatsLoadAction} = this.props;
+        const {chatsLoadAction, loadProfileAction} = this.props;
         chatsLoadAction(); //Получение чатов
+        loadProfileAction(); //Получение данных пользователя
     }
 
     handleMessageSend = (message) => {
@@ -19,17 +21,14 @@ class MessengerContainer extends Component {
         });
     };
 
-    handleChatSend = (chat) => {
+    handleChatSend = (newChat) => {
         const {chatsAddAction} = this.props;
-        console.log(name);
-        chatsAddAction(name);
+        chatsAddAction(newChat.name);
     };
 
     render(){
-        const {chats, messages} = this.props;
-
         return (
-            <Messenger chats={chats} messages={messages} sendMessage={this.handleMessageSend} sendChat={this.handleChatSend} />
+            <Messenger {...this.props} sendMessage={this.handleMessageSend} sendChat={this.handleChatSend} />
         );
     }
 }
@@ -41,6 +40,7 @@ class MessengerContainer extends Component {
  */
 function mapStateToProps(state, ownProps){
     const chats = state.chats.entries;
+    const user = state.users.entries;
     const {match} = ownProps;
 
     let messages = null;
@@ -60,6 +60,7 @@ function mapStateToProps(state, ownProps){
         chats: chatsArrayForShow,
         messages,
         chatId: match ? match.params.id: null,
+        user,
     }
 }
 
@@ -72,6 +73,7 @@ function mapDispatchToProps(dispatch){
         chatsLoadAction: () => dispatch(chatsLoad()),
         chatsSendAction: (message) => dispatch(chatsSend(message)),
         chatsAddAction: (name) => dispatch(chatsAdd(name)),
+        loadProfileAction: () => dispatch(loadProfile()),
     };
 }
 

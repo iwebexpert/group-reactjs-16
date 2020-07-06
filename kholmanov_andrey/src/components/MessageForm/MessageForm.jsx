@@ -17,9 +17,11 @@ export class MessageForm extends Component {
     };
 
     handleInputChange = (event) => {
-        const fieldName = event.target.name;
+        const {user} = this.props;
+
         this.setState({
-            [fieldName]: event.target.value
+            text: event.target.value,
+            author: user.username,
         });
     };
 
@@ -60,14 +62,15 @@ export class MessageForm extends Component {
     };
 
     render(){
-        const {text, author} = this.state;
+        const {text} = this.state;
+        const {user} = this.props;
 
         return (
             <div className="message-form">
                 <TextField
                     className="massage-input"
                     name="author" type="text"
-                    value={author}
+                    value={user.username}
                     label="Author"
                     onChange={this.handleInputChange}
                 />

@@ -4,30 +4,15 @@ import update from 'react-addons-update';
 const dataBackend = {
     '1': {
         name: 'Chat 1',
-        messages: [
-            {
-                text: 'Текстовое сообщение 1',
-                author: 'Igor'
-            },
-        ],
+        messages: [],
     },
     '2': {
         name: 'Chat 2',
-        messages: [
-            {
-                text: 'Текстовое сообщение 2',
-                author: 'Igor'
-            },
-        ],
+        messages: [],
     },
     '3': {
         name: 'Chat 3',
-        messages: [
-            {
-                text: 'Текстовое сообщение 3',
-                author: 'Igor'
-            },
-        ],
+        messages: [],
     },
 };
 
@@ -56,7 +41,6 @@ export const chatsReducer = (state = initialState, action) => {
             const keys = Object.keys( state.entries );
             const newId = Number( keys[ keys.length - 1 ] ) + 1;
             const newChat = { [ newId ]: { name: action.payload, messages: [] } };
-            console.log(newChat);
             return {
                 ...state,
                 entries: {
