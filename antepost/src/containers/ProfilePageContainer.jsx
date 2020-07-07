@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ProfilePage } from 'pages/ProfilePage';
-import { profileLoad } from 'actions/profile';
+import { profileLoadApi } from 'actions/profile';
 
 class ProfilePageContainer extends Component {
     componentDidMount() {
@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        profileLoadAction: () => dispatch(profileLoad()),
+        profileLoadAction: () => dispatch(profileLoadApi()),
     };
 }
 

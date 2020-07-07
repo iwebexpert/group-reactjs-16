@@ -1,5 +1,12 @@
-export const PROFILE_LOAD = 'PROFILE_LOAD';
+import { createAction } from 'redux-api-middleware';
 
-export const profileLoad = () => ({
-    type: PROFILE_LOAD,
+export const PROFILE_LOAD_REQUEST = 'PROFILE_LOAD_REQUEST';
+export const PROFILE_LOAD_SUCCESS = 'PROFILE_LOAD_SUCCESS';
+export const PROFILE_LOAD_FAILTURE = 'PROFILE_LOAD_FAILTURE';
+
+export const profileLoadApi = () => createAction({
+    endpoint: 'http://localhost:5000/profile',
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    types: [PROFILE_LOAD_REQUEST, PROFILE_LOAD_SUCCESS, PROFILE_LOAD_FAILTURE],
 });
