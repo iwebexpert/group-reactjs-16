@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -12,14 +12,12 @@ export const messageType = {
 export class Message extends Component {
     static propTypes = messageType;
 
-    get direction()
-    {
+    get direction() {
         return this.props.author === 'Bot' ? 'start' : 'end';
     }
 
-    render()
-    {
-        const {text, author} = this.props;
+    render() {
+        const { text, author } = this.props;
 
         const classes = classNames('message', {
             'message-bot': author === 'Bot',

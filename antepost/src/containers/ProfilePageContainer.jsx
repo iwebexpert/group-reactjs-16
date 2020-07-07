@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import {ProfilePage} from 'pages/ProfilePage';
-import {profileLoad} from 'actions/profile';
+import { ProfilePage } from 'pages/ProfilePage';
+import { profileLoad } from 'actions/profile';
 
 class ProfilePageContainer extends Component {
     componentDidMount() {
-        const {profileLoadAction} = this.props;
+        const { profileLoadAction } = this.props;
         profileLoadAction();
     }
 
     render() {
-        const {profile} = this.props;
+        const { profile } = this.props;
 
         return (
             <ProfilePage profile={profile} />

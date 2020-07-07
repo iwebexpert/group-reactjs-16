@@ -1,9 +1,9 @@
 import React from 'react';
 
-export function ProfilePage(props){
+export function ProfilePage(props) {
     return (
         <>
-        <div>This is your profile.</div>
+            <div>This is your profile.</div>
             <ul>
                 <li>Your name: {props.profile.name}</li>
                 <li>Your age: {props.profile.age}</li>

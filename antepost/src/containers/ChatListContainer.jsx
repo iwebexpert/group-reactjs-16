@@ -1,38 +1,55 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
-import {ChatList} from 'components/ChatList';
-import {chatsLoad, chatsAdd} from 'actions/chats';
+import { ChatList } from 'components/ChatList';
+import { chatsLoad, chatsAdd, chatsUnblink, chatsDelete } from 'actions/chats';
 
 class ChatListContainer extends Component {
     componentDidMount() {
-        const {chatsLoadAction} = this.props;
+        const { chatsLoadAction } = this.props;
         chatsLoadAction();
     }
 
     handleAddChat = (chatName) => {
-        const {chatsAddAction} = this.props;
+        const { chatsAddAction } = this.props;
 
         chatsAddAction({
             chatName,
         });
     }
 
+    handleDeleteChat = (chatId) => {
+        const { chatsDeleteAction } = this.props;
+
+        chatsDeleteAction({
+            chatId,
+        });
+    }
+
+    handleNavigate = (link) => {
+        const { chatsUnblinkAction } = this.props;
+
+        this.props.pushAction(link);
+        const chatId = +link.match(/\d/)[0];
+        chatsUnblinkAction(chatId);
+    };
+
     render() {
-        const {chats} = this.props;
+        const { chats, match } = this.props;
         return (
-            <ChatList chats={chats} addChat={this.handleAddChat} />
+            <ChatList chats={chats} addChat={this.handleAddChat} match={match} handleNavigate={this.handleNavigate} deleteChat={this.handleDeleteChat} />
         );
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const chats = state.chats.entries;
 
     let chatsArrayForShow = [];
-    for(let key in chats) {
-        if(chats.hasOwnProperty(key)) {
-            chatsArrayForShow.push({name: chats[key].name, link: `/chats/${key}`});
+    for (let key in chats) {
+        if (chats.hasOwnProperty(key)) {
+            chatsArrayForShow.push({ name: chats[key].name, link: `/chats/${key}`, blinking: chats[key].blinking });
         }
     }
 
@@ -45,6 +62,9 @@ function mapDispatchToProps(dispatch) {
     return {
         chatsLoadAction: () => dispatch(chatsLoad()),
         chatsAddAction: (chatName) => dispatch(chatsAdd(chatName)),
+        chatsUnblinkAction: (chatId) => dispatch(chatsUnblink(chatId)),
+        pushAction: (link) => dispatch(push(link)),
+        chatsDeleteAction: (chatId) => dispatch(chatsDelete(chatId)),
     };
 }
 

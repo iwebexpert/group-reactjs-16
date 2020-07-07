@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
@@ -23,34 +23,34 @@ export class MessageForm extends Component {
     };
 
     handleMessageSend = () => {
-        const {onSend} = this.props;
+        const { onSend } = this.props;
 
-        if(typeof onSend === 'function'){
+        if (typeof onSend === 'function') {
             onSend(this.state);
-            this.setState({text: ''});
+            this.setState({ text: '' });
         }
     };
 
     handleEnterCtrlDown = (event) => {
-        if(event.ctrlKey && event.keyCode === 13) {
+        if (event.ctrlKey && event.keyCode === 13) {
             this.handleMessageSend();
         }
     }
-    
-    render(){
-        const {text, author} = this.state;
-        const {classes} = this.props;
+
+    render() {
+        const { text, author } = this.state;
+        const { classes } = this.props;
         return (
             <div>
                 <TextField label="Author" name="author" value={author} onChange={this.handleInputChange} />
-                <TextField 
-                label="Text" 
-                name="text" 
-                value={text} 
-                onKeyDown={this.handleEnterCtrlDown} 
-                onChange={this.handleInputChange} 
-                multiline
-                autoFocus
+                <TextField
+                    label="Text"
+                    name="text"
+                    value={text}
+                    onKeyDown={this.handleEnterCtrlDown}
+                    onChange={this.handleInputChange}
+                    multiline
+                    autoFocus
                 />
                 <Fab variant="round" color="primary" onClick={this.handleMessageSend}><SendIcon /></Fab>
             </div>
