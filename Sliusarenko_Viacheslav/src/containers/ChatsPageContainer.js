@@ -1,32 +1,39 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Badge } from "@material-ui/core";
 
 import { ChatPage } from 'pages/ChatPage';
-import { botConfig } from "middlewares/botMiddleware";
+import { botConfig } from 'middlewares/botMiddleware';
 import { addNewChat, loadChats, addNewMessage, removeMessage, removeChat, toggleNotify } from 'actions/chat';
 
 class ChatsPageContainer extends Component {
+
   componentDidMount() {
     const { load } = this.props;
     load();
   }
   render() {
-    const { load, isLoaded, ...rest } = this.props;
+    const { load, isFetching, error, ...rest } = this.props;
 
-    if ( !isLoaded ) {
+    if ( isFetching ) {
       return <h3>Загрузка чатов...</h3>;
     }
+
+    if ( error ) {
+      return <Badge>{ error }</Badge>;
+    }
+
     return <ChatPage { ...rest } />;
   }
 }
 
 function mapStateToProps( state, ownProps ) {
-  const { chat: { entries, isLoaded } } = state;
-  const { match: { params: { id } }} = ownProps;
+  const { chat: { entries, isFetching } } = state;
+  const { match: { params: { id: activeChatId } }} = ownProps;
+
   return {
-    isLoaded,
+    isFetching, activeChatId,
     chats: entries,
-    activeChatId: id ? Number( id ) : null,
     botName: botConfig.name
   };
 }
@@ -39,7 +46,8 @@ function mapDispatchToProps( dispatch ) {
 
   function onAddMessage( chatId ) {
     return function ( message ) {
-      dispatch( addNewMessage( chatId, message ) )
+      const { author, text } = message;
+      dispatch( addNewMessage( chatId, author, text ) )
     };
   }
 

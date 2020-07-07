@@ -26,19 +26,17 @@ export function MessagesList( props ) {
   return (
     <div className="messages-container">
       <div className="messages-list" ref={ messagesListBottom }>
-        { messages.map( ({ id, message, author }) => (
+        { messages.map( ({ id, text, author }) => (
           <Message
             key={ id }
             isBot={ botName === author }
             author={ author }
-            message={ message }
+            message={ text }
             onRemoveClick={ handleRemoveMessage( id ) }
           />
         )) }
       </div>
-      <div className="status">
-        { children }
-      </div>
+      <div className="status">{ children }</div>
     </div>
   );
 }

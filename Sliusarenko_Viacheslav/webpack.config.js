@@ -1,14 +1,21 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed;
+const envKeys = Object.keys( env ).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
-  entry: path.resolve( __dirname, 'src', 'main.js' ),
+  entry: path.resolve( __dirname, 'src', 'index.js' ),
   output: {
     path: path.resolve( __dirname, 'dist'),
     filename: 'bundle.js',
   },
-  devtool: 'eval-source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
@@ -21,14 +28,13 @@ module.exports = {
       middlewares: path.resolve(__dirname, 'src', 'middlewares'),
     }
   },
+
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        }
+        loader: "babel-loader"
       },
       {
         test: /\.s?css$/i,
@@ -47,8 +53,9 @@ module.exports = {
       filename: 'index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: 'bandle.css'
-    })
+      filename: 'bundle.css'
+    }),
+    new webpack.DefinePlugin( envKeys )
   ],
   devServer: {
     historyApiFallback: true,

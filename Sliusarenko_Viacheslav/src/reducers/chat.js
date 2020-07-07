@@ -1,76 +1,84 @@
 import { combineNestedState } from "../helpers";
-import { LOAD_CHAT_LIST, ADD_NEW_MESSAGE, ADD_NEW_CHAT, REMOVE_MESSAGE, REMOVE_CHAT, TOGGLE_NOTIFY } from "../actions/chat";
-
-const chatsMockObject = {
-  1: { name: 'mainChat', messages: [], hasNewMessage: false },
-}
+import {
+  TOGGLE_NOTIFY,
+  CHATS_LOAD_REQUEST,
+  CHATS_LOAD_SUCCESS,
+  CHATS_LOAD_ERROR,
+  CHATS_CREATE_SUCCESS,
+  CHATS_CREATE_ERROR,
+  CHATS_DELETE_SUCCESS,
+  CHATS_DELETE_ERROR,
+  CHATS_ADD_MESSAGE_ERROR,
+  CHATS_ADD_MESSAGE_SUCCESS,
+  CHATS_DELETE_MESSAGE_ERROR,
+  CHATS_DELETE_MESSAGE_SUCCESS
+} from "actions/chat";
 
 const chatInitialState = {
   entries: {},
-  isLoaded: false
+  isFetching: false
 };
 
 export function chatReducer( state = chatInitialState, { type, payload } ) {
 
   switch ( type ) {
-    case LOAD_CHAT_LIST: {
-      const { isLoaded } = state;
-      const entries = isLoaded ? state.entries : chatsMockObject;
-
-      return { ...state, entries, isLoaded: true };
+    case CHATS_LOAD_REQUEST: {
+      return { ...state, isFetching: true };
     }
-    case ADD_NEW_MESSAGE: {
-      const { entries } = state;
+    case CHATS_LOAD_SUCCESS: {
+      const mapChatsList = payload.reduce( (acc, chat) => ({
+        ...acc, [chat._id]: chat
+      }), {})
+      return { ...state, isFetching: false, entries: mapChatsList };
+    }
+    case CHATS_LOAD_ERROR: {
+      return { ...state, isFetching: false, error: payload };
+    }
+    case CHATS_ADD_MESSAGE_SUCCESS: {
       const { chatId, message } = payload;
+      const currentChat = state.entries[ chatId ];
 
-      const currentChat = entries[ chatId ];
-
-      if ( !currentChat ) {
-        return state;
-      }
-      const messages = currentChat.messages;
-      const { id } = messages[ messages.length - 1] || { id: 0 };
-
-      const updated = combineNestedState(
-        currentChat, { messages: messages.concat({ id: id + 1, ...message }) }
+      const updatedChat = combineNestedState(
+        currentChat, { messages: currentChat.messages.concat( message ) }
       );
+      return {
+        ...state,
+        entries: combineNestedState( state.entries, { [chatId]: updatedChat } )
+      };
+    }
+    case CHATS_DELETE_MESSAGE_SUCCESS: {
+      const { chatId, messages } = payload;
+
+      const currentChat = state.entries[ chatId ];
 
       return {
         ...state,
-        entries: combineNestedState( entries, { [chatId]: updated } )
-      };
-    }
-    case ADD_NEW_CHAT: {
-      const keys = Object.keys( state.entries );
-      const newId = ( Number(keys[ keys.length - 1 ]) || 0 ) + 1;
-      const newChat = { [ newId ]: { name: payload, messages: [] } };
-
-      return {
-        ...state,
-        entries: combineNestedState( state.entries, newChat )
-      };
-    }
-    case REMOVE_MESSAGE: {
-      const { chatId, messageId } = payload;
-      const currentChat = state.entries[ chatId ] || null;
-
-      if ( !currentChat ) {
-        return state;
-      }
-
-      const messages = currentChat.messages.filter(({ id }) => id !== messageId );
-
-      return {
-        ...state, entries: combineNestedState( state.entries, {
-          [ chatId ]: combineNestedState( currentChat, { messages })
+        entries: combineNestedState( state.entries, {
+          [chatId]: { ...currentChat, messages }
         })
-      }
+      };
     }
-    case REMOVE_CHAT: {
+    case CHATS_ADD_MESSAGE_ERROR:
+    case CHATS_DELETE_MESSAGE_ERROR: {
+      return { ...state, error: payload };
+    }
+    case CHATS_CREATE_SUCCESS: {
+      return  {
+        ...state, entries: combineNestedState(
+          state.entries, { [ payload._id ]: payload  }
+        )
+      };
+    }
+    case CHATS_CREATE_ERROR: {
+      return { ...state, error: payload };
+    }
+    case CHATS_DELETE_SUCCESS: {
       const entries = state.entries;
       delete entries[ payload ];
-
       return { ...state, entries: { ...entries } };
+    }
+    case CHATS_DELETE_ERROR: {
+      return { ...state, error: payload };
     }
     case TOGGLE_NOTIFY: {
       const { entries } = state;

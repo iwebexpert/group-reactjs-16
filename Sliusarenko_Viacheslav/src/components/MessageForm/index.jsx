@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, Fab } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
@@ -14,7 +14,7 @@ export function MessageForm( props ) {
       console.warn("cant set message, callback is invalid");
       return;
     }
-    addMessage({ author: username, message });
+    addMessage({ author: username, text: message });
     setMessage( '' );
   }
 
