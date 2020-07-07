@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 
 import {Profile} from 'components/Profile';
-import {profileLoad} from "actions/profile";
+import {profileLoadApi} from "actions/profile";
 
 class ProfileContainer extends Component
 {
@@ -20,6 +20,7 @@ class ProfileContainer extends Component
 
 function mapStateToProps(state) {
     const {profile} = state;
+    console.log(state);
 
     return {
         profile
@@ -28,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        profileLoadAction: () => dispatch(profileLoad()),
+        profileLoadAction: () => dispatch(profileLoadApi()),
     }
 }
 
