@@ -8,8 +8,8 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {TextField} from "@material-ui/core";
-import {push} from 'connected-react-router';
 import {ModalWindow} from "components/ModalWindow";
+import {Link} from "react-router-dom";
 
 export class ChatList extends React.Component {
     classChat = 'chat-list_button';
@@ -23,15 +23,20 @@ export class ChatList extends React.Component {
         this.setState({chatNumber: this.props.chatId})
     }
 
-    handlerChangeChat = (event) => {
-        let elem = event.target;
-        let isStop = false;
-        while (!isStop) {
-            if (elem.classList.contains(this.classChat)) {
-                isStop = true;
-            } else {
-                elem = elem.parentElement;
+    handlerChangeChat = (event, id = null) => {
+        let elem;
+        if (!id) {
+            elem = event.target;
+            let isStop = false;
+            while (!isStop) {
+                if (elem.classList.contains(this.classChat)) {
+                    isStop = true;
+                } else {
+                    elem = elem.parentElement;
+                }
             }
+        } else {
+            elem = {id};
         }
 
         if (typeof +elem.id === 'number' && +elem.id !== +this.state.chatNumber) {
@@ -59,6 +64,8 @@ export class ChatList extends React.Component {
                 const newChat = this.createNewChat(chatName);
                 this.props.handlerAddChat(newChat);
                 this.setState({newChatName: ''});
+                this.props.redirect('/chats/' + newChat.chatId);
+                this.handlerChangeChat(null, newChat.chatId);
             }
         }
     }
@@ -84,31 +91,30 @@ export class ChatList extends React.Component {
         }
     }
 
-    handlerNavigate = (link) => {
-        console.log(link)
-        push(link)
-    }
-
     prepareChatList = () => {
-        const {chats, handlerRemoveChat} = this.props;
+        const {chats, handlerRemoveChat, redirect} = this.props;
         const arr = [];
         for (let chat in chats) {
             if (chats.hasOwnProperty(chat)) {
                 arr.push(
-                    <div key={chat} className="chat-list_text-item">
+                    <div key={chat} className="wrap-one-chat-list">
                         <ModalWindow chatId={chat}
                                      chats={chats}
                                      handlerRemoveChat={handlerRemoveChat}
-                                     from="chat"/>
-                        <ListItem id={chat}
-                                  button
-                                  className={this.classChat}
-                                  onClick={() => this.handlerNavigate(chats[chat].link)}>
-                            <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
-                                <RadioButtonUncheckedIcon color="disabled"/>}
-                            </ListItemIcon>
-                            <ListItemText primary={chats[chat].name}/>
-                        </ListItem>
+                                     from="chat"
+                                     redirect={redirect}
+                                     handlerChangeChat={this.handlerChangeChat}/>
+                        <Link  to={chats[chat].link} className="chat-list_text-item">
+                            <ListItem id={chat}
+                                      button
+                                      className={this.classChat}
+                                      onClick={this.handlerChangeChat}>
+                                <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
+                                    <RadioButtonUncheckedIcon color="disabled"/>}
+                                </ListItemIcon>
+                                <ListItemText primary={chats[chat].name}/>
+                            </ListItem>
+                        </Link>
                     </div>
                 )
             }

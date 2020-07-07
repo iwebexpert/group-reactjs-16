@@ -1,18 +1,17 @@
 import React from "react";
 import {Messenger} from 'components/Messenger';
 import {connect} from 'react-redux';
-import {chatsLoad, chatsSend, chatsAdd, chatsRemoveMessage, chatsRemove} from 'actions/chats';
-import {profileGet, profileSet} from "actions/profile";
+import {chatsLoadApi, chatsSend, chatsAdd, chatsRemoveMessage, chatsRemove, chatsAddApi} from 'actions/chats';
+import {profileGet, profileGetApi, profileSet} from "actions/profile";
 import {push} from 'connected-react-router';
+
 
 class MessengerContainer extends React.Component {
     componentDidMount() {
         this.props.profileGetAction();
-        this.props.chatsLoadAction();
 
-        const name = sessionStorage.getItem('name')
-        if (name) {
-            this.props.profileSetAction({name})
+        if (!Object.keys(this.props.chats).length) {
+            this.props.chatsLoadAction();
         }
     }
 
@@ -24,6 +23,9 @@ class MessengerContainer extends React.Component {
             pageName,
             userName,
             botPrinting,
+            redirect,
+            isLoading,
+            isError,
         } = this.props;
 
         return (
@@ -38,6 +40,9 @@ class MessengerContainer extends React.Component {
                 handlerRemoveMessage={this.props.chatsRemoveMessageAction}
                 handlerRemoveChat={this.props.chatsRemoveAction}
                 botPrinting={botPrinting}
+                redirect={redirect}
+                isLoading={isLoading}
+                isError={isError}
             />
         );
     }
@@ -75,6 +80,8 @@ function mapStateToProps(state, ownProps) {
         pageName,
         userName,
         botPrinting,
+        isLoading: state.chats.loading,
+        isError: state.chats.error,
     }
 }
 
@@ -84,13 +91,15 @@ function mapStateToProps(state, ownProps) {
  */
 function mapDispatchToProps(dispatch) {
     return {
-        chatsLoadAction: () => dispatch(chatsLoad()),
+        chatsLoadAction: () => dispatch(chatsLoadApi()),
         chatsSendAction: (message) => dispatch(chatsSend(message)),
         chatsRemoveMessageAction: (chatId, newMessages) => dispatch(chatsRemoveMessage(chatId, newMessages)),
         chatsRemoveAction: (newChats) => dispatch(chatsRemove(newChats)),
-        chatsAddAction: (newChat) => dispatch(chatsAdd(newChat)),
-        profileGetAction: () => dispatch(profileGet()),
-        profileSetAction: (name) => dispatch(profileSet(name)),
+        // chatsAddAction: (newChat) => dispatch(chatsAdd(newChat)),
+        chatsAddAction: (newChat) => dispatch(chatsAddApi(newChat)),
+        profileGetAction: () => dispatch(profileGetApi()),
+        profileSetAction: () => dispatch(profileSet()),
+        redirect: (url) => dispatch(push(url)),
     };
 }
 

@@ -1,46 +1,16 @@
-import {CHATS_LOAD, CHATS_SEND, CHATS_ADD, CHATS_REMOVE_MESSAGE, CHATS_REMOVE} from 'actions/chats';
+import {
+    CHATS_SEND,
+    CHATS_ADD,
+    CHATS_REMOVE_MESSAGE,
+    CHATS_REMOVE,
+    CHATS_LOAD_REQUEST,
+    CHATS_LOAD_SUCCESS,
+    CHATS_LOAD_FAILURE,
+    CHATS_ADD_REQUEST,
+    CHATS_ADD_SUCCESS,
+    CHATS_ADD_FAILURE,
+} from 'actions/chats';
 import update from 'react-addons-update';
-
-const dataBackend = {
-    1: {
-        name: 'Chat 1',
-        messages: [
-            {
-                author: 'Author 1',
-                text: 'first message'
-            },
-            {
-                author: 'Second Author',
-                text: 'second message'
-            },
-        ],
-        botPrinting: false,
-    },
-    2: {
-        name: 'Chat 2',
-        messages: [
-            {
-                author: 'Second Author',
-                text: 'second message'
-            },
-        ],
-        botPrinting: false,
-    },
-    3: {
-        name: 'Chat 3',
-        messages: [
-            {
-                author: 'Some Author',
-                text: 'bla bla bla'
-            },
-            {
-                author: 'Author',
-                text: 'hello'
-            },
-        ],
-        botPrinting: false,
-    },
-};
 
 const initialState = {
     entries: {},
@@ -48,11 +18,6 @@ const initialState = {
 
 export const chatsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case CHATS_LOAD:
-            return {
-                ...state,
-                entries: dataBackend,
-            };
         case CHATS_SEND:
             let {botPrinting} = action.payload;
             if (!botPrinting) botPrinting = false;
@@ -73,8 +38,6 @@ export const chatsReducer = (state = initialState, action) => {
                 }
             });
         case CHATS_REMOVE:
-            console.log(action.payload.newChats)
-            console.log(state.entries)
             return update(state, {
                 entries: {$set: action.payload.newChats}
             });
@@ -89,6 +52,50 @@ export const chatsReducer = (state = initialState, action) => {
                     }
                 }
             });
+
+        //-------------------Api
+        case CHATS_LOAD_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case CHATS_LOAD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                entries: action.payload,
+            }
+        case CHATS_LOAD_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: true,
+            }
+        case CHATS_ADD_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case CHATS_ADD_SUCCESS:
+            const {name, chatId, messages} = action.payload.newChat;
+            return update(state, {
+                loading: {$set: false},
+                entries: {
+                    $merge: {
+                        [chatId]: {
+                            name,
+                            messages,
+                            botPrinting: false,
+                        }
+                    }
+                }
+            });
+        case CHATS_ADD_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: true,
+            }
         default:
             return state;
     }

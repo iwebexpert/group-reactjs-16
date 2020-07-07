@@ -3,14 +3,18 @@ import ReactDOM from 'react-dom';
 import {Router} from "components/Router";
 import {Provider} from "react-redux";
 import {ConnectedRouter} from "connected-react-router";
-import {store} from './store';
-import {history} from "./store";
+import {history, initStore} from "./store";
+import {PersistGate} from 'redux-persist/integration/react';
+
+const {store, persistor} = initStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <Router/>
-        </ConnectedRouter>
+        <PersistGate loading={null} persistor={persistor}>
+            <ConnectedRouter history={history}>
+                <Router/>
+            </ConnectedRouter>
+        </PersistGate>
     </Provider>,
     document.getElementById('root'),
 )

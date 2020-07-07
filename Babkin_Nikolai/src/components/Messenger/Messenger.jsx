@@ -7,12 +7,12 @@ import {Header} from "components/Header";
 
 export class Messenger extends React.Component {
     componentDidMount() {
-        if (sessionStorage.getItem('name')) {
-            document.querySelector('.messenger').style.opacity = '1';
-        } else {
-            document.querySelector('.messenger').style.opacity = '0';
-            document.location.href = '/';
-        }
+        // if (sessionStorage.getItem('name')) {
+        //     document.querySelector('.messenger').style.opacity = '1';
+        // } else {
+        //     document.querySelector('.messenger').style.opacity = '0';
+        //     document.location.href = this.props.redirect('/');
+        // }
     }
 
     render() {
@@ -26,8 +26,14 @@ export class Messenger extends React.Component {
             chats,
             botPrinting,
             handlerRemoveMessage,
-            handlerRemoveChat
+            handlerRemoveChat,
+            redirect,
+            isLoading,
+            isError
         } = this.props;
+
+        if (isLoading) return <div>Loading...</div>;
+        if (isError) return <div>Error...</div>;
 
         return (
             <div className="messenger">
@@ -37,13 +43,15 @@ export class Messenger extends React.Component {
                         handlerAddChat={handlerAddChat}
                         handlerRemoveChat={handlerRemoveChat}
                         chatId={chatId}
-                        chats={chats}/>
+                        chats={chats}
+                        redirect={redirect}/>
                     <div className='messenger_chat'>
                         <ListMessages
                             messages={messages}
                             botPrinting={botPrinting}
                             chatId={chatId}
-                            handlerRemoveMessage={handlerRemoveMessage}/>
+                            handlerRemoveMessage={handlerRemoveMessage}
+                            userName={userName}/>
                         <MessageForm userName={userName}
                                      handerlSendMessage={handlerSendMessage}
                                      chatId={chatId}/>

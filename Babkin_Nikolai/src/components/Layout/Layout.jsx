@@ -5,7 +5,8 @@ import {ProfileRedux} from "containers/ProfileContainer";
 
 export class Layout extends React.Component {
     state = {
-        isLogin: !!sessionStorage.getItem('name'),
+        // isLogin: !!sessionStorage.getItem('name'),
+        isLogin: true,
     }
 
     handlerLogin = (isLogin) => {
@@ -15,7 +16,7 @@ export class Layout extends React.Component {
     render() {
         return (
             <Fragment>
-                <Identification handlerLogin={this.handlerLogin}/>
+                {/*<Identification handlerLogin={this.handlerLogin}/>*/}
                 <ProfileRedux
                     isLogin={this.state.isLogin}/>
             </Fragment>

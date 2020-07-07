@@ -49,11 +49,14 @@ export function ModalWindow(props) {
             messages.splice(messageId, 1);
             props.handlerRemoveMessage(chatId, messages);
         } else if (props.from === 'chat') {
-            const {chatId} = props;
-            const newChats = JSON.parse(JSON.stringify(props.chats));
-            delete newChats[chatId];
-            props.handlerRemoveChat(newChats);
-            // document.location.href = `/chats/${Object.keys(newChats)[0]}`;
+            const {chatId, chats, handlerRemoveChat, redirect, handlerChangeChat} = props;
+            delete chats[chatId];
+            handlerRemoveChat(chats);
+            let keysChats = Object.keys(chats);
+            if (keysChats.length) {
+                handlerChangeChat(null, keysChats[0])
+                redirect(`/chats/${keysChats[0]}`);
+            }
         }
         handleClose();
     }
