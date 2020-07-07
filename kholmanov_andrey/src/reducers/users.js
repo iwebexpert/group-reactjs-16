@@ -2,25 +2,33 @@
  * Created by Rusich on 30.06.2020.
  */
 
-import {LOAD_PROFILE, CHANGE_USERNAME} from 'actions/users';
-
-const dataBackend = {
-    id: 1,
-    username: 'andrey',
-};
+import {USER_LOAD_REQUEST, USER_LOAD_SUCCESS, USER_LOAD_FAILTURE, CHANGE_USERNAME} from 'actions/users';
 
 const initialState = {
     entries: {}, //Users
     loading: false,
+    error: false
 };
 
 export const usersReducer = (state = initialState, action) => {
     switch(action.type)
     {
-        case LOAD_PROFILE:
+        case USER_LOAD_REQUEST:
             return {
                 ...state,
-                entries: dataBackend,
+                loading: true,
+            };
+        case USER_LOAD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                entries: action.payload,
+            };
+        case USER_LOAD_FAILTURE:
+            return {
+                ...state,
+                loading: false,
+                error: true,
             };
         // case CHANGE_USERNAME:
         //     return {

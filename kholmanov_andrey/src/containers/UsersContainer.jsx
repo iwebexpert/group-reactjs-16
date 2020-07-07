@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {Users} from 'components/Users';
-import {loadProfile, changeUsername} from 'actions/users';
+import {userLoadApi, changeUsername} from 'actions/users';
 
 class UsersContainer extends Component {
     componentDidMount(){
@@ -51,7 +51,7 @@ function mapStateToProps(state, ownProps){
  */
 function mapDispatchToProps(dispatch){
     return {
-        loadProfileAction: () => dispatch(loadProfile()),
+        loadProfileAction: () => dispatch(userLoadApi()),
     };
 }
 

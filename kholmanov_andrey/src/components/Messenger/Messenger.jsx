@@ -10,7 +10,16 @@ import './Messenger.scss';
 export class Messenger extends Component {
     render()
     {
-        const {chats, messages, sendMessage, sendChat, user, removeChat} = this.props;
+        const {chats, messages, sendMessage, sendChat, user, removeChat, isLoading, isError} = this.props;
+
+        if(isLoading){
+            return (<div>Loading...</div>);
+        }
+
+        if(isError){
+            return (<div>Error. Обновите страницу...</div>);
+        }
+
         return (
             <div className="layout">
                 <Header />
