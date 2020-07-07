@@ -1,5 +1,7 @@
 import {
-  CHATS_LOAD,
+  CHATS_LOAD_REQUEST,
+  CHATS_LOAD_SUCCESS,
+  CHATS_LOAD_FAILURE,
   CHATS_SEND,
   CHAT_ADD,
   CHAT_HIGHLIGHT,
@@ -8,39 +10,6 @@ import {
 } from "actions/chats";
 import update from "react-addons-update";
 
-const dataBackend = {
-  "1": {
-    name: "😸 Chat",
-    messages: [
-      {
-        text: "Hi! Share your happy news here",
-        author: "Bot",
-      },
-    ],
-    state: { highlight: false },
-  },
-  "2": {
-    name: "🙀 Chat",
-    messages: [
-      {
-        text: "Hi! Share your shocking news here",
-        author: "Bot",
-      },
-    ],
-    state: { highlight: false },
-  },
-  "3": {
-    name: "😽 Chat",
-    messages: [
-      {
-        text: "Hi 💋",
-        author: "Bot",
-      },
-    ],
-    state: { highlight: false },
-  },
-};
-
 const initialState = {
   entries: {}, //Chats
   loading: false,
@@ -48,10 +17,22 @@ const initialState = {
 
 export const chatsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHATS_LOAD:
+    case CHATS_LOAD_REQUEST:
       return {
         ...state,
-        entries: dataBackend,
+        loading: true,
+      };
+    case CHATS_LOAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        entries: action.payload,
+      };
+    case CHATS_LOAD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: true,
       };
     case CHAT_ADD:
       const { name, chatId } = action.payload;
@@ -68,9 +49,10 @@ export const chatsReducer = (state = initialState, action) => {
       });
     case CHAT_DELETE:
       const chatToDelete = action.payload.chatId;
-      delete state.entries[chatToDelete]
+      delete state.entries[chatToDelete];
       return {
         ...state,
+        entries: { ...state.entries },
       };
     case CHATS_SEND:
       return update(state, {
@@ -89,22 +71,22 @@ export const chatsReducer = (state = initialState, action) => {
         entries: {
           [action.payload.chatId]: {
             state: {
-              $set: { highlight: true},
+              $set: { highlight: true },
             },
           },
         },
       });
-      case CHAT_DEHIGHLIGHT:
-        return update(state, {
-          entries: {
-            [action.payload.chatId]: {
-              state: {
-                $set: { highlight: false},
-              },
+    case CHAT_DEHIGHLIGHT:
+      return update(state, {
+        entries: {
+          [action.payload.chatId]: {
+            state: {
+              $set: { highlight: false },
             },
           },
-        });
-    
+        },
+      });
+
     default:
       return state;
   }

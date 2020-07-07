@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { userLoad } from "actions/user";
+import { userLoadApi } from "actions/user";
 
 import { ProfilePage } from "pages/ProfilePage";
 
@@ -37,7 +37,7 @@ function mapStateToProps(state, ownProps) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    userLoadAction: () => dispatch(userLoad()),
+    userLoadAction: () => dispatch(userLoadApi()),
   };
 }
 

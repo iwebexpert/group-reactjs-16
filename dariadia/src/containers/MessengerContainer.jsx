@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 
 import { Messenger } from "components/Messenger";
-import { chatsLoad, chatsSend, chatAdd, chatDelete } from "actions/chats";
-import { userLoad, userAdd, userLogOut } from "actions/user";
+import { chatsLoadApi, chatsSend, chatAdd, chatDelete } from "actions/chats";
+import { userLoadApi, userAdd, userLogOut } from "actions/user";
 
 class MessengerContainer extends Component {
   componentDidMount() {
@@ -47,7 +47,7 @@ class MessengerContainer extends Component {
 
   handleDeleteChat = (chatId) => {
     const { chatDeleteAction, redirect } = this.props;
-  
+
     chatDeleteAction(chatId);
     redirect(" ");
   };
@@ -135,14 +135,14 @@ function mapStateToProps(state, ownProps) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    chatsLoadAction: () => dispatch(chatsLoad()),
+    chatsLoadAction: () => dispatch(chatsLoadApi()),
     chatsSendAction: (message) => dispatch(chatsSend(message)),
     chatAddAction: (newChatId, chatName) =>
       dispatch(chatAdd(newChatId, chatName)),
     chatDeleteAction: (chatId) => dispatch(chatDelete(chatId)),
     redirect: (id) => dispatch(push(`/chats/${id}`)),
 
-    userLoadAction: () => dispatch(userLoad()),
+    userLoadAction: () => dispatch(userLoadApi()),
     userAddAction: (newUser) => dispatch(userAdd(newUser)),
     userLogOutAction: () => dispatch(userLogOut()),
   };
