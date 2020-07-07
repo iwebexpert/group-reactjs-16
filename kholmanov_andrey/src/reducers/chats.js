@@ -1,26 +1,13 @@
-import {CHATS_LOAD, CHATS_SEND, CHATS_ADD, CHATS_REMOVE, CHATS_HIGHLIGHTING} from 'actions/chats';
+import {
+    CHATS_LOAD_REQUEST,
+    CHATS_LOAD_SUCCESS,
+    CHATS_LOAD_FAILTURE,
+    CHATS_SEND,
+    CHATS_ADD,
+    CHATS_REMOVE,
+    CHATS_HIGHLIGHTING
+} from 'actions/chats';
 import update from 'react-addons-update';
-
-const dataBackend = {
-    '1': {
-        id: 1,
-        name: 'Chat 1',
-        messages: [],
-        highlighting: false,
-    },
-    '2': {
-        id: 2,
-        name: 'Chat 2',
-        messages: [],
-        highlighting: false,
-    },
-    '3': {
-        id: 3,
-        name: 'Chat 3',
-        messages: [],
-        highlighting: false,
-    },
-};
 
 const initialState = {
     entries: {}, //Chats
@@ -30,10 +17,22 @@ const initialState = {
 export const chatsReducer = (state = initialState, action) => {
     switch(action.type)
     {
-        case CHATS_LOAD:
+        case CHATS_LOAD_REQUEST:
             return {
                 ...state,
-                entries: dataBackend,
+                loading: true,
+            };
+        case CHATS_LOAD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                entries: action.payload,
+            };
+        case CHATS_LOAD_FAILTURE:
+            return {
+                ...state,
+                loading: false,
+                error: true,
             };
         case CHATS_SEND:
             return update(state, {
@@ -44,9 +43,11 @@ export const chatsReducer = (state = initialState, action) => {
                 }
             });
         case CHATS_ADD:
-            const keys = Object.keys( state.entries );
-            const newId = Number( keys[ keys.length - 1 ] ) + 1;
-            const newChat = { [ newId ]: { id: newId, name: action.payload, messages: [] } };
+            const {newId, name} = action.payload;
+            const newChat = { [ newId ]: {
+                id: newId,
+                name: name, messages: []
+            } };
             return {
                 ...state,
                 entries: {
