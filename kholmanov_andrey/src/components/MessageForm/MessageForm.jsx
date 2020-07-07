@@ -37,7 +37,6 @@ export class MessageForm extends Component {
 
     handleEnterCtrlDown = (event) => {
         if(event.ctrlKey && event.keyCode === 13){
-            console.log(event);
             this.handleMessageSend();
         }
     };

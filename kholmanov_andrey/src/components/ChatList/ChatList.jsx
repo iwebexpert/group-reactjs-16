@@ -5,10 +5,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import cn from "classnames";
 
 import {List, ListItem, ListItemText, TextField, Fab, Button} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import './ChatList.scss';
 
 export class ChatList extends Component {
@@ -34,14 +36,12 @@ export class ChatList extends Component {
 
     handleChatRemove = (event) => {
         const id = event.target.dataset.id;
-        console.log(id, this.props);
         const {removeChat} = this.props;
         removeChat(id);
     };
 
     handleEnterCtrlDown = (event) => {
         if(event.ctrlKey && event.keyCode === 13){
-            console.log(event);
             this.handleChatSend();
         }
     };
@@ -53,14 +53,15 @@ export class ChatList extends Component {
     render()
     {
         const {chats} = this.props;
-        console.log(chats);
-
         let chatList = [];
         for(let chatKey in chats){
             chatList.push(
-                <div>
-                    <Link to={`${chats[chatKey].link}`}>
-                        <ListItem key={chatKey}>
+                <div className="chat-item">
+                    <Link className="chat-link" to={`${chats[chatKey].link}`}>
+                        <NotificationImportantIcon className={cn("chat-notification", {
+                            "chat-highlighted": chats[chatKey].highlighting,
+                        })}/>
+                        <ListItem className="chat-listItem" key={chatKey}>
                             <ListItemText primary={chats[chatKey].name} />
                         </ListItem>
                     </Link>
