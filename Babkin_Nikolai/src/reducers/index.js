@@ -9,3 +9,4 @@ export const initReducer = history => combineReducers({
     chats: chatsReducer,
     profile: profileReducer,
 });
+

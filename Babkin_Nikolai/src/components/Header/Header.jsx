@@ -16,7 +16,7 @@ export class Header extends React.Component {
                     <ButtonGroup color="primary" aria-label="outlined button group">
                         {pageName.toLowerCase() === 'profile' ?
                             <Button id="header_nav_button">
-                                <Link to="/chats/1">
+                                <Link to="/chats/0">
                                     <ListItemText primary="Chats"/>
                                 </Link>
                             </Button>

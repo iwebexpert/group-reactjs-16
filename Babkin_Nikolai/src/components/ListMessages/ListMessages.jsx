@@ -10,11 +10,15 @@ export class ListMessages extends React.Component {
         this.markAuthorMessage();
     }
 
+    componentDidMount() {
+        this.markAuthorMessage();
+    }
+
     markAuthorMessage() {
-        if (sessionStorage.getItem('name')) {
-            const allMessages = document.getElementsByClassName('allMessages')[0].childNodes
+        const allMessages = document.getElementsByClassName('allMessages')[0].childNodes
+        if (allMessages.length !== 0 && allMessages[0].nodeName === 'DIV') {
             for (let message of allMessages) {
-                if (message.dataset.author.toLowerCase() === sessionStorage.getItem('name').toLowerCase()) {
+                if (message.dataset.author.toLowerCase() === this.props.userName.toLowerCase()) {
                     message.classList.add('oneMessage__fromAuthor');
                 } else {
                     message.classList.remove('oneMessage__fromAuthor');
@@ -25,6 +29,7 @@ export class ListMessages extends React.Component {
 
     render() {
         const {messages, botPrinting, chatId, handlerRemoveMessage} = this.props;
+
 
         return (
             <div className="allMessages">

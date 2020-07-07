@@ -1,0 +1,40 @@
+{
+  "1": {
+    "name": "Chat 1",
+    "messages": [
+      {
+        "author": "Author 1",
+        "text": "first message"
+      },
+      {
+        "author": "Second Author",
+        "text": "second message"
+      }
+    ],
+    "botPrinting": false
+  },
+  "2": {
+    "name": "Chat 2",
+    "messages": [
+      {
+        "author": "Second Author",
+        "text": "second message"
+      }
+    ],
+    "botPrinting": false
+  },
+  "3": {
+    "name": "Chat 3",
+    "messages": [
+      {
+        "author": "Some Author",
+        "text": "bla bla bla"
+      },
+      {
+        "author": "Author",
+        "text": "hello"
+      }
+    ],
+    "botPrinting": false
+  }
+}

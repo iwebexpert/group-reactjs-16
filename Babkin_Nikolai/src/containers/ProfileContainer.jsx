@@ -1,23 +1,11 @@
 import React from "react";
 import {Profile} from "components/Profile";
 import {connect} from "react-redux";
-import {profileGet, profileSet} from "actions/profile";
+import {profileGet, profileGetApi, profileSet, profileSetApi} from "actions/profile";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         this.props.profileGetAction();
-
-        const name = sessionStorage.getItem('name')
-        if (name) {
-            this.props.profileSetAction({name})
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        let name = sessionStorage.getItem('name')
-        if (name && this.props.data.name !== name) {
-            this.props.profileSetAction({name})
-        }
     }
 
     render() {
@@ -39,8 +27,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        profileGetAction: () => dispatch(profileGet()),
-        profileSetAction: (name) => dispatch(profileSet(name)),
+        profileGetAction: () => dispatch(profileGetApi()),
+        profileSetAction: (name) => dispatch(profileSetApi(name)),
     };
 }
 
