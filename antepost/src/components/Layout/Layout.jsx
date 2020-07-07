@@ -6,18 +6,6 @@ import { ChatListRedux } from 'containers/ChatListContainer';
 import "./Layout.css";
 
 export class Layout extends Component {
-    /*state = {
-        chatList: [],
-        newChatName: '',
-    }
-    
-    getChatList = (chatListData) => {
-        this.setState({chatList: chatListData});
-    }
-
-    getNewChatName = (newChatName) => {
-        this.setState({newChatName: newChatName});
-    }*/
 
     render() {
         return (

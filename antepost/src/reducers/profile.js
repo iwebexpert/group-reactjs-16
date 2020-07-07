@@ -1,4 +1,4 @@
-import { PROFILE_LOAD } from 'actions/profile';
+import { PROFILE_LOAD_REQUEST, PROFILE_LOAD_SUCCESS, PROFILE_LOAD_FAILTURE } from 'actions/profile';
 
 const dataBackend = {
     name: 'John',
@@ -10,14 +10,27 @@ const dataBackend = {
 const initialState = {
     entries: {},
     loading: false,
+    error: false,
 };
 
 export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        case PROFILE_LOAD:
+        case PROFILE_LOAD_REQUEST:
             return {
                 ...state,
-                entries: dataBackend,
+                loading: true,
+            };
+        case PROFILE_LOAD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                entries: action.payload,
+            };
+        case PROFILE_LOAD_FAILTURE:
+            return {
+                ...state,
+                loading: false,
+                error: true,
             };
         default:
             return state;

@@ -8,7 +8,7 @@ export const routes = [
         component: Layout,
     },
     {
-        path: '/chats/:id([0-9]+)',
+        path: '/chats/:id([0-9a-zA-Z]+)',
         exact: true,
         component: Layout,
     },

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 
 import { ChatList } from 'components/ChatList';
-import { chatsLoad, chatsAdd, chatsUnblink, chatsDelete } from 'actions/chats';
+import { chatsLoadApi, chatsAdd, chatsUnblink, chatsDelete } from 'actions/chats';
 
 class ChatListContainer extends Component {
     componentDidMount() {
@@ -60,7 +60,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        chatsLoadAction: () => dispatch(chatsLoad()),
+        chatsLoadAction: () => dispatch(chatsLoadApi()),
         chatsAddAction: (chatName) => dispatch(chatsAdd(chatName)),
         chatsUnblinkAction: (chatId) => dispatch(chatsUnblink(chatId)),
         pushAction: (link) => dispatch(push(link)),
