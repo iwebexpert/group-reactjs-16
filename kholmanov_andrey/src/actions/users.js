@@ -27,8 +27,8 @@ export const userLoadApi = () => {
     return async (dispatch) => {
         try {
             dispatch(userLoadApiRequest());
-            const result = (await fetch('/api/user.json'));
-            //const result = (await fetch('http://localhost:5000/profile'));
+            // const result = (await fetch('/api/user.json'));
+            const result = (await fetch('http://localhost:5000/profile'));
             dispatch(userLoadApiSuccess(await result.json()));
         } catch(error){
             dispatch(userLoadApiFailture(error));

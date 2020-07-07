@@ -11,7 +11,8 @@ export const CHATS_REMOVE = 'CHATS_REMOVE';
 export const CHATS_HIGHLIGHTING = 'CHATS_HIGHLIGHTING'; //highlighting
 
 export const chatsLoadApi = () => createAction({
-    endpoint: '/api/chats.json',
+    endpoint: 'http://localhost:5000/chats',
+    // endpoint: '/api/chats.json',
     method: 'GET',
     headers: {'Content-Type': 'application/json'},
     types: [CHATS_LOAD_REQUEST, CHATS_LOAD_SUCCESS, CHATS_LOAD_FAILTURE],
