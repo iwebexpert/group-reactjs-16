@@ -2,3 +2,29 @@
   width: 25%;
   color: #ffffff;
 }
+
+.chat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.chat-listItem {
+  flex-grow: 1;
+}
+
+.chat-notification {
+  opacity: 0;
+}
+
+.chat-highlighted {
+  opacity: 1;
+  color: red;
+}

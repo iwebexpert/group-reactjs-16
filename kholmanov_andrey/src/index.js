@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import {BrowserRouter, Switch, Route, HashRouter, MemoryRouter, StaticRouter} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
 import {routes} from './routes';
