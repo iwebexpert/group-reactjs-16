@@ -3,13 +3,16 @@ import {connect} from "react-redux";
 import {push} from 'connected-react-router';
 
 import {Messenger} from 'components/Messenger';
-import {chatsLoad, chatsSend, chatsAdd, chatsRemove, messageRemove} from "actions/chats";
+import {chatsLoadApi, chatsSendApi, chatsSend, chatsAdd, chatsRemove, messageRemove} from "actions/chats";
 
 class MessengerContainer extends Component
 {
     componentDidMount() {
         const {chatsLoadAction} = this.props;
-        chatsLoadAction();
+
+        if (!this.props.chats.length){
+            chatsLoadAction();
+        }
     }
 
     createChat = (chatName) => {
@@ -35,16 +38,23 @@ class MessengerContainer extends Component
     };
 
     handleMessageSend = (message) => {
-        const {chatID, chatsSendAction} = this.props;
+        const {match, chats, chatsSendAction} = this.props;
 
-        chatsSendAction({
-           ...message,
-           chatID
-        });
+        let chatID = null;
+        if (match && match.params.id) {
+            chatID = chats[match.params.id]._id;
+        }
+
+        if (chatID) {
+            chatsSendAction({
+                ...message,
+                chatID
+            });
+        }
     };
 
     render() {
-        const {chats, messages} = this.props;
+        const {chats, messages, isLoading} = this.props;
 
         return (
             <Messenger
@@ -54,6 +64,7 @@ class MessengerContainer extends Component
                 messageRemove={this.messageRemove}
                 createChat={this.createChat}
                 removeChat={this.removeChat}
+                isLoading={isLoading}
             />
         )
     }
@@ -72,7 +83,7 @@ function mapStateToProps(state, ownProps) {
     const chatsArray = [];
     for (const key in chats) {
         if (chats.hasOwnProperty(key)) {
-            chatsArray.push({id: key, name: chats[key].author, link: `/chats/${key}`, updated: chats[key].updated});
+            chatsArray.push({id: key, name: chats[key].name, link: `/chats/${key}`, updated: chats[key].updated, _id:chats[key]._id});
         }
     }
 
@@ -80,17 +91,18 @@ function mapStateToProps(state, ownProps) {
         chats: chatsArray,
         messages,
         chatID: match ? match.params.id : null,
+        isLoading: state.chats.loading
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        chatsLoadAction: () => dispatch(chatsLoad()),
-        chatsSendAction: (message) => dispatch(chatsSend(message)),
+        chatsLoadAction: () => dispatch(chatsLoadApi()),
+        chatsSendAction: (message) => dispatch(chatsSendApi(message)),
         chatsAddAction: (newChatID, chatName) => dispatch(chatsAdd(newChatID, chatName)),
         chatsRemoveAction: (id) => dispatch(chatsRemove(id)),
         messagesRemoveAction: (chatID, messageID) => dispatch(messageRemove(chatID, messageID)),
-        redirect: (id) => dispatch(push(`/chats/${id}`)),
+        redirect: (id) => dispatch(push(`/chats/${id}`))
     }
 }
 

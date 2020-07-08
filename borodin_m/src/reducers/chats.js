@@ -1,4 +1,15 @@
-import {CHATS_LOAD, CHATS_SEND, CHAT_ADD, CHAT_FIRE, CHAT_UNFIRE, CHAT_REMOVE, MESSAGE_REMOVE} from "actions/chats";
+import {
+    CHATS_LOAD,
+    CHATS_SEND,
+    CHAT_ADD,
+    CHAT_FIRE,
+    CHAT_UNFIRE,
+    CHAT_REMOVE,
+    MESSAGE_REMOVE,
+    CHATS_LOAD_REQUEST,
+    CHATS_LOAD_SUCCESS,
+    CHATS_LOAD_FAILURE
+} from "actions/chats";
 import update from 'react-addons-update';
 
 const chatsData = {
@@ -21,6 +32,7 @@ const chatsData = {
 
 const initialState = {
     entries: {},
+    loading: false,
 };
 
 export const chatReducer = (state = initialState, action) => {
@@ -77,6 +89,22 @@ export const chatReducer = (state = initialState, action) => {
               entries: {[chatId] : {messages: {$splice: [[messageID, 1]]
               }}}
           });
+      case CHATS_LOAD_REQUEST:
+          return {
+              ...state,
+              loading: true
+          };
+      case CHATS_LOAD_SUCCESS:
+          return {
+              ...state,
+              entries: action.payload,
+              loading: false
+          };
+      case CHATS_LOAD_FAILURE:
+          return {
+              ...state,
+              loading: false
+          };
       default:
           return state;
   }

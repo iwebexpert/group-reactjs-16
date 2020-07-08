@@ -1,12 +1,5 @@
-import {PROFILE_LOAD} from "actions/profile";
+import {PROFILE_LOAD_REQUEST, PROFILE_LOAD_SUCCESS, PROFILE_LOAD_FAILURE} from "actions/profile";
 import React from "react";
-
-const profileData = {
-    name: 'Вася',
-    birthday: '01.01.2000',
-    city: 'Москва',
-    email: 'vasya2000@moscow.ru'
-};
 
 const initialState = {
     profile: {},
@@ -14,10 +7,18 @@ const initialState = {
 
 export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        case PROFILE_LOAD:
+        case PROFILE_LOAD_REQUEST:
+            return {
+                ...state
+            };
+        case PROFILE_LOAD_SUCCESS:
             return {
                 ...state,
-                profile: profileData
+                profile: action.payload,
+            };
+        case PROFILE_LOAD_FAILURE:
+            return {
+                ...state,
             };
         default:
             return state;
