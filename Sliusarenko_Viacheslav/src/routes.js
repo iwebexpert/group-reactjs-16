@@ -4,12 +4,7 @@ import ProfilePageContainer from 'containers/ProfilePageContainer';
 
 export const routes = [
   {
-    path: '/',
-    exact: true,
-    component: withLayout( ChatsPageContainer ),
-  },
-  {
-    path: '/chats/:id',
+    path: ['/', '/chats/:id?'],
     exact: true,
     component: withLayout( ChatsPageContainer ),
   },

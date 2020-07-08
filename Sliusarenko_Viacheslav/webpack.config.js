@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const env = dotenv.config().parsed;
 const envKeys = Object.keys( env ).reduce((prev, next) => {
@@ -55,7 +56,18 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'bundle.css'
     }),
-    new webpack.DefinePlugin( envKeys )
+    new webpack.DefinePlugin( envKeys ),
+    new CopyPlugin(
+      {
+        patterns: [
+          {from: path.resolve(__dirname, 'server', 'data'), to: path.resolve(__dirname, 'dist', 'api')},
+          {from: path.resolve(__dirname, 'src', 'favicon.ico'), to: path.resolve(__dirname, 'dist')},
+          {from: path.resolve(__dirname, 'src', 'sw.js'), to: path.resolve(__dirname, 'dist')},
+          {from: path.resolve(__dirname, 'src', 'manifest.json'), to: path.resolve(__dirname, 'dist')},
+          {from: path.resolve(__dirname, 'src', 'serviceWorkerInit.js'), to: path.resolve(__dirname, 'dist')},
+          {from: path.resolve(__dirname, 'src', 'assets', 'images'), to: path.resolve(__dirname, 'dist', 'images')},
+        ],
+      }),
   ],
   devServer: {
     historyApiFallback: true,
