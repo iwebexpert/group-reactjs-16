@@ -17,6 +17,11 @@ const profile = new Datastore({
     autoload: true,
 });
 
+const install = new Datastore({
+    filename: path.resolve(__dirname, './data/install.db'),
+    autoload: true,
+});
+
 app.use(express.json());
 app.use(cors());
 
@@ -109,6 +114,17 @@ app.get('/profile', (req, res) => {
             return res.status(500).json({message: 'Unexpected error'});
         }
         res.json(doc);
+    });
+});
+
+
+app.get('/install', (req, res) => {
+    const body = { installed: true };
+    install.insert( body, (err ) => {
+        if( err ) {
+            return res.status(500).json({message: 'Unexpected error'});
+        }
+        res.json('success');
     });
 });
 
