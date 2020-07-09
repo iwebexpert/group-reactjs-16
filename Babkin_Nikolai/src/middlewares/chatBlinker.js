@@ -1,10 +1,12 @@
-import {CHATS_SEND} from "actions/chats";
+import {CHATS_SEND_REQUEST} from "actions/chats";
 
 export function chatBlinker(store) {
     return function (next) {
         return function (action) {
-            if (action.type === CHATS_SEND) {
-                const {chatId, author} = action.payload
+            const apiMiddleware = action['@@redux-api-middleware/RSAA'];
+            if (apiMiddleware && apiMiddleware.types[0] === CHATS_SEND_REQUEST) {
+                const author = apiMiddleware.endpoint.match(/(?<=author=)\w+(?=&)/)[0];
+                const chatId = apiMiddleware.endpoint.match(/(?<=id=)\w+(?=&)/)[0];
                 if (author.toLocaleLowerCase() === 'bot') {
                     const allChats = document.querySelectorAll('.chat-list_button');
                     let activeChat = [];

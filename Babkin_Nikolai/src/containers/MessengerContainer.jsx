@@ -1,8 +1,8 @@
 import React from "react";
 import {Messenger} from 'components/Messenger';
 import {connect} from 'react-redux';
-import {chatsLoadApi, chatsSend, chatsAdd, chatsRemoveMessage, chatsRemove, chatsAddApi} from 'actions/chats';
-import {profileGet, profileGetApi, profileSet} from "actions/profile";
+import {chatsLoadApi, chatsRemoveMessage, chatsAddApi, chatsSendApi, chatsDeleteApi} from 'actions/chats';
+import {profileGetApi, profileSet} from "actions/profile";
 import {push} from 'connected-react-router';
 
 
@@ -26,6 +26,7 @@ class MessengerContainer extends React.Component {
             redirect,
             isLoading,
             isError,
+            pathName,
         } = this.props;
 
         return (
@@ -38,11 +39,12 @@ class MessengerContainer extends React.Component {
                 handlerSendMessage={this.props.chatsSendAction}
                 handlerAddChat={this.props.chatsAddAction}
                 handlerRemoveMessage={this.props.chatsRemoveMessageAction}
-                handlerRemoveChat={this.props.chatsRemoveAction}
+                handlerRemoveChat={this.props.chatsDeleteAction}
                 botPrinting={botPrinting}
                 redirect={redirect}
                 isLoading={isLoading}
                 isError={isError}
+                pathName={pathName}
             />
         );
     }
@@ -61,15 +63,26 @@ function mapStateToProps(state, ownProps) {
     let messages = [];
     let pageName = '';
     let botPrinting = '';
-    if (match && chats[match.params.id]) {
-        messages = chats[match.params.id].messages;
-        pageName = chats[match.params.id].name
-        botPrinting = chats[match.params.id].botPrinting
+    let pathName = '';
+
+    if (match && chats.length) {
+        const id = match.params.id;
+        for (let chat of chats) {
+            if (chat._id === id) {
+                messages = chat.messages;
+                pageName = chat.name
+                botPrinting = chat.botPrinting
+                break;
+            }
+        }
+    }
+    if (match) {
+        pathName = match.url.split('/')[1];
     }
 
     for (let key in chats) {
         if (chats.hasOwnProperty(key)) {
-            chats[key].link = `/chats/${key}`;
+            chats[key].link = `/chats/${chats[key]._id}`;
         }
     }
 
@@ -82,6 +95,7 @@ function mapStateToProps(state, ownProps) {
         botPrinting,
         isLoading: state.chats.loading,
         isError: state.chats.error,
+        pathName,
     }
 }
 
@@ -92,13 +106,13 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         chatsLoadAction: () => dispatch(chatsLoadApi()),
-        chatsSendAction: (message) => dispatch(chatsSend(message)),
-        chatsRemoveMessageAction: (chatId, newMessages) => dispatch(chatsRemoveMessage(chatId, newMessages)),
-        chatsRemoveAction: (newChats) => dispatch(chatsRemove(newChats)),
-        // chatsAddAction: (newChat) => dispatch(chatsAdd(newChat)),
+        chatsSendAction: (message) => dispatch(chatsSendApi(message)),
         chatsAddAction: (newChat) => dispatch(chatsAddApi(newChat)),
+        chatsDeleteAction: (chatId) => dispatch(chatsDeleteApi(chatId)),
         profileGetAction: () => dispatch(profileGetApi()),
-        profileSetAction: () => dispatch(profileSet()),
+
+        chatsRemoveMessageAction: (chatId, newMessages) => dispatch(chatsRemoveMessage(chatId, newMessages)),
+
         redirect: (url) => dispatch(push(url)),
     };
 }

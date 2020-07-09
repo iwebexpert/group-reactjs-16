@@ -4,8 +4,8 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 40%;
-  right: $indent;
+  top: 2%;
+  right: 2%;
   z-index: 100;
   background: #14c5ff;
   padding: 1em;
@@ -13,7 +13,7 @@
   box-shadow: 0 0 0.5em 0.1em #888;
 
   &_input {
-    font-size: 1.5em;
+    font-size: 1.2em;
     padding: 0.5em 0.8em;
     border-radius: 1em 1em 0 0;
     border: none;
@@ -34,7 +34,7 @@
 
   &_button-login {
     border: none;
-    font-size: 1.5em;
+    font-size: 1em;
     padding: 0.5em 0.8em;
     border-radius: 0 0 1em 1em;
     background: #fff;

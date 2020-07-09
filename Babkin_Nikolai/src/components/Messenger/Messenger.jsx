@@ -6,15 +6,6 @@ import './Messenger.scss';
 import {Header} from "components/Header";
 
 export class Messenger extends React.Component {
-    componentDidMount() {
-        // if (sessionStorage.getItem('name')) {
-        //     document.querySelector('.messenger').style.opacity = '1';
-        // } else {
-        //     document.querySelector('.messenger').style.opacity = '0';
-        //     document.location.href = this.props.redirect('/');
-        // }
-    }
-
     render() {
         const {
             chatId,
@@ -29,15 +20,15 @@ export class Messenger extends React.Component {
             handlerRemoveChat,
             redirect,
             isLoading,
-            isError
+            isError,
+            pathName,
         } = this.props;
 
         if (isLoading) return <div>Loading...</div>;
         if (isError) return <div>Error...</div>;
-
         return (
             <div className="messenger">
-                <Header pageName={pageName}/>
+                <Header pageName={pageName} pathName={pathName}/>
                 <div className="messenger__main">
                     <ChatList
                         handlerAddChat={handlerAddChat}
@@ -54,7 +45,8 @@ export class Messenger extends React.Component {
                             userName={userName}/>
                         <MessageForm userName={userName}
                                      handerlSendMessage={handlerSendMessage}
-                                     chatId={chatId}/>
+                                     chatId={chatId}
+                                     chats={chats}/>
                     </div>
                 </div>
             </div>

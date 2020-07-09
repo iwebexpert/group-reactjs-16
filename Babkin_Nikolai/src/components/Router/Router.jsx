@@ -7,19 +7,14 @@ import {MessengerRedux} from "containers/MessengerContainer";
 export class Router extends React.Component {
     routes = [
         {
-            path: '/',
+            path:['/', '/profile'],
             exact: true,
             component: Layout,
         },
         {
-            path: '/chats/:id([0-9]+)',
+            path: ['/chats/:id([a-zA-Z0-9]+)'],
             exact: true,
             component: MessengerRedux,
-        },
-        {
-            path: '/profile',
-            exact: true,
-            component: Layout,
         },
         {
             path: '*',
