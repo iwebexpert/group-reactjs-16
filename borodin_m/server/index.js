@@ -69,7 +69,7 @@ app.get('/chats/addmessage', (req, res) => {
             return res.status(500).json({message: 'Unexpected error'});
         }
 
-        res.json({ message: 'success' });
+        res.json({ _id: chatId, message });
     });
 });
 

@@ -20,7 +20,6 @@ class ProfileContainer extends Component
 
 function mapStateToProps(state) {
     const {profile} = state;
-    console.log(state);
 
     return {
         profile

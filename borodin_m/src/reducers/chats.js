@@ -8,7 +8,10 @@ import {
     MESSAGE_REMOVE,
     CHATS_LOAD_REQUEST,
     CHATS_LOAD_SUCCESS,
-    CHATS_LOAD_FAILURE
+    CHATS_LOAD_FAILURE,
+    CHATS_SEND_REQUEST,
+    CHATS_SEND_SUCCESS,
+    CHATS_SEND_FAILURE
 } from "actions/chats";
 import update from 'react-addons-update';
 
@@ -89,6 +92,30 @@ export const chatReducer = (state = initialState, action) => {
               entries: {[chatId] : {messages: {$splice: [[messageID, 1]]
               }}}
           });
+      case CHATS_SEND_REQUEST:
+          return {
+              ...state,
+              loading: true
+          };
+      case CHATS_SEND_SUCCESS:
+          let {_id, message} = action.payload;
+          const id = state.entries.findIndex((chat) => {
+              return chat._id === _id;
+          });
+
+          return update(state, {
+              entries: {
+                  [id]: {
+                      messages: {$push: [message]}
+                  }
+              },
+              loading: {$set: false}
+          });
+      case CHATS_SEND_FAILURE:
+          return {
+              ...state,
+              loading: false
+          };
       case CHATS_LOAD_REQUEST:
           return {
               ...state,
