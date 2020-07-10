@@ -1,7 +1,8 @@
 import React from "react";
 import {Profile} from "components/Profile";
 import {connect} from "react-redux";
-import {profileGet, profileGetApi, profileSet, profileSetApi} from "actions/profile";
+import {profileGetApi, profileSet, profileSetApi} from "actions/profile";
+import {Identification} from "components/Identification";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
@@ -10,7 +11,10 @@ class ProfileContainer extends React.Component {
 
     render() {
         return (
-            <Profile isLogin={this.props.isLogin} data={this.props.data}/>
+            <>
+                <Identification profileSet={this.props.profileSetAction} handlerLogin={this.handlerLogin}/>
+                <Profile data={this.props.data}/>
+            </>
         );
     }
 }

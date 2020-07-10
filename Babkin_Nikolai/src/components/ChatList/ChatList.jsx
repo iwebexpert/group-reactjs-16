@@ -15,7 +15,7 @@ export class ChatList extends React.Component {
     classChat = 'chat-list_button';
 
     state = {
-        chatNumber: 1,
+        chatNumber: 0,
         newChatName: '',
     }
 
@@ -39,8 +39,8 @@ export class ChatList extends React.Component {
             elem = {id};
         }
 
-        if (typeof +elem.id === 'number' && +elem.id !== +this.state.chatNumber) {
-            this.setState({chatNumber: +elem.id});
+        if (elem.id !== this.state.chatNumber) {
+            this.setState({chatNumber: elem.id});
         }
     };
 
@@ -64,8 +64,8 @@ export class ChatList extends React.Component {
                 const newChat = this.createNewChat(chatName);
                 this.props.handlerAddChat(newChat);
                 this.setState({newChatName: ''});
-                this.props.redirect('/chats/' + newChat.chatId);
-                this.handlerChangeChat(null, newChat.chatId);
+                this.props.redirect('/chats/' + newChat._id);
+                this.handlerChangeChat(null, newChat._id);
             }
         }
     }
@@ -77,13 +77,11 @@ export class ChatList extends React.Component {
     }
 
     createNewChat(name) {
-        const keys = Object.keys(this.props.chats);
-        let chatId;
-        if (keys.length) chatId = +keys.pop() + 1;
-        else chatId = 1;
-
+        const {chats} = this.props
+        const keys = Object.keys(chats);
+        let _id = Math.floor(Math.random() * 100000);
         return {
-            chatId,
+            _id,
             name,
             messages: [],
             author: 'Bot',
@@ -91,43 +89,34 @@ export class ChatList extends React.Component {
         }
     }
 
-    prepareChatList = () => {
-        const {chats, handlerRemoveChat, redirect} = this.props;
-        const arr = [];
-        for (let chat in chats) {
-            if (chats.hasOwnProperty(chat)) {
-                arr.push(
-                    <div key={chat} className="wrap-one-chat-list">
-                        <ModalWindow chatId={chat}
-                                     chats={chats}
-                                     handlerRemoveChat={handlerRemoveChat}
-                                     from="chat"
-                                     redirect={redirect}
-                                     handlerChangeChat={this.handlerChangeChat}/>
-                        <Link  to={chats[chat].link} className="chat-list_text-item">
-                            <ListItem id={chat}
-                                      button
-                                      className={this.classChat}
-                                      onClick={this.handlerChangeChat}>
-                                <ListItemIcon>{+chat === +this.state.chatNumber ? <PlayCircleFilledIcon/> :
-                                    <RadioButtonUncheckedIcon color="disabled"/>}
-                                </ListItemIcon>
-                                <ListItemText primary={chats[chat].name}/>
-                            </ListItem>
-                        </Link>
-                    </div>
-                )
-            }
-        }
-        return arr;
-    }
-
     render() {
         let {newChatName} = this.state;
-
+        const {chats, handlerRemoveChat, redirect} = this.props;
         return (
             <List>
-                {this.prepareChatList()}
+                {chats.length && chats.map((chat, index) => {
+                    return (
+                        <div key={index} className="wrap-one-chat-list">
+                            <ModalWindow chatId={chat._id}
+                                         chats={chats}
+                                         handlerRemoveChat={handlerRemoveChat}
+                                         from="chat"
+                                         redirect={redirect}
+                                         handlerChangeChat={this.handlerChangeChat}/>
+                            <Link to={chat.link} className="chat-list_text-item">
+                                <ListItem id={chat._id}
+                                          button
+                                          className={this.classChat}
+                                          onClick={this.handlerChangeChat}>
+                                    <ListItemIcon>{chat._id === this.state.chatNumber ? <PlayCircleFilledIcon/> :
+                                        <RadioButtonUncheckedIcon color="disabled"/>}
+                                    </ListItemIcon>
+                                    <ListItemText primary={chat.name}/>
+                                </ListItem>
+                            </Link>
+                        </div>
+                    );
+                }) || ''}
 
                 <ListItem onKeyDown={this.handlerClickAddChat}>
                     <ListItemIcon className="add-chat_icon"><AddCircleOutlineIcon

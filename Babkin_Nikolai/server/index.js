@@ -38,17 +38,15 @@ app.get('/chats/create', (req, res) => {
     }
     const body = {
         name: req.query.name,
-        unread: req.query.unread == "true",
+        unread: req.query.unread === "true",
         botPrinting: false,
         messages: [{"author": "Bot", "text": "Chat created"}],
-        chatId: req.query.id,
+        _id: req.query.id,
     };
-
     chats.insert({...body}, (err, newDoc) => {
         if (err) {
             return res.status(500).json({message: 'Unexpected error'});
         }
-
         res.json({message: 'success', newChat: {...body}});
     });
 });
@@ -56,22 +54,22 @@ app.get('/chats/create', (req, res) => {
 //Создание сообщения
 //http://localhost:5000/chats/addmessage?chatId=HG9ZY1lfk2ZOJ0sO&author=111&text=4223
 app.get('/chats/addmessage', (req, res) => {
-    if (!req.query.chatId || !req.query.author || !req.query.text) {
+    if (!req.query.id || !req.query.author || !req.query.text) {
         return res.status(500).json({error: 'Incorrect params'});
     }
+    req.query.botprinting = req.query.botprinting === 'true';
 
-    const message = {
+    const chatMessage = {
         author: req.query.author,
         text: req.query.text,
     };
-    const chatId = req.query.chatId;
-
-    chats.update({_id: chatId}, {$push: {messages: message}}, {}, (err, numReplaced) => {
+    const chatId = req.query.id;
+    const botPrinting = !!req.query.botprinting;
+    chats.update({_id: chatId}, {$push: {messages: chatMessage}}, {}, (err, numReplaced) => {
         if (err) {
             return res.status(500).json({message: 'Unexpected error'});
         }
-
-        res.json({message: 'success'});
+        res.json({message: 'success', chatMessages: {...chatMessage, chatId, botPrinting}});
     });
 });
 
@@ -81,16 +79,23 @@ app.get('/chats/delete', (req, res) => {
     if (!req.query.chatId) {
         return res.status(500).json({error: 'Incorrect params'});
     }
-    chats.remove({_id: req.query.chatId}, (err) => {
+    const chatId = req.query.chatId;
+
+    chats.remove({_id: chatId}, (err) => {
         if (err) {
             return res.status(500).json({message: 'Unexpected error'});
         }
-
-        res.json({message: 'success'});
     })
+    chats.find({}, (err, docs) => {
+        if (err) {
+            return res.status(500).json({message: 'Unexpected error'});
+        }
+        res.json({newChats: docs, message: 'success'});
+    });
 });
 
-//Для ДЗ
+//Получение профиля
+//http://localhost:5000/profile
 app.get('/profile', (req, res) => {
     profile.findOne({}, (err, doc) => {
         if (err) {
@@ -106,16 +111,14 @@ app.get('/profile/create', (req, res) => {
     if (!req.query.name) {
         return res.status(500).json({error: 'Incorrect params'});
     }
-    const body = {
+    const newProfile = {
         name: req.query.name,
     };
-
-    profile.update({_id: 'usyiVEHoVSAmri05'}, {$set: {...body}}, (err, newDoc) => {
+    profile.update({_id: 'usyiVEHoVSAmri05'}, {$set: {...newProfile}}, (err, newDoc) => {
         if (err) {
             return res.status(500).json({message: 'Unexpected error'});
         }
-
-        res.json({message: 'success'});
+        res.json({message: 'success', ...newProfile});
     });
 });
 

@@ -7,14 +7,14 @@ import Button from "@material-ui/core/Button";
 
 export class Header extends React.Component {
     render() {
-        const {pageName} = this.props;
+        const {pageName, pathName} = this.props;
         return (
             <header className="header">
                 <h2 className="header_h2">Messenger {pageName}</h2>
-                {pageName &&
+                {pathName &&
                 <nav className="header_nav">
                     <ButtonGroup color="primary" aria-label="outlined button group">
-                        {pageName.toLowerCase() === 'profile' ?
+                        {pathName.toLowerCase() === 'profile' ?
                             <Button id="header_nav_button">
                                 <Link to="/chats/0">
                                     <ListItemText primary="Chats"/>

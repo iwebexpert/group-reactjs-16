@@ -16,8 +16,14 @@ export class MessageForm extends React.Component {
 
     handlerButtonClick = (event) => {
         event.preventDefault();
+        const {chats, chatId} = this.props
+        let isExistChat = false;
+        for (let chat of chats) {
+            isExistChat = chat._id === chatId
+        }
+
         const author = this.props.userName;
-        if (this.state.text === '' || !author) return;
+        if (this.state.text === '' || !author || !isExistChat) return;
         this.props.handerlSendMessage({
             author,
             text: this.state.text,
