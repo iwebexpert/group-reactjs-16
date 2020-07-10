@@ -9,7 +9,7 @@ export const CHATS_ADD_SUCCESS = 'CHATS_ADD_SUCCESS';
 export const CHATS_ADD_FAILTURE = 'CHATS_ADD_FAILTURE';
 
 export const CHATS_SEND = 'CHATS_SEND';
-export const CHATS_ADD = 'CHATS_ADD';
+// export const CHATS_ADD = 'CHATS_ADD';
 export const CHATS_REMOVE = 'CHATS_REMOVE';
 export const CHATS_HIGHLIGHTING = 'CHATS_HIGHLIGHTING'; //highlighting
 
@@ -22,7 +22,7 @@ export const chatsLoadApi = () => createAction({
 });
 
 export const chatsAddApi = (newId, name) => createAction({
-    endpoint: 'http://localhost:5000/chats/create',
+    endpoint: `http://localhost:5000/chats/create?name=${ name }&id=${ newId }&unread=false`,
     // endpoint: '/api/chats.json',
     method: 'GET',
     headers: {'Content-Type': 'application/json'},

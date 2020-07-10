@@ -38,6 +38,7 @@ app.get('/chats/create', (req, res) => {
     }
 
     const body = {
+        id: req.query.id,
         name: req.query.name,
         unread: req.query.unread == "true",
     };
@@ -47,7 +48,10 @@ app.get('/chats/create', (req, res) => {
             return res.status(500).json({message: 'Unexpected error'});
         }
 
-        res.json({ message: 'success' });
+        res.json({
+            id: req.query.id,
+            name: req.query.name,
+            message: 'success'});
     });
 });
 

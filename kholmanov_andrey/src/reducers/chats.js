@@ -2,6 +2,9 @@ import {
     CHATS_LOAD_REQUEST,
     CHATS_LOAD_SUCCESS,
     CHATS_LOAD_FAILTURE,
+    CHATS_ADD_REQUEST,
+    CHATS_ADD_SUCCESS,
+    CHATS_ADD_FAILTURE,
     CHATS_SEND,
     CHATS_ADD,
     CHATS_REMOVE,
@@ -34,6 +37,37 @@ export const chatsReducer = (state = initialState, action) => {
                 loading: false,
                 error: true,
             };
+
+        case CHATS_ADD_REQUEST:
+            return {
+                ...state,
+                loading: false
+            };
+        case CHATS_ADD_SUCCESS: {
+            console.log(action);
+            const {id, name} = action.payload;
+            const newChat = { [ id ]: {
+                id: id,
+                name: name, messages: []
+            } };
+            return {
+                ...state,
+                entries: {
+                    ...newChat,
+                    ...state.entries,
+                },
+                loading: false,
+            };
+        }
+        case CHATS_ADD_FAILTURE: {
+            return {
+                ...state,
+                error: payload,
+                loading: false,
+            };
+        }
+
+
         case CHATS_SEND:
             return update(state, {
                 entries: {
@@ -42,19 +76,19 @@ export const chatsReducer = (state = initialState, action) => {
                     }
                 }
             });
-        case CHATS_ADD:
-            const {newId, name} = action.payload;
-            const newChat = { [ newId ]: {
-                id: newId,
-                name: name, messages: []
-            } };
-            return {
-                ...state,
-                entries: {
-                    ...state.entries,
-                    ...newChat,
-                },
-            };
+        // case CHATS_ADD:
+        //     const {newId, name} = action.payload;
+        //     const newChat = { [ newId ]: {
+        //         id: newId,
+        //         name: name, messages: []
+        //     } };
+        //     return {
+        //         ...state,
+        //         entries: {
+        //             ...state.entries,
+        //             ...newChat,
+        //         },
+        //     };
         case CHATS_REMOVE:
             delete state.entries[action.payload];
             return {
