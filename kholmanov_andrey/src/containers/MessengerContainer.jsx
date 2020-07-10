@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {push} from 'connected-react-router';
 
 import {Messenger} from 'components/Messenger';
-import {chatsLoadApi, chatsSend, chatsAdd, chatsRemove} from 'actions/chats';
+import {chatsLoadApi, chatsSend, chatsAddApi, chatsRemoveApi} from 'actions/chats';
 import {userLoadApi} from 'actions/users';
 
 class MessengerContainer extends Component {
@@ -32,9 +32,10 @@ class MessengerContainer extends Component {
         redirect(newId);
     };
 
-    handleChatRemove = (id) => {
+    handleChatRemove = (chatId) => {
         const {chatsRemoveAction} = this.props;
-        chatsRemoveAction(id);
+        console.log(chatId);
+        chatsRemoveAction(chatId);
     };
 
     render(){
@@ -80,7 +81,7 @@ function mapStateToProps(state, ownProps){
             chatsArrayForShow.push({
                 id: chats[key].id,
                 name: chats[key].name,
-                link: `/chats/${key}`,
+                link: `/chats/${chats[key].id}`,
                 highlighting: chats[key].highlighting
             });
         }
@@ -104,8 +105,8 @@ function mapDispatchToProps(dispatch){
     return {
         chatsLoadAction: () => dispatch(chatsLoadApi()),
         chatsSendAction: (message) => dispatch(chatsSend(message)),
-        chatsAddAction: (newId, name) => dispatch(chatsAdd(newId, name)),
-        chatsRemoveAction: (id) => dispatch(chatsRemove(id)),
+        chatsAddAction: (newId, name) => dispatch(chatsAddApi(newId, name)),
+        chatsRemoveAction: (chatId) => dispatch(chatsRemoveApi(chatId)),
         loadProfileAction: () => dispatch(userLoadApi()),
         redirect: (id) => dispatch(push(`/chats/${id}`)),
     };

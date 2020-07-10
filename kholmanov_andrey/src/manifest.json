@@ -1,0 +1,31 @@
+{
+    "name": "React chat",
+    "short_name": "R Chat",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "orange",
+    "description": "React chat",
+    "icons": [
+        {
+            "src": "images/512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "images/256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "images/64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "images/32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        }
+    ]
+}

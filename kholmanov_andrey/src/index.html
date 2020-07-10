@@ -7,6 +7,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>React App</title>
     <base href="/">
+
+    <!--<link rel="manifest" href="manifest.json">-->
+    <!--<script>-->
+        <!--if('serviceWorker' in navigator){-->
+            <!--window.addEventListener('load', function(){-->
+                <!--navigator.serviceWorker.register('sw.js').then(function(){-->
+                    <!--console.log('serviceWorker was register!');-->
+
+                    <!--Notification.requestPermission(function(result){-->
+                        <!--if(result === 'granted'){-->
+                            <!--navigator.serviceWorker.ready.then(function(registration){-->
+                                <!--registration.showNotification('showNotification works!');-->
+                            <!--});-->
+                        <!--}-->
+                    <!--});-->
+
+
+                <!--}, function(err){-->
+                    <!--console.log('serviceWorker failed!', err);-->
+                <!--});-->
+            <!--})-->
+        <!--}-->
+
+        <!--//Отслеживание установок приложения-->
+        <!--window.addEventListener('appinstalled', (event) => {-->
+            <!--console.log('Приложение было установлено!');-->
+            <!--// fetch('URL', {});-->
+        <!--});-->
+
+        <!--window.addEventListener('beforeinstallprompt', (event) => {-->
+            <!--console.log('Приложение еще не установлено!');-->
+        <!--});-->
+
+    <!--</script>-->
 </head>
 <body>
     <div id="root"></div>
