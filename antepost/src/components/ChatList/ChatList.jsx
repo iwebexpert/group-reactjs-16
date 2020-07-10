@@ -15,14 +15,23 @@ export class ChatList extends Component {
     }
 
     handleInputChange = (event) => {
-        const fieldName = event.target.name;
         this.setState({
             newChatName: event.target.value,
         });
     };
 
     handleAddChat = () => {
-        const { addChat } = this.props;
+        const { addChat, chats } = this.props;
+
+        const chatNames = [];
+        for (const id in chats) {
+            chatNames.push(chats[id].name);
+        }
+    
+        if (chatNames.includes(this.state.newChatName)) {
+            alert('Name already taken. Choose another');
+            return null;
+        }
 
         if (typeof addChat === 'function') {
             addChat(this.state.newChatName);
@@ -46,7 +55,7 @@ export class ChatList extends Component {
                     {chats.map((chat, index) => {
                         const isShown = chat.blinking ? 'show' : 'hide';
                         const isSelected = +match.params.id === index + 1;
-                        const chatId = +chat.link.match(/\d/)[0];
+                        const chatId = chat.link.match(/chats\/(.*)/)[1];
                         return (
                             <MenuItem key={index} button onClick={() => this.props.handleNavigate(chat.link)} selected={isSelected}>
                                 <ListItemText primary={chat.name} />

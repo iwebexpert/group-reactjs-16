@@ -3,53 +3,24 @@ import update from 'react-addons-update';
 import {
     CHATS_LOAD_REQUEST,
     CHATS_LOAD_SUCCESS,
-    CHATS_LOAD_FAILTURE,
+    CHATS_LOAD_FAILURE,
     CHATS_SEND_REQUEST,
     CHATS_SEND_SUCCESS,
-    CHATS_SEND_FAILTURE,
-    CHATS_ADD,
+    CHATS_SEND_FAILURE,
+    CHATS_ADD_REQUEST,
+    CHATS_ADD_SUCCESS,
+    CHATS_ADD_FAILURE,
+    CHATS_DELETE_REQUEST,
+    CHATS_DELETE_SUCCESS,
+    CHATS_DELETE_FAILURE,
     CHATS_BLINK,
     CHATS_UNBLINK,
-    CHATS_DELETE,
 } from 'actions/chats';
 
 const initialState = {
     entries: {},
     loading: false,
     error: false,
-};
-
-const makeNewChat = (chatName, chats) => {
-    if (chatName === '') {
-        return null;
-    }
-
-    const chatNames = [];
-    for (const id in chats) {
-        chatNames.push(chats[id].name);
-    }
-
-    if (chatNames.includes(chatName)) {
-        return null;
-    }
-
-    let newId;
-    if (Object.keys(chats).length > 0) {
-        newId = +Object.keys(chats).reduce((acc, curr) => acc > curr ? acc : curr) + 1;
-    } else {
-        newId = '1';
-    }
-
-    return [newId, {
-        name: chatName,
-        messages: [
-            {
-                text: `Welcome to ${chatName}`,
-                author: 'Bot',
-            },
-        ],
-        blinking: false,
-    }];
 };
 
 export const chatsReducer = (state = initialState, action) => {
@@ -60,12 +31,15 @@ export const chatsReducer = (state = initialState, action) => {
                 loading: true,
             };
         case CHATS_LOAD_SUCCESS:
+            for (const chat in action.payload) {
+                action.payload[chat].blinking = false;
+            }
             return {
                 ...state,
                 loading: false,
                 entries: action.payload,
             };
-        case CHATS_LOAD_FAILTURE:
+        case CHATS_LOAD_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -76,8 +50,6 @@ export const chatsReducer = (state = initialState, action) => {
                 ...state,
             };
         case CHATS_SEND_SUCCESS:
-            console.log(action.payload);
-            console.log(state.entries[action.payload.chatId]);
             return update(state, {
                 entries: {
                     [action.payload.chatId]: {
@@ -85,22 +57,43 @@ export const chatsReducer = (state = initialState, action) => {
                     }
                 }
             });
-        case CHATS_SEND_FAILTURE:
+        case CHATS_SEND_FAILURE:
             return {
                 ...state,
                 error: true,
             };
-        case CHATS_ADD:
-            const newChatData = makeNewChat(action.payload.chatName, state.entries);
-            if (!newChatData) {
-                return state;
-            }
+        case CHATS_ADD_REQUEST:
+            return {
+                ...state,
+            };
+        case CHATS_ADD_SUCCESS:
+            action.payload.newDoc.blinking = false;
             return update(state, {
                 entries: {
-                    [newChatData[0]]: { $set: newChatData[1] },
+                    [action.payload.newDoc._id]: { $set: action.payload.newDoc }
                 }
             });
-        /* case CHATS_BLINK:
+        case CHATS_ADD_FAILURE:
+            return {
+                ...state,
+                error: true,
+            };
+        case CHATS_DELETE_REQUEST:
+            return {
+                ...state,
+            };
+        case CHATS_DELETE_SUCCESS:
+            const newChats = JSON.parse(JSON.stringify(state.entries));
+            delete newChats[action.payload.chatId];
+            return update(state, {
+                entries: { $set: newChats }
+            });
+        case CHATS_DELETE_FAILURE:
+            return {
+                ...state,
+                error: true,
+            };
+        case CHATS_BLINK:
             return update(state, {
                 entries: {
                     [action.payload]: {
@@ -115,11 +108,7 @@ export const chatsReducer = (state = initialState, action) => {
                         blinking: { $set: false },
                     }
                 }
-            }); */
-        case CHATS_DELETE:
-            const newState = JSON.parse(JSON.stringify(state));
-            delete newState.entries[action.payload.chatId];
-            return newState;
+            });
         default:
             return state;
     }
