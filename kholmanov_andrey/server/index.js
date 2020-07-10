@@ -83,12 +83,15 @@ app.get('/chats/delete', (req, res) => {
     if(!req.query.chatId){
         return res.status(500).json({error: 'Incorrect params'});
     }
-    chats.remove({ _id: req.query.chatId }, (err) => {
+    chats.remove({ id: req.query.chatId }, (err) => {
         if(err) {
             return res.status(500).json({message: 'Unexpected error'});
         }
 
-        res.json({ message: 'success' });
+        res.json({
+            chatId: req.query.chatId,
+            message: 'success'
+        });
     })
 });
 
