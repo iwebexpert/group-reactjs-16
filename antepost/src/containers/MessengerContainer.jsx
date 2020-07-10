@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Messenger } from 'components/Messenger';
-import { chatsLoad, chatsSend } from 'actions/chats';
+import { chatsLoadApi, chatsSendApi } from 'actions/chats';
 
 class MessengerContainer extends Component {
     componentDidMount() {
@@ -46,8 +46,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        chatsLoadAction: () => dispatch(chatsLoad()),
-        chatsSendAction: (message) => dispatch(chatsSend(message)),
+        chatsLoadAction: () => dispatch(chatsLoadApi()),
+        chatsSendAction: (message) => dispatch(chatsSendApi(message)),
     };
 }
 
