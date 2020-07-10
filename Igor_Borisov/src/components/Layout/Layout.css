@@ -1,0 +1,35 @@
+.tickets-chat {
+    width: 65%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.tickets-chat-main {
+    display: flex;
+    width: 85%;
+    height: 80vh;
+    margin: 25px auto;
+    background-color: #F0F0F0;
+    border-radius: 30px 2.5px 30px 30px;
+    background-size: 200px;
+    position: relative;
+}
+.tickets-chat-left {
+    width: 70%;
+    height: 80vh;
+}
+.tickets-chat-right {
+    width: 30%;
+    background-color: #fff;
+    height: 80vh;
+}
