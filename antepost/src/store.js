@@ -13,8 +13,8 @@ export const history = createBrowserHistory();
 export const store = createStore(initReducer(history), composeWithDevTools(
     applyMiddleware(
         routerMiddleware(history),
-        //botMiddteware,
-        //blinkMiddteware,
         apiMiddleware,
+        botMiddteware,
+        blinkMiddteware,
     )
 ));
