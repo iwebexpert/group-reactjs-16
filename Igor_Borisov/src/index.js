@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import {App} from './components/App';
-
-import './tickets-chat.css';
+import {Layout} from 'components/Layout';
 
 ReactDom.render(
-    <App/>,
+    <Layout/>,
     document.getElementById('root')
 );

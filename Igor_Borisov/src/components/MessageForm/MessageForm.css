@@ -1,0 +1,41 @@
+
+.tickets-chat-main form {
+    position: relative;
+    width: calc(100% - 14px);
+    bottom: 7px;
+    left: 7px;
+    right: 7px;
+}
+
+.tickets-chat-main form input {
+    width: 97%;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    padding-left: 30px;
+    outline: none;
+}
+.tickets-chat-main form textarea {
+    width: 97%;
+    margin-top: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    padding-left: 30px;
+    outline: none;
+}
+
+.tickets-chat-main form input::-webkit-input-placeholder {
+    color: #a5a5a5;
+}
+
+
+.MuiFormControl-root {
+    width: 100%;
+}
+.MuiButtonBase-root.MuiFab-root {
+    position: absolute!important;
+    right: 0;
+    bottom: 5px;
+}
